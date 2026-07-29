@@ -1,0 +1,157 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+enum AdminRole {
+  ADMIN
+}
+
+enum AdminStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+  ARCHIVED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Admin {
+  id               String      @id @default(uuid())
+  email            String      @unique
+  passwordHash     String      @map("password_hash")
+  name             String
+  role             AdminRole   @default(ADMIN)
+  refreshToken     String?     @map("refresh_token")
+  resetToken       String?     @map("reset_token")
+  resetTokenExpiry DateTime?   @map("reset_token_expiry")
+  status           AdminStatus @default(ACTIVE)
+  lastLogin        DateTime?   @map("last_login")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+  deletedAt        DateTime?   @map("deleted_at")
+
+  @@map("admins")
+}
+
+model Customer {
+  id        String    @id @default(uuid())
+  name      String
+  phone     String
+  email     String
+  address   String
+  notes     String?
+  orders    Order[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("customers")
+}
+
+model Product {
+  id               String                 @id @default(uuid())
+  name             String
+  slug             String                 @unique
+  shortDescription String                 @map("short_description")
+  description      String
+  price            Decimal                @db.Decimal(10, 2)
+  status           ProductStatus          @default(DRAFT)
+  featured         Boolean                @default(false)
+  metaTitle        String?                @map("meta_title")
+  metaDescription  String?                @map("meta_description")
+  images           ProductImage[]
+  specifications   ProductSpecification[]
+  orderItems       OrderItem[]
+  createdAt        DateTime               @default(now()) @map("created_at")
+  updatedAt        DateTime               @updatedAt @map("updated_at")
+  deletedAt        DateTime?              @map("deleted_at")
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  productId String   @map("product_id")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String   @map("public_id")
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("product_images")
+}
+
+model ProductSpecification {
+  id        String   @id @default(uuid())
+  productId String   @map("product_id")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  key       String
+  value     String
+  sortOrder Int      @default(0) @map("sort_order")
+
+  @@map("product_specifications")
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  orderNumber String      @unique @map("order_number")
+  customerId  String      @map("customer_id")
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  totalAmount Decimal     @map("total_amount") @db.Decimal(10, 2)
+  status      OrderStatus @default(PENDING)
+  notes       String?
+  items       OrderItem[]
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  deletedAt   DateTime?   @map("deleted_at")
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String    @id @default(uuid())
+  orderId   String    @map("order_id")
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String    @map("product_id")
+  product   Product   @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal   @db.Decimal(10, 2)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("order_items")
+}
+
+model Settings {
+  id             String    @id @default(uuid())
+  companyName    String    @map("company_name")
+  logo           String?
+  email          String
+  phone          String
+  address        String
+  gst            String?
+  socialLinks    Json?     @map("social_links")
+  footerSettings Json?     @map("footer_settings")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  @@map("settings")
+}

@@ -1,0 +1,27 @@
+{
+  "name": "axa-industries-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npx turbo build",
+    "dev": "npx turbo dev",
+    "lint": "npx turbo lint",
+    "format": "npx prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "npx prisma@5.18.0 generate --schema=packages/db/prisma/schema.prisma",
+    "db:push": "npx prisma@5.18.0 db push --schema=packages/db/prisma/schema.prisma",
+    "db:seed": "npx tsx packages/db/prisma/seed.ts"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "turbo": "^2.0.12",
+    "typescript": "^5.5.4"
+  },
+  "packageManager": "npm@10.8.2",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
