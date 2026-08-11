@@ -41,6 +41,12 @@ export default function LoginPage() {
       });
 
       if (res.success && res.admin) {
+        if (res.accessToken) {
+          localStorage.setItem('axa_access_token', res.accessToken);
+        }
+        if (res.refreshToken) {
+          localStorage.setItem('axa_refresh_token', res.refreshToken);
+        }
         setAdmin(res.admin);
         router.push('/dashboard');
       } else {
@@ -63,9 +69,11 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md">
         {/* Logo & Header */}
         <div className="mb-8 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-neutral-900 border border-white/10 shadow-2xl shadow-blue-500/10 mb-4">
-            <span className="text-xl font-bold tracking-wider text-white">AXA</span>
-          </div>
+          <img
+            src="/images/axa-industries-logo.png"
+            alt="AXA Industries Logo"
+            className="h-16 w-auto mx-auto object-contain mb-3 drop-shadow-lg"
+          />
           <h1 className="text-2xl font-semibold tracking-tight text-white">AXA Industries</h1>
           <p className="mt-1.5 text-xs text-neutral-400">Admin Authentication & Management Portal</p>
         </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDashboardStore } from '@/store/use-dashboard-store';
@@ -16,10 +17,11 @@ import {
   ChevronRight,
   X
 } from 'lucide-react';
-import { useState } from 'react';
+import { MessageSquare } from 'lucide-react';
 
 const NAV_ITEMS = [
   { title: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { title: 'Queries & Enquiries', href: '/dashboard/enquiries', icon: MessageSquare },
   { title: 'Products', href: '/dashboard/products', icon: Package },
   { title: 'Orders', href: '/dashboard/orders', icon: ShoppingCart },
   { title: 'Customers', href: '/dashboard/customers', icon: Users },
@@ -57,13 +59,15 @@ export function Sidebar() {
       <div>
         <div className="flex items-center justify-between pb-6 pt-2">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-black font-bold text-xs shadow-md">
-              AXA
-            </div>
+            <img
+              src="/images/axa-industries-logo.png"
+              alt="AXA Industries Logo"
+              className="h-8 w-auto object-contain shrink-0"
+            />
             {!isSidebarCollapsed && (
               <div className="truncate">
-                <p className="text-sm font-semibold tracking-wide text-white">AXA Store</p>
-                <p className="text-[10px] text-neutral-400">Enterprise Portal</p>
+                <p className="text-xs font-semibold tracking-wide text-white">AXA Portal</p>
+                <p className="text-[10px] text-neutral-400">Enterprise Admin</p>
               </div>
             )}
           </Link>

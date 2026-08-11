@@ -10,6 +10,7 @@ node_modules
 # Build outputs
 dist
 .next
+.turbo
 out
 build
 
@@ -22,3 +23,7 @@ build
 # Prisma / Logs
 *.log
 prisma/*.sqlite-journal
+
+# Cloudinary Skills
+.agents/skills/cloudinary-*/
+

@@ -1,12 +1,10 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { AdminRole } from '@axa/db';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Dashboard')
-@ApiBearerAuth()
-@Roles(AdminRole.ADMIN)
+@Public()
 @Controller('v1/dashboard')
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}

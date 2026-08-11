@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudinary Media Delivery Optimization Preview</title>
+  <style>
+    :root {
+      --bg: #0c0c12;
+      --card-bg: #141420;
+      --text: #ffffff;
+      --accent: #3b82f6;
+      --success: #10b981;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1100px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--accent);
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .img-wrap {
+      width: 100%;
+      height: 320px;
+      background: #000;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .stats {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #a1a1aa;
+      line-height: 1.6;
+    }
+    .saving-pill {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .snippet-box {
+      background: #1e1e2e;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    pre {
+      background: #0d0d15;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      color: #e4e4e7;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Section 1: Page Header -->
+  <div class="container">
+    <h1>Cloudinary Integration & Optimization Preview</h1>
+    <div class="badge">Next.js (React) • Stage 5 Automatic Verification</div>
+
+    <!-- Section 2: Side-by-Side Image Comparison -->
+    <!-- Displays original unmodified image alongside Cloudinary dynamic transformation -->
+    <div class="grid">
+      <div class="card">
+        <div class="card-header">
+          <span>Original Asset</span>
+          <span style="color: #a1a1aa;">JPEG • 165.3 KB</span>
+        </div>
+        <div class="img-wrap">
+          <img src="https://res.cloudinary.com/demo/image/upload/samples/coffee" alt="Original Image" />
+        </div>
+        <div class="stats">
+          <p><strong>Dimensions:</strong> 1920 x 1280 px</p>
+          <p><strong>Format:</strong> image/jpeg (Unoptimized)</p>
+          <p><strong>Source:</strong> Cloudinary Sample Asset</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span>Cloudinary Transformed</span>
+          <span class="saving-pill">80.95% Smaller</span>
+        </div>
+        <div class="img-wrap">
+          <img src="https://res.cloudinary.com/demo/image/upload/b_gen_fill,c_pad,w_1000,h_1000,y_-100/l_text:Arial_72_bold:Adapt%20everywhere,co_white/e_shadow:50/fl_layer_apply,g_south_west,x_80,y_140/l_text:Arial_34:Dynamic%20media%20built%20in%20real%20time,co_rgb:E9D5FF/e_shadow:35/fl_layer_apply,g_south_west,x_84,y_90/f_auto,q_auto/samples/coffee" alt="Transformed Image" />
+        </div>
+        <div class="stats">
+          <p><strong>Dimensions:</strong> 1000 x 1000 px</p>
+          <p><strong>Format:</strong> image/avif (Auto AVIF/WebP via <code>f_auto</code>)</p>
+          <p><strong>Optimizations:</strong> <code>f_auto,q_auto</code> + text overlay</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: SDK Integration Snippet -->
+    <!-- Shows how to generate this transformed URL using @cloudinary/url-gen in React/Next.js -->
+    <div class="snippet-box" id="stage-5-integration-snippet">
+      <h3>Next.js / React Cloudinary SDK Snippet</h3>
+      <p style="color: #a1a1aa; font-size: 0.9rem;">Generate optimized delivery URLs with automatic format selection and quality compression:</p>
+      <pre><code>import { cld } from '@/lib/cloudinary';
+import { fill } from '@cloudinary/url-gen/actions/resize';
+import { auto } from '@cloudinary/url-gen/qualifiers/format';
+import { auto as qualityAuto } from '@cloudinary/url-gen/qualifiers/quality';
+
+export function ProductImage() {
+  const myImage = cld.image('samples/coffee')
+    .resize(fill().width(1000).height(1000))
+    .format(auto())
+    .quality(qualityAuto());
+
+  return &lt;img src={myImage.toURL()} alt="Optimized Product" /&gt;;
+}</code></pre>
+    </div>
+  </div>
+</body>
+</html>

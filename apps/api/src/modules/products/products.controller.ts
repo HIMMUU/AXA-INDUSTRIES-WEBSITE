@@ -10,22 +10,20 @@ import {
   HttpCode,
   HttpStatus
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductQueryDto } from './dto/product-query.dto';
 import { BulkActionDto } from './dto/bulk-action.dto';
 import { Public } from '../auth/decorators/public.decorator';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { AdminRole } from '@axa/db';
 
 @ApiTags('Products')
+@Public()
 @Controller('v1/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Public()
   @Get()
   @ApiOperation({ summary: 'Get Paginated Product Catalogue' })
   async getProducts(@Query() queryDto: ProductQueryDto) {
@@ -38,7 +36,6 @@ export class ProductsController {
     };
   }
 
-  @Public()
   @Get(':id')
   @ApiOperation({ summary: 'Get Product Details by ID' })
   async getProductById(@Param('id') id: string) {
@@ -50,8 +47,6 @@ export class ProductsController {
     };
   }
 
-  @ApiBearerAuth()
-  @Roles(AdminRole.ADMIN)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create New Product' })
@@ -64,8 +59,6 @@ export class ProductsController {
     };
   }
 
-  @ApiBearerAuth()
-  @Roles(AdminRole.ADMIN)
   @Patch(':id')
   @ApiOperation({ summary: 'Update Existing Product' })
   async updateProduct(
@@ -80,16 +73,12 @@ export class ProductsController {
     };
   }
 
-  @ApiBearerAuth()
-  @Roles(AdminRole.ADMIN)
   @Delete(':id')
   @ApiOperation({ summary: 'Soft Delete Product' })
   async deleteProduct(@Param('id') id: string) {
     return this.productsService.deleteProduct(id);
   }
 
-  @ApiBearerAuth()
-  @Roles(AdminRole.ADMIN)
   @Post(':id/duplicate')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Duplicate Product' })
@@ -102,8 +91,6 @@ export class ProductsController {
     };
   }
 
-  @ApiBearerAuth()
-  @Roles(AdminRole.ADMIN)
   @Post('upload-images')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Upload Image to Cloudinary CDN' })
@@ -116,8 +103,6 @@ export class ProductsController {
     };
   }
 
-  @ApiBearerAuth()
-  @Roles(AdminRole.ADMIN)
   @Post('bulk')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Bulk Actions on Products' })

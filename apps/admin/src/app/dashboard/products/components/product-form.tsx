@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateProductSchema, CreateProductInput, ProductStatus, Product } from '@axa/types';
+import { CreateProductSchema, CreateProductInput, ProductStatus, Product, PRODUCT_CATEGORY_TEMPLATES } from '@axa/types';
 import { apiClient } from '@/lib/api-client';
 import { ImageUploader } from './image-uploader';
 import { SpecificationsBuilder } from './specifications-builder';
 import { SeoPanel } from './seo-panel';
 import { slugify } from '@axa/utils';
-import { Save, Loader2, ArrowLeft, Eye, ShieldAlert, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Save, Loader2, ArrowLeft, Eye, ShieldAlert, Sparkles, CheckCircle2, Layers, Wand2 } from 'lucide-react';
 
 interface ProductFormProps {
   initialData?: Product;
@@ -21,6 +21,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('');
 
   const {
     register,
@@ -51,6 +52,24 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
   const statusValue = watch('status');
   const featuredValue = watch('featured');
 
+  const handleApplyTemplate = (templateId: string) => {
+    setSelectedTemplateId(templateId);
+    const tmpl = PRODUCT_CATEGORY_TEMPLATES.find((t) => t.id === templateId);
+    if (!tmpl) return;
+
+    setValue('name', tmpl.name);
+    setValue('slug', tmpl.slug);
+    setValue('shortDescription', tmpl.shortDescription);
+    setValue('description', tmpl.description);
+    setValue('price', tmpl.suggestedPrice);
+    setValue('metaTitle', tmpl.metaTitle);
+    setValue('metaDescription', tmpl.metaDescription);
+    setValue('specifications', tmpl.defaultSpecifications);
+    if ((watch('images') || []).length === 0) {
+      setValue('images', tmpl.sampleImages);
+    }
+  };
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setValue('name', val);
@@ -58,6 +77,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
       setValue('slug', slugify(val));
     }
   };
+
 
   const onSubmit = async (data: CreateProductInput) => {
     setIsSubmitting(true);
@@ -135,7 +155,46 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
         </div>
       </div>
 
+      {/* Category Template Auto-Fill Banner */}
+      {!isEditing && (
+
+        <div className="rounded-3xl border border-blue-500/30 bg-blue-500/10 p-5 backdrop-blur-xl space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                <Wand2 className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  Category Template Presets
+                  <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-semibold text-blue-300">5 Categories Available</span>
+                </h3>
+                <p className="text-xs text-neutral-300">
+                  Select a product category to auto-populate descriptions, suggested pricing, technical specifications, and SEO tags.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <select
+                value={selectedTemplateId}
+                onChange={(e) => handleApplyTemplate(e.target.value)}
+                className="w-full sm:w-auto rounded-xl border border-blue-500/40 bg-neutral-900/90 px-4 py-2 text-xs font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-lg"
+              >
+                <option value="">-- Choose Category Template --</option>
+                {PRODUCT_CATEGORY_TEMPLATES.map((tmpl) => (
+                  <option key={tmpl.id} value={tmpl.id}>
+                    {tmpl.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
         {/* Main 2 Columns: Basic Info, Specifications, Images & SEO */}
         <div className="lg:col-span-2 space-y-6">
           {/* Section 1: Basic Information */}

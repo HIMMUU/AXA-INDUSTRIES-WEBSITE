@@ -8,13 +8,21 @@ export async function apiClient<T = any>(
     'Content-Type': 'application/json'
   };
 
+  // Attach JWT Bearer token automatically if present in browser localStorage
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('axa_access_token');
+    if (token && !options.headers?.hasOwnProperty('Authorization')) {
+      defaultHeaders['Authorization'] = `Bearer ${token}`;
+    }
+  }
+
   const config: RequestInit = {
     ...options,
     headers: {
       ...defaultHeaders,
       ...options.headers
     },
-    credentials: 'include' // Send & store HTTP-only cookies
+    credentials: 'include'
   };
 
   const url = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`;
@@ -22,6 +30,12 @@ export async function apiClient<T = any>(
   try {
     const res = await fetch(url, config);
     const data = await res.json();
+
+    if (res.status === 401 && typeof window !== 'undefined' && !endpoint.includes('/auth/login')) {
+      localStorage.removeItem('axa_access_token');
+      localStorage.removeItem('axa_refresh_token');
+      window.location.href = '/login';
+    }
 
     if (!res.ok) {
       throw new Error(data.message || data.error || 'An error occurred');

@@ -5,7 +5,6 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
 }
 
 enum AdminRole {
@@ -24,11 +23,46 @@ enum ProductStatus {
   ARCHIVED
 }
 
+enum CustomerStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+  DELETED
+}
+
+enum TimelineType {
+  CREATED
+  ORDER_PLACED
+  UPDATED
+  NOTE_ADDED
+  STATUS_CHANGED
+}
+
 enum OrderStatus {
   PENDING
   CONFIRMED
   COMPLETED
   CANCELLED
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  INTERESTED
+  QUOTATION_SENT
+  CONVERTED
+  CLOSED
+  REJECTED
+  SPAM
+}
+
+enum EnquirySource {
+  CONTACT_PAGE
+  PRODUCT_DETAILS
+  HOMEPAGE_CTA
+  FOOTER_CONTACT
+  QUICK_QUOTE
+  FLOATING_WIDGET
 }
 
 model Admin {
@@ -50,18 +84,54 @@ model Admin {
 }
 
 model Customer {
-  id        String    @id @default(uuid())
-  name      String
-  phone     String
-  email     String
-  address   String
-  notes     String?
-  orders    Order[]
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  id           String             @id @default(uuid())
+  name         String
+  company      String?
+  phone        String             @unique
+  email        String
+  gst          String?
+  addressLine1 String             @default("") @map("address_line1")
+  addressLine2 String?            @map("address_line2")
+  city         String             @default("") @map("city")
+  state        String             @default("") @map("state")
+  country      String             @default("India") @map("country")
+  postalCode   String             @default("") @map("postal_code")
+  address      String             @default("")
+  notes        String?
+  status       CustomerStatus     @default(ACTIVE)
+  orders       Order[]
+  notesList    CustomerNote[]
+  timeline     CustomerTimeline[]
+  enquiries    Enquiry[]
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
+  deletedAt    DateTime?          @map("deleted_at")
 
   @@map("customers")
+}
+
+model CustomerNote {
+  id         String   @id @default(uuid())
+  customerId String   @map("customer_id")
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  content    String
+  createdBy  String   @default("Admin") @map("created_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("customer_notes")
+}
+
+model CustomerTimeline {
+  id          String       @id @default(uuid())
+  customerId  String       @map("customer_id")
+  customer    Customer     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  type        TimelineType @default(CREATED)
+  createdAt   DateTime     @default(now()) @map("created_at")
+
+  @@map("customer_timelines")
 }
 
 model Product {
@@ -78,6 +148,7 @@ model Product {
   images           ProductImage[]
   specifications   ProductSpecification[]
   orderItems       OrderItem[]
+  enquiries        Enquiry[]
   createdAt        DateTime               @default(now()) @map("created_at")
   updatedAt        DateTime               @updatedAt @map("updated_at")
   deletedAt        DateTime?              @map("deleted_at")
@@ -137,6 +208,60 @@ model OrderItem {
   deletedAt DateTime? @map("deleted_at")
 
   @@map("order_items")
+}
+
+model Enquiry {
+  id                    String            @id @default(uuid())
+  referenceNumber       String            @unique @default("") @map("reference_number")
+  customerId            String?           @map("customer_id")
+  customer              Customer?         @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  productId             String?           @map("product_id")
+  product               Product?          @relation(fields: [productId], references: [id], onDelete: SetNull)
+  name                  String
+  company               String?
+  phone                 String
+  email                 String?
+  city                  String?
+  state                 String?
+  country               String?           @default("India")
+  message               String
+  quantity              Int               @default(1)
+  source                EnquirySource     @default(CONTACT_PAGE)
+  status                EnquiryStatus     @default(NEW)
+  preferredContactMethod String?          @map("preferred_contact_method")
+  preferredContactTime   String?          @map("preferred_contact_time")
+  notes                 String?
+  notesList             EnquiryNote[]
+  timeline              EnquiryTimeline[]
+  createdAt             DateTime          @default(now()) @map("created_at")
+  updatedAt             DateTime          @updatedAt @map("updated_at")
+  deletedAt             DateTime?         @map("deleted_at")
+
+  @@map("enquiries")
+}
+
+model EnquiryNote {
+  id        String   @id @default(uuid())
+  enquiryId String   @map("enquiry_id")
+  enquiry   Enquiry  @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  content   String
+  createdBy String   @default("Admin") @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("enquiry_notes")
+}
+
+model EnquiryTimeline {
+  id          String   @id @default(uuid())
+  enquiryId   String   @map("enquiry_id")
+  enquiry     Enquiry  @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  type        String   @default("SUBMITTED")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("enquiry_timelines")
 }
 
 model Settings {

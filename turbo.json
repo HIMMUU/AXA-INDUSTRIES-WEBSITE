@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [".env"],
+  "globalEnv": [
+    "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME",
+    "CLOUDINARY_CLOUD_NAME",
+    "DATABASE_URL",
+    "JWT_SECRET"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -15,3 +21,4 @@
     }
   }
 }
+
