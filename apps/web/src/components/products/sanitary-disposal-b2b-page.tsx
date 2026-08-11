@@ -78,6 +78,13 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
     const qty = parseInt((formValues.get('qty') || formData.quantity || '1').toString(), 10) || 1;
     const notes = (formValues.get('notes') || formData.notes || '').toString();
 
+    // Trigger Direct Email to axaindustries.contact@gmail.com
+    const mailtoSubject = encodeURIComponent(`[New RFQ Quote Request] Sanitary Napkin Disposal Machine - ${org || name}`);
+    const mailtoBody = encodeURIComponent(
+      `Organization: ${org}\nContact Person: ${name}\nPhone: ${phone}\nEmail: ${email}\nQuantity: ${qty}\nCity/State: ${formData.city}, ${formData.state}\nNotes: ${notes}`
+    );
+    const mailtoUrl = `mailto:axaindustries.contact@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       await fetch(`${apiUrl}/v1/enquiries`, {
@@ -96,6 +103,9 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
     } catch (err) {
       console.warn('Backend enquiry submission:', err);
     } finally {
+      if (typeof window !== 'undefined') {
+        window.open(mailtoUrl, '_blank');
+      }
       setIsSubmitting(false);
       setQuoteSubmitted(true);
       setTimeout(() => {

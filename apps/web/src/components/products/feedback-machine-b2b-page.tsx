@@ -83,6 +83,13 @@ export function FeedbackMachineB2BPage({ product }: B2BPageProps) {
     const qty = parseInt((formValues.get('qty') || formData.quantity || '1').toString(), 10) || 1;
     const notes = (formValues.get('notes') || formData.message || '').toString();
 
+    // Trigger Direct Email to axaindustries.contact@gmail.com
+    const mailtoSubject = encodeURIComponent(`[New RFQ Quote Request] Washroom Feedback Machine Kiosk - ${org || name}`);
+    const mailtoBody = encodeURIComponent(
+      `Organization: ${org}\nContact Person: ${name}\nPhone: ${phone}\nEmail: ${email}\nQuantity: ${qty}\nCity/State: ${formData.city}, ${formData.state}\nNotes: ${notes}`
+    );
+    const mailtoUrl = `mailto:axaindustries.contact@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       await fetch(`${apiUrl}/v1/enquiries`, {
@@ -93,15 +100,18 @@ export function FeedbackMachineB2BPage({ product }: B2BPageProps) {
           email: email || 'lead@organization.com',
           phone: phone || '9999999999',
           company: org || 'Commercial Client',
-          productSlug: 'axa-sense-10-1-touch-feedback-machine-kiosk',
-          productName: `AXA Swachh Toilet Feedback Machine`,
+          productSlug: 'swachh-toilet-feedback-machine',
+          productName: `AXA Swachh Washroom Feedback Machine Kiosk`,
           quantity: qty,
-          message: `[B2B Quote Request - Toilet Feedback Machine] Org Type: ${formData.orgType}, City: ${formData.city}, State: ${formData.state}. Additional Notes: ${notes}`
+          message: `[B2B Quote Request - Feedback Machine] Org Type: ${formData.orgType}, City: ${formData.city}, State: ${formData.state}. Additional Notes: ${notes}`
         })
       });
     } catch (err) {
       console.warn('Enquiry submission fallback:', err);
     } finally {
+      if (typeof window !== 'undefined') {
+        window.open(mailtoUrl, '_blank');
+      }
       setIsSubmitting(false);
       setQuoteSubmitted(true);
     }
