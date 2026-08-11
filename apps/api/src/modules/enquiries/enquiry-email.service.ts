@@ -60,7 +60,7 @@ export class EnquiryEmailService {
   }
 
   async sendAdminNotification(referenceNumber: string, name: string, phone: string, company?: string): Promise<boolean> {
-    const adminTarget = process.env.ADMIN_NOTIFICATION_EMAIL || 'axaindustries1@gmail.com';
+    const adminTarget = process.env.ADMIN_NOTIFICATION_EMAIL || 'axaindustries.contact@gmail.com';
     const senderUser = process.env.SMTP_USER || 'axaindustries.contact@gmail.com';
     this.logger.log(`[Email Automation] Alerting admin (${adminTarget}) of new Enquiry #${referenceNumber} from ${name} (${company || 'Individual'}) - Phone: ${phone}`);
 

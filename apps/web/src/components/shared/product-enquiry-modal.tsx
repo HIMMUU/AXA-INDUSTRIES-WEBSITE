@@ -38,19 +38,6 @@ export function ProductEnquiryModal({
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    // Trigger Direct Email to axaindustries.contact@gmail.com
-    const mailtoSubject = encodeURIComponent(`[Quick Quote Request] ${productName || 'AXA Product'} - ${form.name || form.company}`);
-    const mailtoBody = encodeURIComponent(
-      `Product: ${productName || 'AXA Product'}\n` +
-      `Client Name: ${form.name}\n` +
-      `Company: ${form.company}\n` +
-      `Phone: ${form.phone}\n` +
-      `Email: ${form.email}\n` +
-      `Quantity: ${form.quantity}\n` +
-      `Message: ${form.message}`
-    );
-    const mailtoUrl = `mailto:axaindustries.contact@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       const res = await fetch(`${apiUrl}/v1/enquiries`, {
@@ -70,14 +57,13 @@ export function ProductEnquiryModal({
       const json = await res.json();
       if (json.success) {
         setSubmittedRef(json.data.referenceNumber);
+      } else {
+        setSubmittedRef('AXA-' + Math.floor(100000 + Math.random() * 900000));
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      if (typeof window !== 'undefined') {
-        window.open(mailtoUrl, '_blank');
-      }
       setSubmittedRef('AXA-' + Math.floor(100000 + Math.random() * 900000));
+    } finally {
       setIsSubmitting(false);
     }
   };

@@ -21,13 +21,6 @@ export default function ContactPage() {
     const phone = (formData.get('phoneNumber') || '').toString();
     const message = (formData.get('messageText') || '').toString();
 
-    // Trigger Direct Email to axaindustries.contact@gmail.com
-    const mailtoSubject = encodeURIComponent(`[Website Contact Enquiry] AXA Industries - ${name || company}`);
-    const mailtoBody = encodeURIComponent(
-      `Full Name: ${name}\nCompany: ${company}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`
-    );
-    const mailtoUrl = `mailto:axaindustries.contact@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       await fetch(`${apiUrl}/v1/enquiries`, {
@@ -46,9 +39,6 @@ export default function ContactPage() {
     } catch (err) {
       console.warn('Backend contact enquiry submission:', err);
     } finally {
-      if (typeof window !== 'undefined') {
-        window.open(mailtoUrl, '_blank');
-      }
       setIsSubmitting(false);
       setSubmitted(true);
     }
