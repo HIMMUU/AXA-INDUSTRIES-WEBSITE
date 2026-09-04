@@ -530,7 +530,7 @@ export function FeedbackMachineB2BPage({ product }: B2BPageProps) {
                   <AlertTriangle className="w-8 h-8 text-amber-600" />
                   <h4 className="font-extrabold text-slate-900 text-base">Instant SMS Alerts</h4>
                   <p className="text-xs text-slate-600 leading-relaxed">
-                    Optional SMS module sending immediate alerts to cleaning staff when "Dirty" button is pressed repeatedly.
+                    Optional SMS module sending immediate alerts to cleaning staff when &quot;Dirty&quot; button is pressed repeatedly.
                   </p>
                 </div>
 

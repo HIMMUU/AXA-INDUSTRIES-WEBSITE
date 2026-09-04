@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
 export function Footer() {
@@ -11,9 +12,11 @@ export function Footer() {
           {/* Company Bio */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-3">
-              <img
+              <Image
                 src="/images/axa-industries-logo.png"
                 alt="AXA Industries Logo"
+                width={160}
+                height={40}
                 className="h-10 w-auto object-contain"
               />
             </Link>

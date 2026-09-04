@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { ProductImageItem } from '@axa/types';
 import { Upload, X, Loader2, Image as ImageIcon, ArrowLeft, ArrowRight, ShieldAlert } from 'lucide-react';
 import { apiClient } from '@/lib/api-client';
@@ -140,10 +141,11 @@ export function ImageUploader({ images = [], onChange }: ImageUploaderProps) {
               key={idx}
               className="group relative overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 aspect-square shadow-lg"
             >
-              <img
+              <Image
                 src={img.url}
                 alt={`Product Thumbnail ${idx + 1}`}
-                className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                fill
+                className="object-cover transition-transform group-hover:scale-105"
               />
 
               {/* Order Badge */}

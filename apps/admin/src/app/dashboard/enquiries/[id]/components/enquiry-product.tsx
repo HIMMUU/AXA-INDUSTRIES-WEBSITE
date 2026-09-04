@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Enquiry } from '@axa/types';
 import { formatCurrency } from '@axa/utils';
 import { Package, MessageSquare, ExternalLink } from 'lucide-react';
@@ -17,9 +18,9 @@ export function EnquiryProductAndMessage({ enquiry }: { enquiry: Enquiry }) {
 
         {enquiry.product ? (
           <div className="flex items-center gap-4">
-            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-neutral-900">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-neutral-900">
               {enquiry.product.images?.[0]?.url ? (
-                <img src={enquiry.product.images[0].url} alt={enquiry.product.name} className="h-full w-full object-cover" />
+                <Image src={enquiry.product.images[0].url} alt={enquiry.product.name} fill className="object-cover" />
               ) : (
                 <div className="flex h-full items-center justify-center text-neutral-600">
                   <Package className="h-6 w-6" />

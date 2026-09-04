@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Shield, ArrowRight, Download } from 'lucide-react';
 
@@ -36,9 +37,11 @@ export function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 relative">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group z-10">
-          <img
+          <Image
             src="/images/axa-industries-logo.png"
             alt="AXA Industries Logo"
+            width={200}
+            height={64}
             className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-105 dark:brightness-0 dark:invert"
           />
         </Link>

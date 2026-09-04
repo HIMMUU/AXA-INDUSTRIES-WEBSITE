@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Product } from '@axa/types';
+import { Product, MACHINE_PRICING } from '@axa/types';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import {
@@ -33,7 +33,8 @@ import {
   Wrench,
   Clock,
   Coins,
-  Receipt
+  Receipt,
+  Radio
 } from 'lucide-react';
 
 interface SanitaryVendingB2BPageProps {
@@ -42,7 +43,9 @@ interface SanitaryVendingB2BPageProps {
 
 export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps) {
   const [activeGalleryTab, setActiveGalleryTab] = useState<'front' | 'inside' | 'coin' | 'installed'>('front');
-  const [selectedVariant, setSelectedVariant] = useState('AVND50H');
+  const [selectedVariant, setSelectedVariant] = useState('AVND 50 H');
+  const [pricingCategory, setPricingCategory] = useState<'automatic' | 'manual'>('automatic');
+  const [autoFilter, setAutoFilter] = useState<'all' | 'coin' | 'push_button'>('all');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
@@ -56,6 +59,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
     designation: '',
     phone: '',
     email: '',
+    model: 'AVND 50 H',
     orgType: 'School / College',
     femaleUsers: '100-500',
     quantity: '2 to 5 Units',
@@ -83,6 +87,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
     const phone = (formValues.get('phone') || formData.phone || '').toString();
     const email = (formValues.get('email') || formData.email || '').toString();
     const qty = parseInt((formValues.get('qty') || formData.quantity || '1').toString(), 10) || 1;
+    const model = (formValues.get('model') || formData.model || 'AVND 50 H').toString();
     const notes = (formValues.get('notes') || formData.message || '').toString();
 
     try {
@@ -95,7 +100,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
           phone: phone || '+91 80764 96709',
           email: email || undefined,
           company: org || undefined,
-          message: notes || `Quotation request for Model AVND50H Sanitary Napkin Vending Machine. Quantity: ${qty}`,
+          message: notes || `Quotation request for Model ${model} Sanitary Napkin Vending Machine. Quantity: ${qty}`,
           quantity: qty,
           source: 'PRODUCT_DETAILS'
         })
@@ -121,8 +126,8 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
           <div className="hidden md:flex items-center gap-3">
             <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
             <div>
-              <p className="text-xs font-bold text-neutral-900 dark:text-white">AXA Commercial Napkin Vending Machine (Model AVND50H)</p>
-              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Institutional Bulk Discounts Available • Direct Factory Shipping</p>
+              <p className="text-xs font-bold text-neutral-900 dark:text-white">AXA Sanitary Napkin Vending Machines (Manual VND & Automatic AVND Series)</p>
+              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Starting ₹3,000 + GST (Manual) • ₹4,200 + GST (Push Button) • ₹5,400 + GST (Coin/Auto)</p>
             </div>
           </div>
 
@@ -169,7 +174,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
               <div className="lg:col-span-7 space-y-6 text-left">
                 <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3.5 py-1 text-xs font-bold text-blue-600 dark:text-blue-400">
                   <Zap className="h-3.5 w-3.5" />
-                  <span>AUTOMATIC SANITARY NAPKIN VENDING MACHINE</span>
+                  <span>SANITARY NAPKIN VENDING MACHINES (MANUAL & AUTOMATIC)</span>
                 </div>
 
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-neutral-950 dark:text-white leading-[1.15]">
@@ -181,7 +186,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
                 </h1>
 
                 <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-2xl">
-                  Commercial automatic sanitary napkin dispenser machine designed for schools, colleges, IT parks, factories, hospitals, and municipal washrooms. Features heavy MS steel construction, LCD customer instructions, and battery backup.
+                  Commercial manual and automatic sanitary napkin dispenser machines designed for schools, colleges, IT parks, factories, hospitals, and municipal washrooms. Features heavy MS steel construction, LCD customer instructions, and battery backup.
                 </p>
 
                 {/* Rating & Badge */}
@@ -192,7 +197,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
                   </div>
 
                   <div className="flex items-center gap-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 font-mono">
-                    <span>Model AVND50H • 50-Pad Storage</span>
+                    <span>Starting from ₹3,000 + GST</span>
                   </div>
                 </div>
 
@@ -338,6 +343,180 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* 4. AVAILABLE MODELS & TRANSPARENT PRICING MATRIX */}
+        <section id="pricing-matrix" className="space-y-8">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+              Direct Factory Procurement Rates
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white">
+              Vending Machine Models & Transparent Pricing
+            </h2>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Choose between Zero-Power Manual Mechanical dispensers or Fully Automatic IoT/Coin & Push-Button models. *GST 18% Extra on all models.
+            </p>
+
+            {/* Category Switcher Tabs */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setPricingCategory('automatic')}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition shadow-sm ${
+                  pricingCategory === 'automatic'
+                    ? 'bg-blue-600 text-white shadow-blue-600/30'
+                    : 'bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-white/10'
+                }`}
+              >
+                <Zap className="h-4 w-4" />
+                <span>Automatic Machines ({MACHINE_PRICING.vending_automatic.models.length} Models)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPricingCategory('manual')}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition shadow-sm ${
+                  pricingCategory === 'manual'
+                    ? 'bg-blue-600 text-white shadow-blue-600/30'
+                    : 'bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-white/10'
+                }`}
+              >
+                <Wrench className="h-4 w-4" />
+                <span>Manual / Mechanical ({MACHINE_PRICING.vending_manual.models.length} Models)</span>
+              </button>
+            </div>
+
+            {/* Automatic Sub-filter */}
+            {pricingCategory === 'automatic' && (
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setAutoFilter('all')}
+                  className={`px-3 py-1 rounded-xl font-semibold transition ${
+                    autoFilter === 'all'
+                      ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
+                      : 'bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-neutral-400'
+                  }`}
+                >
+                  All Automatic ({MACHINE_PRICING.vending_automatic.models.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAutoFilter('coin')}
+                  className={`px-3 py-1 rounded-xl font-semibold transition ${
+                    autoFilter === 'coin'
+                      ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
+                      : 'bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-neutral-400'
+                  }`}
+                >
+                  Coin / Multi-Coin (6)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAutoFilter('push_button')}
+                  className={`px-3 py-1 rounded-xl font-semibold transition ${
+                    autoFilter === 'push_button'
+                      ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
+                      : 'bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-neutral-400'
+                  }`}
+                >
+                  Push Button (Free Dispense) (5)
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {(pricingCategory === 'automatic'
+              ? MACHINE_PRICING.vending_automatic.models.filter((m) =>
+                  autoFilter === 'all'
+                    ? true
+                    : autoFilter === 'coin'
+                    ? m.operation === 'Coin / Multi-Coin'
+                    : m.operation === 'Push Button'
+                )
+              : MACHINE_PRICING.vending_manual.models
+            ).map((m) => (
+              <div
+                key={m.model}
+                className={`rounded-3xl border p-5 flex flex-col justify-between space-y-5 transition relative hover:shadow-xl ${
+                  m.popular
+                    ? 'border-blue-500 bg-blue-500/5 dark:bg-blue-500/10 ring-2 ring-blue-500/30'
+                    : 'border-neutral-200 dark:border-white/10 bg-white dark:bg-[#121216]/60'
+                }`}
+              >
+                {m.popular && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-3 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider shadow-md">
+                    Most Popular
+                  </span>
+                )}
+
+                <div className="space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-1.5">
+                    <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-white/10 text-neutral-800 dark:text-neutral-200">
+                      {m.model}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      {m.orientation && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                          {m.orientation}
+                        </span>
+                      )}
+                      {m.operation && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300">
+                          {m.operation === 'Push Button' ? 'Push Button' : m.operation === 'Manual / Mechanical' ? 'Manual Knob' : 'Coin Slot'}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <h3 className="text-base font-bold text-neutral-900 dark:text-white leading-snug">{m.name}</h3>
+
+                  <div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl font-black font-mono text-blue-600 dark:text-blue-400">
+                        ₹{m.price.toLocaleString('en-IN')}
+                      </span>
+                      <span className="text-[10px] font-bold text-neutral-500 dark:text-neutral-400 uppercase">
+                        + GST
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 mt-0.5">
+                      Capacity: {m.capacity}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-neutral-200 dark:border-white/10 space-y-1.5 text-xs">
+                    {m.features.map((f, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <Check className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                        <span className="text-neutral-700 dark:text-neutral-300 text-[11px]">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  <button
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, model: m.model }));
+                      setShowQuoteModal(true);
+                    }}
+                    className="w-full rounded-xl bg-blue-600 py-2.5 text-xs font-bold text-white hover:bg-blue-500 transition active:scale-95 shadow-md shadow-blue-600/20"
+                  >
+                    Request Quote for {m.model}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-4 text-center text-xs text-neutral-600 dark:text-neutral-300 flex flex-wrap items-center justify-center gap-2">
+            <span className="font-bold text-blue-600 dark:text-blue-400">Pricing Policy:</span>
+            <span>All rates are Ex-Factory. 18% GST extra. Includes 1-Year Comprehensive Hardware Warranty. Bulk GeM/Institutional discounts available.</span>
           </div>
         </section>
 
@@ -487,6 +666,30 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
                         className="w-full bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-slate-900 dark:text-white focus:border-blue-600 focus:outline-none"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Select Machine Model *</label>
+                    <select
+                      value={formData.model}
+                      onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                      className="w-full bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-slate-900 dark:text-white focus:border-blue-600 focus:outline-none font-medium"
+                    >
+                      <optgroup label="Automatic Vending Machines (AVND)">
+                        {MACHINE_PRICING.vending_automatic.models.map((m) => (
+                          <option key={m.model} value={m.model}>
+                            {m.model} — ₹{m.price.toLocaleString('en-IN')} + GST ({m.capacity} • {m.operation})
+                          </option>
+                        ))}
+                      </optgroup>
+                      <optgroup label="Manual Mechanical Machines (VND)">
+                        {MACHINE_PRICING.vending_manual.models.map((m) => (
+                          <option key={m.model} value={m.model}>
+                            {m.model} — ₹{m.price.toLocaleString('en-IN')} + GST ({m.capacity})
+                          </option>
+                        ))}
+                      </optgroup>
+                    </select>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

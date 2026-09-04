@@ -35,8 +35,9 @@ Key Technical Specifications (Model: AVND50H):
 - Live Inventory & Price: LCD displays current stock count along with napkin price
 - Intelligent Coin Rejection: Machine automatically rejects coins if out of stock
 - Dual Power System: Operates on 230V AC Electricity + Battery Backup
-- Multi-Coin Acceptor: Supports multiple coin denominations`,
-    suggestedPrice: 6200.00,
+- Multi-Coin Acceptor: Supports multiple coin denominations
+- Official Models: Manual VND Series (from ₹3,000 + GST), Auto Push-Button (from ₹4,200 + GST), Auto Coin AVND Series (from ₹5,400 + GST).`,
+    suggestedPrice: 6600.00,
     metaTitle: 'Automatic Sanitary Napkin Vending Machine AVND50H - AXA Industries',
     metaDescription: 'Buy AXA AVND50H Automatic Sanitary Napkin Vending Machine. 50-pad capacity, MS powder-coated body, LCD step-by-step guide, battery backup & coin rejection.',
     defaultSpecifications: [
@@ -63,11 +64,21 @@ Key Technical Specifications (Model: AVND50H):
 
   {
     id: 'sanitary-napkin-disposal-machine',
-    name: 'Sanitary Napkin Disposal Machine',
+    name: 'Sanitary Napkin Disposal Machine (SND Series)',
     slug: 'sanitary-napkin-disposal-machine',
     tagline: 'Smokeless thermal incinerators for eco-friendly hygiene disposal',
-    shortDescription: 'High-temperature smokeless electric incinerator for instant, hygienic, and eco-friendly destruction of used sanitary napkins.',
+    shortDescription: 'High-temperature smokeless electric incinerator for instant, hygienic, and eco-friendly destruction of used sanitary napkins. Models from SND 100 to SND 600.',
     description: `The AXA Eco-Burn Sanitary Napkin Disposal Machine provides a hygienic, odor-free, and safe solution for disposing of used sanitary pads. Designed with ceramic insulation and automatic microprocessor temperature control, it reduces waste to sterile ash in seconds.
+
+Available Factory Models:
+- SND 100: ₹3,360 + GST
+- SND 120 Without Display: ₹3,600 + GST
+- SND 120 Display: ₹3,840 + GST
+- SND 150 Display: ₹4,200 + GST
+- SND 200 Display: ₹5,400 + GST
+- SND 300 Display: ₹6,600 + GST
+- SND 400 Display: ₹10,200 + GST
+- SND 600 Display: ₹15,000 + GST
 
 Key Features:
 - Fully automated heating cycle with auto cut-off timer (3 to 5 minutes)
@@ -75,7 +86,7 @@ Key Features:
 - Smoke-free emission technology with flexible aluminum exhaust flange
 - Removable bottom ash collection tray for hassle-free cleaning
 - Compact wall-mountable body suitable for modern restrooms`,
-    suggestedPrice: 12499.00,
+    suggestedPrice: 3360.00,
     metaTitle: 'Sanitary Napkin Disposal Machine - Smokeless Eco Incinerator',
     metaDescription: 'Automatic smokeless sanitary napkin incinerators for hygienic disposal in restrooms, hostels, and offices. Fast burn cycle & low power consumption.',
     defaultSpecifications: [

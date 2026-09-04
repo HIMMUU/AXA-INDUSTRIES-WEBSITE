@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Product, ProductStatus } from '@axa/types';
 import { useProductsStore } from '@/store/use-products-store';
@@ -203,7 +204,7 @@ export function ProductTable({ products = [], meta, isLoading, refetch }: Produc
                         <div className="flex items-center gap-3">
                           <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-neutral-900">
                             {firstImage ? (
-                              <img src={firstImage} alt={p.name} className="h-full w-full object-cover" />
+                              <Image src={firstImage} alt={p.name} fill className="object-cover" />
                             ) : (
                               <div className="flex h-full items-center justify-center text-neutral-600">
                                 <Package className="h-5 w-5" />

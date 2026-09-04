@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDashboardStore } from '@/store/use-dashboard-store';
 import { useAuthStore } from '@/store/use-auth-store';
@@ -59,9 +60,11 @@ export function Sidebar() {
       <div>
         <div className="flex items-center justify-between pb-6 pt-2">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <img
+            <Image
               src="/images/axa-industries-logo.png"
               alt="AXA Industries Logo"
+              width={140}
+              height={32}
               className="h-8 w-auto object-contain shrink-0"
             />
             {!isSidebarCollapsed && (

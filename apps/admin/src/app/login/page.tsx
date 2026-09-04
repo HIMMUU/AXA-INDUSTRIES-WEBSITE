@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema, LoginInput } from '@axa/types';
@@ -69,9 +70,11 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md">
         {/* Logo & Header */}
         <div className="mb-8 text-center">
-          <img
+          <Image
             src="/images/axa-industries-logo.png"
             alt="AXA Industries Logo"
+            width={200}
+            height={64}
             className="h-16 w-auto mx-auto object-contain mb-3 drop-shadow-lg"
           />
           <h1 className="text-2xl font-semibold tracking-tight text-white">AXA Industries</h1>

@@ -1,4 +1,4 @@
-import { AdminRole } from '@axa/db';
+import { AdminRole, AdminStatus } from '@axa/db';
 
 export interface JwtPayload {
   sub: string;
@@ -8,4 +8,12 @@ export interface JwtPayload {
 
 export interface JwtRefreshPayload extends JwtPayload {
   refreshToken: string;
+}
+
+export interface AuthenticatedAdmin {
+  id: string;
+  email: string;
+  name: string;
+  role: AdminRole;
+  status: AdminStatus;
 }

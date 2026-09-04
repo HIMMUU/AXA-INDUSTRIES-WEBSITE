@@ -31,10 +31,15 @@ export async function apiClient<T = any>(
     const res = await fetch(url, config);
     const data = await res.json();
 
-    if (res.status === 401 && typeof window !== 'undefined' && !endpoint.includes('/auth/login')) {
+    if (res.status === 401 && typeof window !== 'undefined') {
       localStorage.removeItem('axa_access_token');
       localStorage.removeItem('axa_refresh_token');
-      window.location.href = '/login';
+      const isAuthPath = ['/login', '/forgot-password', '/reset-password', '/unauthorized'].some((p) =>
+        window.location.pathname.startsWith(p)
+      );
+      if (!isAuthPath && !endpoint.includes('/auth/')) {
+        window.location.href = '/login';
+      }
     }
 
     if (!res.ok) {

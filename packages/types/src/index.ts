@@ -6,4 +6,4 @@ export * from './customer.types';
 export * from './enquiry.types';
 export * from './order.types';
 export * from './category-templates';
-
+export * from './machine-pricing';

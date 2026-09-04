@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
-import { Product } from '@axa/types';
+import { Product, MACHINE_PRICING } from '@axa/types';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import {
@@ -55,6 +55,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
     orgType: 'School/College',
     quantity: '2-5 Units',
     timeline: 'Immediate (1-2 weeks)',
+    model: 'SND 100',
     notes: ''
   });
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
@@ -62,7 +63,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
 
   // Interactive ROI Calculator State
   const [femaleCount, setFemaleCount] = useState(250);
-  const [activeModel, setActiveModel] = useState<'SND-50 Small' | 'SND-50 Standard' | 'SND-50 Digital'>('SND-50 Standard');
+  const [activeModel, setActiveModel] = useState<string>('SND 150 Display');
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,6 +77,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
     const phone = (formValues.get('phone') || formData.phone || '').toString();
     const email = (formValues.get('email') || formData.email || '').toString();
     const qty = parseInt((formValues.get('qty') || formData.quantity || '1').toString(), 10) || 1;
+    const model = (formValues.get('model') || formData.model || 'SND 100').toString();
     const notes = (formValues.get('notes') || formData.notes || '').toString();
 
     try {
@@ -88,7 +90,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
           phone: phone || '+91 80764 96709',
           email: email || undefined,
           company: org || undefined,
-          message: notes || `Quotation request for Model EcoBurn 100 Incinerator. Quantity: ${qty}`,
+          message: notes || `Quotation request for Incinerator Model ${model}. Quantity: ${qty}`,
           quantity: qty,
           source: 'PRODUCT_DETAILS'
         })
@@ -117,8 +119,8 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
           <div className="hidden md:flex items-center gap-3">
             <span className="flex h-2.5 w-2.5 rounded-full bg-rose-500 animate-ping" />
             <div>
-              <p className="text-xs font-bold text-neutral-900 dark:text-white">AXA Sanitary Napkin Incinerator Machine (Model SND-50)</p>
-              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Starting ₹3,400 + GST • Pan-India Factory Direct Shipping</p>
+              <p className="text-xs font-bold text-neutral-900 dark:text-white">AXA Sanitary Napkin Incinerator Series (SND 100 to SND 600)</p>
+              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Starting ₹3,360 + GST • Pan-India Factory Direct Shipping</p>
             </div>
           </div>
 
@@ -188,7 +190,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
                   </div>
 
                   <div className="flex items-center gap-1.5 rounded-xl bg-rose-500/10 border border-rose-500/20 px-3 py-1.5 text-xs font-bold text-rose-600 dark:text-rose-400 font-mono">
-                    <span>Starting from ₹3,400 + GST</span>
+                    <span>Starting from ₹3,360 + GST</span>
                   </div>
                 </div>
 
@@ -454,81 +456,89 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
         </section>
 
         {/* 8. AVAILABLE MODELS & PRICING CARDS */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+        <section id="models-pricing" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center space-y-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-rose-600 dark:text-rose-400">
+              Official Factory Pricing Catalog
+            </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-950 dark:text-white">
               Available Incinerator Models & Institutional Pricing
             </h2>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">
-              Select the right capacity for your school, college, corporate office, or hospital facility.
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">
+              Direct factory procurement rates for schools, colleges, hostels, corporate offices, and hospitals. *GST 18% extra on all models.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                name: 'SND-50 Small',
-                cap: '80 Napkins / Day',
-                price: '₹3,400 + GST',
-                features: ['Basic Indicator', 'Wall Mounted', 'Auto Cut-Off Timer', '1-Year Warranty'],
-                recom: 'Small Schools & Offices (up to 150 users)'
-              },
-              {
-                name: 'SND-50 Standard',
-                cap: '100 Napkins / Day',
-                price: '₹4,000 + GST',
-                features: ['Heavy Ceramic Heater', 'Enhanced Insulation', 'Reinforced Ash Tray', '1-Year Warranty'],
-                recom: 'Colleges & Hostels (up to 350 users)',
-                popular: true
-              },
-              {
-                name: 'SND-50 Digital',
-                cap: '100 Napkins / Day',
-                price: '₹4,200 + GST',
-                features: ['Digital Temp Display', 'Digital Burn Timer', 'Smart Safety Cut-Off', '1-Year Warranty'],
-                recom: 'Hospitals & Corporate HQ'
-              }
-            ].map((m, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {MACHINE_PRICING.disposal_machine.models.map((m) => (
               <div
-                key={i}
-                className={`rounded-3xl border p-6 flex flex-col justify-between space-y-6 transition relative ${
+                key={m.model}
+                className={`rounded-3xl border p-5 flex flex-col justify-between space-y-5 transition relative hover:shadow-xl ${
                   m.popular
                     ? 'border-rose-500 bg-rose-500/5 dark:bg-rose-500/10 ring-2 ring-rose-500/30'
                     : 'border-neutral-200 dark:border-white/10 bg-white dark:bg-[#121216]/60'
                 }`}
               >
                 {m.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rose-600 px-3 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rose-600 px-3 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider shadow-md">
                     Most Popular
                   </span>
                 )}
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{m.name}</h3>
-                  <div className="text-2xl font-black font-mono text-rose-600 dark:text-rose-400">{m.price}</div>
-                  <p className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">{m.cap}</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-white/10 text-neutral-700 dark:text-neutral-300">
+                      {m.model}
+                    </span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${m.hasDisplay ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' : 'bg-neutral-500/10 text-neutral-600 dark:text-neutral-400'}`}>
+                      {m.hasDisplay ? 'Digital Display' : 'Standard'}
+                    </span>
+                  </div>
 
-                  <div className="pt-3 border-t border-neutral-200 dark:border-white/10 space-y-2 text-xs">
+                  <h3 className="text-base font-bold text-neutral-900 dark:text-white leading-snug">{m.name}</h3>
+
+                  <div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl font-black font-mono text-rose-600 dark:text-rose-400">
+                        ₹{m.price.toLocaleString('en-IN')}
+                      </span>
+                      <span className="text-[10px] font-bold text-neutral-500 dark:text-neutral-400 uppercase">
+                        + GST
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 mt-0.5">
+                      Capacity: {m.capacity}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-neutral-200 dark:border-white/10 space-y-1.5 text-xs">
                     {m.features.map((f, idx) => (
                       <div key={idx} className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-emerald-500 shrink-0" />
-                        <span className="text-neutral-700 dark:text-neutral-300">{f}</span>
+                        <Check className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                        <span className="text-neutral-700 dark:text-neutral-300 text-[11px]">{f}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="space-y-3 pt-3">
-                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400 italic">Target: {m.recom}</p>
+                <div className="space-y-2 pt-2">
                   <button
-                    onClick={() => setShowQuoteModal(true)}
-                    className="w-full rounded-2xl bg-rose-600 py-3 text-xs font-bold text-white hover:bg-rose-500 transition"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, model: m.model }));
+                      setShowQuoteModal(true);
+                    }}
+                    className="w-full rounded-xl bg-rose-600 py-2.5 text-xs font-bold text-white hover:bg-rose-500 transition active:scale-95 shadow-md shadow-rose-600/20"
                   >
-                    Request Model Quotation
+                    Request Quote for {m.model}
                   </button>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="rounded-2xl border border-rose-500/20 bg-rose-500/5 p-4 text-center text-xs text-neutral-600 dark:text-neutral-300 flex flex-wrap items-center justify-center gap-2">
+            <span className="font-bold text-rose-600 dark:text-rose-400">Note:</span>
+            <span>All pricing mentioned is Ex-Factory. 18% GST extra as applicable. Pan-India Doorstep Dispatch & Institutional Volume Discounts available.</span>
           </div>
         </section>
 
@@ -766,6 +776,21 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
                       className="w-full mt-1 rounded-xl border border-neutral-300 dark:border-white/10 bg-neutral-50 dark:bg-white/5 p-2.5 text-neutral-900 dark:text-white outline-none focus:border-rose-500"
                     />
                   </div>
+                </div>
+
+                <div>
+                  <label className="font-semibold text-neutral-700 dark:text-neutral-300">Selected Machine Model *</label>
+                  <select
+                    value={formData.model}
+                    onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                    className="w-full mt-1 rounded-xl border border-neutral-300 dark:border-white/10 bg-neutral-50 dark:bg-[#1A1A20] p-2.5 text-neutral-900 dark:text-white outline-none focus:border-rose-500 font-medium"
+                  >
+                    {MACHINE_PRICING.disposal_machine.models.map((m) => (
+                      <option key={m.model} value={m.model}>
+                        {m.model} — ₹{m.price.toLocaleString('en-IN')} + GST ({m.capacity})
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">

@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { JwtPayload } from '../types/auth.types';
+import { JwtPayload, AuthenticatedAdmin } from '../types/auth.types';
 import { AdminRepository } from '../repositories/admin.repository';
 import { AdminStatus } from '@axa/db';
 
@@ -22,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: JwtPayload) {
+  async validate(payload: JwtPayload): Promise<AuthenticatedAdmin> {
     const admin = await this.adminRepository.findById(payload.sub);
     if (!admin) {
       throw new UnauthorizedException('Admin user not found');

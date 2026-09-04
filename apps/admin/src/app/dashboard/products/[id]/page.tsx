@@ -2,6 +2,7 @@
 
 import { use, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
@@ -120,7 +121,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         <div className="space-y-4">
           <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-2xl">
             {activeImage ? (
-              <img src={activeImage} alt={product.name} className="h-full w-full object-cover" />
+              <Image src={activeImage} alt={product.name} fill className="object-cover" />
             ) : (
               <div className="flex h-full items-center justify-center text-neutral-600">
                 <Package className="h-16 w-16" />
@@ -139,7 +140,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     activeImageIdx === idx ? 'border-blue-500 ring-2 ring-blue-500/30' : 'border-white/10 opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={img.url} alt={`Thumb ${idx + 1}`} className="h-full w-full object-cover" />
+                  <Image src={img.url} alt={`Thumb ${idx + 1}`} fill className="object-cover" />
                 </button>
               ))}
             </div>
