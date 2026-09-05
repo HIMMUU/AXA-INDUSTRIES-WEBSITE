@@ -38,11 +38,11 @@ const HERO_SLIDES: CarouselSlide[] = [
   {
     heading: 'VENDING',
     subheading: 'Automatic Sanitary Napkin Vending Machine',
-    caption: '01 — Model AVND50H',
+    caption: '01 — Model AVND 50 H',
     image: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786383062/ChatGPT_Image_Aug_10_2026_10_59_46_PM_1_kvcdy8.png',
     slug: 'axa-autovend-50-sanitary-napkin-vending-machine',
     category: 'Hygiene Automation',
-    price: '₹6,200',
+    price: '₹6,600 + GST',
     badge: '50-Pad Storage • LCD Display & Battery Backup',
     colorTheme: 'pink',
     scaleClass: 'scale-[1.15] sm:scale-[1.28] lg:scale-[1.38]'
@@ -54,18 +54,18 @@ const HERO_SLIDES: CarouselSlide[] = [
     image: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png',
     slug: 'axa-cloth-bag-vending-machine-eco-dispenser',
     category: 'Eco-Friendly Automation',
-    price: '₹18,500',
+    price: '₹18,500 + GST',
     badge: '100+ Bag Capacity • Coin / UPI QR Payment • Heavy-Duty Steel Enclosure',
     colorTheme: 'sand'
   },
   {
     heading: 'DISPOSAL',
-    subheading: 'Sanitary Napkin Incinerator',
-    caption: '03 — Model EcoBurn 100',
+    subheading: 'Sanitary Napkin Incinerator (SND Series)',
+    caption: '03 — Model SND 100',
     image: '/images/disposal-combo-transparent.png',
     slug: 'axa-ecoburn-100-sanitary-napkin-disposal-machine',
     category: 'Thermal Waste Treatment',
-    price: '₹12,499',
+    price: '₹3,800 + GST',
     badge: 'Ceramic Insulation • Auto Cut-Off Timer',
     colorTheme: 'pink'
   },

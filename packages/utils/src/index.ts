@@ -8,10 +8,11 @@ export function slugify(text: string): string {
     .replace(/\-\-+/g, '-');
 }
 
-export function formatCurrency(amount: number, currency = 'USD'): string {
-  return new Intl.NumberFormat('en-US', {
+export function formatCurrency(amount: number, currency = 'INR', locale = 'en-IN'): string {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency
+    currency,
+    maximumFractionDigits: 0
   }).format(amount);
 }
 
