@@ -64,7 +64,7 @@ export function FeaturedProductsSection() {
                 category: 'Automatic Hygiene Dispenser',
                 shortDescription: 'Model AVND 50 H • 50-Pad Storage • LCD Display & Battery Backup • + GST Extra.',
                 price: 6600,
-                badge: 'Automatic • From ₹4,200',
+                badge: 'Automatic • From ₹4,500',
                 badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-400',
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg'
               },
@@ -74,8 +74,8 @@ export function FeaturedProductsSection() {
                 name: 'AXA EcoBurn Sanitary Napkin Disposal Incinerator',
                 category: 'Eco Incinerator',
                 shortDescription: 'SND Series (100 to 600) • Ceramic Thermal Core • Auto Cut-Off • Smokeless Ash • + GST Extra.',
-                price: 3360,
-                badge: 'Starting ₹3,360 + GST',
+                price: 3800,
+                badge: 'Starting ₹3,800 + GST',
                 badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458267/mainsnd_mle9pt.jpg'
               },
@@ -118,8 +118,8 @@ export function FeaturedProductsSection() {
                 name: 'AXA Manual Sanitary Napkin Vending Machine',
                 category: 'Mechanical Dispenser',
                 shortDescription: 'Model VND Series (VND 25 to 200) • Mechanical Coin Acceptor • Zero Electricity • + GST Extra.',
-                price: 3000,
-                badge: 'Zero Power • From ₹3,000',
+                price: 3500,
+                badge: 'Zero Power • From ₹3,500',
                 badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg'
               }

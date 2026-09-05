@@ -57,7 +57,7 @@ const SAMPLE_CATEGORY_PRODUCTS = [
     slug: 'axa-ecoburn-100-sanitary-napkin-disposal-machine',
     shortDescription: 'Compact Sanitary Napkin & Mask Incinerator with high-efficiency heater, LCD temp display, auto cutoff & ceramic insulation.',
     description: 'AXA SND Series is engineered for hygienic sanitary napkin & mask incineration. Consumes lowest power in its class with an inbuilt automatic thermosensor for efficient operation, long running, and overheat protection. Wall-mounted and table-top ready. CE approved and tested as per CPCB norms. Available from SND 100 to SND 600.',
-    price: 3360.00,
+    price: 3800.00,
     status: ProductStatus.PUBLISHED,
     featured: true,
     metaTitle: 'AXA SND 500 - Sanitary Napkin & Mask Incinerator Machine',

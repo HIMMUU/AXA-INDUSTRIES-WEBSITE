@@ -120,7 +120,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
             <span className="flex h-2.5 w-2.5 rounded-full bg-rose-500 animate-ping" />
             <div>
               <p className="text-xs font-bold text-neutral-900 dark:text-white">AXA Sanitary Napkin Incinerator Series (SND 100 to SND 600)</p>
-              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Starting ₹3,360 + GST • Pan-India Factory Direct Shipping</p>
+              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Starting ₹3,800 + GST • Pan-India Factory Direct Shipping</p>
             </div>
           </div>
 
@@ -190,7 +190,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
                   </div>
 
                   <div className="flex items-center gap-1.5 rounded-xl bg-rose-500/10 border border-rose-500/20 px-3 py-1.5 text-xs font-bold text-rose-600 dark:text-rose-400 font-mono">
-                    <span>Starting from ₹3,360 + GST</span>
+                    <span>Starting from ₹3,800 + GST</span>
                   </div>
                 </div>
 

@@ -127,7 +127,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
             <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
             <div>
               <p className="text-xs font-bold text-neutral-900 dark:text-white">AXA Sanitary Napkin Vending Machines (Manual VND & Automatic AVND Series)</p>
-              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Starting ₹3,000 + GST (Manual) • ₹4,200 + GST (Push Button) • ₹5,400 + GST (Coin/Auto)</p>
+              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">Starting ₹3,500 + GST (Manual) • ₹4,500 + GST (Push Button) • ₹5,500 + GST (Coin/Auto)</p>
             </div>
           </div>
 
@@ -197,7 +197,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
                   </div>
 
                   <div className="flex items-center gap-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 font-mono">
-                    <span>Starting from ₹3,000 + GST</span>
+                    <span>Starting from ₹3,500 + GST</span>
                   </div>
                 </div>
 

@@ -36,7 +36,7 @@ Key Technical Specifications (Model: AVND50H):
 - Intelligent Coin Rejection: Machine automatically rejects coins if out of stock
 - Dual Power System: Operates on 230V AC Electricity + Battery Backup
 - Multi-Coin Acceptor: Supports multiple coin denominations
-- Official Models: Manual VND Series (from ₹3,000 + GST), Auto Push-Button (from ₹4,200 + GST), Auto Coin AVND Series (from ₹5,400 + GST).`,
+- Official Models: Manual VND Series (from ₹3,500 + GST), Auto Push-Button (from ₹4,500 + GST), Auto Coin AVND Series (from ₹5,500 + GST).`,
     suggestedPrice: 6600.00,
     metaTitle: 'Automatic Sanitary Napkin Vending Machine AVND50H - AXA Industries',
     metaDescription: 'Buy AXA AVND50H Automatic Sanitary Napkin Vending Machine. 50-pad capacity, MS powder-coated body, LCD step-by-step guide, battery backup & coin rejection.',
@@ -71,11 +71,11 @@ Key Technical Specifications (Model: AVND50H):
     description: `The AXA Eco-Burn Sanitary Napkin Disposal Machine provides a hygienic, odor-free, and safe solution for disposing of used sanitary pads. Designed with ceramic insulation and automatic microprocessor temperature control, it reduces waste to sterile ash in seconds.
 
 Available Factory Models:
-- SND 100: ₹3,360 + GST
-- SND 120 Without Display: ₹3,600 + GST
-- SND 120 Display: ₹3,840 + GST
-- SND 150 Display: ₹4,200 + GST
-- SND 200 Display: ₹5,400 + GST
+- SND 100: ₹3,800 + GST
+- SND 120 Without Display: ₹4,000 + GST
+- SND 120 Display: ₹4,200 + GST
+- SND 150 Display: ₹4,500 + GST
+- SND 200 Display: ₹5,500 + GST
 - SND 300 Display: ₹6,600 + GST
 - SND 400 Display: ₹10,200 + GST
 - SND 600 Display: ₹15,000 + GST
@@ -86,7 +86,7 @@ Key Features:
 - Smoke-free emission technology with flexible aluminum exhaust flange
 - Removable bottom ash collection tray for hassle-free cleaning
 - Compact wall-mountable body suitable for modern restrooms`,
-    suggestedPrice: 3360.00,
+    suggestedPrice: 3800.00,
     metaTitle: 'Sanitary Napkin Disposal Machine - Smokeless Eco Incinerator',
     metaDescription: 'Automatic smokeless sanitary napkin incinerators for hygienic disposal in restrooms, hostels, and offices. Fast burn cycle & low power consumption.',
     defaultSpecifications: [

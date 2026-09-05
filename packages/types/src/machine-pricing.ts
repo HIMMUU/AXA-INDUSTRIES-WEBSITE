@@ -27,7 +27,7 @@ export const MACHINE_PRICING = {
       {
         model: 'SND 100',
         name: 'AXA SND 100 Incinerator',
-        price: 3360,
+        price: 3800,
         capacity: 'Up to 100 Napkins / Day',
         hasDisplay: false,
         features: ['Smokeless Ash Core', 'Auto Cut-Off Timer', 'Wall Mounted Compact Design', '1-Year Warranty']
@@ -35,7 +35,7 @@ export const MACHINE_PRICING = {
       {
         model: 'SND 120 Without Display',
         name: 'AXA SND 120 (Without Display)',
-        price: 3600,
+        price: 4000,
         capacity: '100 - 120 Napkins / Day',
         hasDisplay: false,
         features: ['Ceramic Thermal Core', 'Double-Wall Insulation', 'Auto Cut-Off Protection', '1-Year Warranty']
@@ -43,7 +43,7 @@ export const MACHINE_PRICING = {
       {
         model: 'SND 120 Display',
         name: 'AXA SND 120 (With Display)',
-        price: 3840,
+        price: 4200,
         capacity: '100 - 120 Napkins / Day',
         hasDisplay: true,
         features: ['Digital Temperature Display', 'Burn Cycle Timer Indicator', 'Ceramic Heater', '1-Year Warranty']
@@ -51,7 +51,7 @@ export const MACHINE_PRICING = {
       {
         model: 'SND 150 Display',
         name: 'AXA SND 150 (With Display)',
-        price: 4200,
+        price: 4500,
         capacity: '150 Napkins / Day',
         hasDisplay: true,
         popular: true,
@@ -60,7 +60,7 @@ export const MACHINE_PRICING = {
       {
         model: 'SND 200 Display',
         name: 'AXA SND 200 (With Display)',
-        price: 5400,
+        price: 5500,
         capacity: '200 Napkins / Day',
         hasDisplay: true,
         features: ['Digital Display & Control', 'Reinforced Thermal Chamber', 'Fast 15-min Burn Cycle', '1-Year Warranty']
@@ -100,7 +100,7 @@ export const MACHINE_PRICING = {
       {
         model: 'VND 25',
         name: 'AXA VND 25 Manual Vending Machine',
-        price: 3000,
+        price: 3500,
         capacity: '25 Pads Capacity',
         operation: 'Manual / Mechanical',
         features: ['Zero Electricity Required', 'Mechanical Coin Acceptor', 'Wall-Mounted Robust Steel Body', 'Inspection Window']
@@ -108,7 +108,7 @@ export const MACHINE_PRICING = {
       {
         model: 'VND 50',
         name: 'AXA VND 50 Manual Vending Machine',
-        price: 3840,
+        price: 4200,
         capacity: '50 Pads Capacity',
         operation: 'Manual / Mechanical',
         popular: true,
@@ -142,7 +142,7 @@ export const MACHINE_PRICING = {
       {
         model: 'AVND 25 H',
         name: 'AXA AVND 25 Horizontal (Coin/Auto)',
-        price: 5400,
+        price: 5500,
         capacity: '25 Pads',
         orientation: 'Horizontal',
         operation: 'Coin / Multi-Coin',
@@ -201,7 +201,7 @@ export const MACHINE_PRICING = {
       {
         model: 'AVND 25 H Push Button',
         name: 'AXA AVND 25 Horizontal (Push Button)',
-        price: 4200,
+        price: 4500,
         capacity: '25 Pads',
         orientation: 'Horizontal',
         operation: 'Push Button',
@@ -210,7 +210,7 @@ export const MACHINE_PRICING = {
       {
         model: 'AVND 50 H Push Button',
         name: 'AXA AVND 50 Horizontal (Push Button)',
-        price: 5400,
+        price: 5500,
         capacity: '50 Pads',
         orientation: 'Horizontal',
         operation: 'Push Button',
@@ -231,7 +231,7 @@ export const MACHINE_PRICING = {
       {
         model: 'AVND 50 V Push Button',
         name: 'AXA AVND 50 Vertical (Push Button)',
-        price: 4800,
+        price: 5000,
         capacity: '50 Pads',
         orientation: 'Vertical',
         operation: 'Push Button',
