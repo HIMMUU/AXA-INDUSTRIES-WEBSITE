@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { Suspense } from 'react';
 import './globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
+import { StickyContactWidget } from '@/components/shared/sticky-contact-widget';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -35,6 +36,7 @@ export default function RootLayout({
           }>
             {children}
           </Suspense>
+          <StickyContactWidget />
         </ThemeProvider>
       </body>
     </html>

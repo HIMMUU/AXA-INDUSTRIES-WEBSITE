@@ -474,12 +474,12 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
               <div
                 key={m.model}
                 className={`rounded-3xl border p-5 flex flex-col justify-between space-y-5 transition relative hover:shadow-xl ${
-                  m.popular
+                  'popular' in m && m.popular
                     ? 'border-rose-500 bg-rose-500/5 dark:bg-rose-500/10 ring-2 ring-rose-500/30'
                     : 'border-neutral-200 dark:border-white/10 bg-white dark:bg-[#121216]/60'
                 }`}
               >
-                {m.popular && (
+                {'popular' in m && m.popular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rose-600 px-3 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider shadow-md">
                     Most Popular
                   </span>
