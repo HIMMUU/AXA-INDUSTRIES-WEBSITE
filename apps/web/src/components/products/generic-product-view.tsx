@@ -137,13 +137,13 @@ export function GenericProductView({ product }: { product: Product }) {
                 </a>
 
                 <a
-                  href={`https://wa.me/918076496709?text=Hi%20AXA%20Industries,%20I%20want%20a%20quotation%20for%20${encodeURIComponent(product.name)}`}
+                  href={`https://wa.me/918595156873?text=Hi%20AXA%20Industries,%20I%20want%20a%20quotation%20for%20${encodeURIComponent(product.name)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 py-3.5 text-xs font-bold text-emerald-400 transition"
                 >
                   <MessageSquare className="h-4 w-4" />
-                  <span>Chat on WhatsApp (+91 8076496709)</span>
+                  <span>Chat on WhatsApp (+91 85951 56873)</span>
                 </a>
               </div>
 

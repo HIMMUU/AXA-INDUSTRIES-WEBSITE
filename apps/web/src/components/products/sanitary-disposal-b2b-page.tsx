@@ -126,7 +126,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
 
           <div className="flex items-center gap-2.5 w-full md:w-auto justify-end">
             <a
-              href="tel:+918076496709"
+              href="tel:+918595156873"
               className="flex items-center justify-center gap-1.5 rounded-xl border border-neutral-300 dark:border-white/15 bg-neutral-100 dark:bg-white/5 px-3 py-2 text-xs font-semibold text-neutral-800 dark:text-white hover:bg-neutral-200 dark:hover:bg-white/10 transition"
             >
               <PhoneCall className="h-3.5 w-3.5 text-rose-500" />
@@ -134,7 +134,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
             </a>
 
             <a
-              href="https://wa.me/918076496709?text=Hi%20AXA%20Industries,%20I%20need%20a%20quotation%20for%20Sanitary%20Napkin%20Incinerator%20Machine"
+              href="https://wa.me/918595156873?text=Hi%20AXA%20Industries,%20I%20need%20a%20quotation%20for%20Sanitary%20Napkin%20Incinerator%20Machine"
               target="_blank"
               rel="noreferrer"
               className="flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition"

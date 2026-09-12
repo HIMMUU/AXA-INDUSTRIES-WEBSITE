@@ -19,35 +19,35 @@ function WhatsAppIcon({ className = 'w-5 h-5' }: { className?: string }) {
 }
 
 export function StickyContactWidget() {
-  const phoneNumber = '+91 8076496709';
-  const rawPhoneNumber = '+918076496709';
+  const phoneNumber = '+91 85951 56873';
+  const rawPhoneNumber = '+918595156873';
   const whatsappMessage = encodeURIComponent(
     'Hi AXA Industries, I have an inquiry regarding your products and solutions.'
   );
-  const whatsappUrl = `https://wa.me/918076496709?text=${whatsappMessage}`;
+  const whatsappUrl = `https://wa.me/918595156873?text=${whatsappMessage}`;
 
   return (
     <aside
       aria-label="Quick Contact Options"
-      className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 pointer-events-auto"
+      className="fixed right-2.5 sm:right-5 top-1/2 -translate-y-1/2 z-50 flex flex-col items-end gap-3 transition-all duration-300 pointer-events-auto"
     >
       {/* Call Now Button */}
       <a
         href={`tel:${rawPhoneNumber}`}
         aria-label={`Call Now (${phoneNumber})`}
         title={`Call Now: ${phoneNumber}`}
-        className="group relative flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40 hover:scale-105 active:scale-95 transition-all duration-200 h-12 w-12 sm:h-11 sm:w-auto sm:px-4 sm:py-2 border border-blue-400/20"
+        className="group relative flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 text-white font-semibold shadow-xl shadow-blue-600/35 hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-105 active:scale-95 transition-all duration-200 h-12 w-12 sm:h-11 sm:w-auto sm:px-4 sm:py-2 border border-blue-400/30 backdrop-blur-sm"
       >
-        {/* Subtle pulsing live indicator on phone */}
-        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+        {/* Subtle pulsing live indicator */}
+        <span className="absolute -top-1 -left-1 sm:-top-1 sm:-right-1 flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
           <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500 border border-white dark:border-[#0A0A0C]" />
         </span>
 
         <div className="flex items-center gap-2">
           <PhoneCall className="h-5 w-5 sm:h-4 sm:w-4 shrink-0 transition-transform group-hover:rotate-12 duration-300" />
-          {/* Label hidden on phone, visible on tablet/desktop */}
-          <span className="hidden sm:inline-block text-xs md:text-sm font-medium tracking-wide whitespace-nowrap">
+          {/* Label hidden on mobile phone, visible on tablet/desktop */}
+          <span className="hidden sm:inline-block text-xs md:text-sm font-semibold tracking-wide whitespace-nowrap">
             Call Now
           </span>
         </div>
@@ -59,19 +59,19 @@ export function StickyContactWidget() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"
-        title="Chat on WhatsApp"
-        className="group relative flex items-center justify-center rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold shadow-lg shadow-[#25D366]/30 hover:shadow-xl hover:shadow-[#25D366]/40 hover:scale-105 active:scale-95 transition-all duration-200 h-12 w-12 sm:h-11 sm:w-auto sm:px-4 sm:py-2 border border-emerald-300/20"
+        title={`Chat on WhatsApp (${phoneNumber})`}
+        className="group relative flex items-center justify-center rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold shadow-xl shadow-[#25D366]/35 hover:shadow-2xl hover:shadow-[#25D366]/50 hover:scale-105 active:scale-95 transition-all duration-200 h-12 w-12 sm:h-11 sm:w-auto sm:px-4 sm:py-2 border border-emerald-300/30 backdrop-blur-sm"
       >
-        {/* Subtle pulsing live indicator on WhatsApp */}
-        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+        {/* Subtle pulsing live indicator */}
+        <span className="absolute -top-1 -left-1 sm:-top-1 sm:-right-1 flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75" />
           <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400 border border-white dark:border-[#0A0A0C]" />
         </span>
 
         <div className="flex items-center gap-2">
           <WhatsAppIcon className="h-5 w-5 sm:h-4 sm:w-4 shrink-0 transition-transform group-hover:scale-110 duration-300" />
-          {/* Label hidden on phone, visible on tablet/desktop */}
-          <span className="hidden sm:inline-block text-xs md:text-sm font-medium tracking-wide whitespace-nowrap">
+          {/* Label hidden on mobile phone, visible on tablet/desktop */}
+          <span className="hidden sm:inline-block text-xs md:text-sm font-semibold tracking-wide whitespace-nowrap">
             WhatsApp
           </span>
         </div>

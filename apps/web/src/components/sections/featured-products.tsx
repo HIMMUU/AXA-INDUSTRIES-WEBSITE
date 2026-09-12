@@ -124,9 +124,11 @@ export function FeaturedProductsSection() {
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg'
               }
             ].map((p) => (
-              <div
+              <Link
                 key={p.id}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 bg-white p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40"
+                href={`/products/${p.slug}`}
+                prefetch={true}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 dark:border-white/10 bg-white dark:bg-[#121216]/60 p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40 cursor-pointer text-left block"
               >
                 <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
                   <img
@@ -134,7 +136,7 @@ export function FeaturedProductsSection() {
                     alt={p.name}
                     className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute top-3 right-3 rounded-lg bg-white/95 border border-stone-200 px-2.5 py-1 text-[11px] font-extrabold text-slate-900 shadow-sm">
+                  <span className="absolute top-3 right-3 rounded-lg bg-white/95 dark:bg-black/80 border border-stone-200 dark:border-white/10 px-2.5 py-1 text-[11px] font-extrabold text-slate-900 dark:text-white shadow-sm">
                     {formatCurrency(p.price)}
                   </span>
                   <div className={`absolute bottom-3 left-3 rounded-full border px-2.5 py-0.5 text-[9px] font-bold shadow-xs ${p.badgeColor}`}>
@@ -143,34 +145,32 @@ export function FeaturedProductsSection() {
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-blue-700">{p.category}</p>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition leading-snug">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">{p.category}</p>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition leading-snug">
                     {p.name}
                   </h3>
-                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
                     {p.shortDescription}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-stone-200 mt-4 flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-900 font-mono">{formatCurrency(p.price)}</span>
-                  <Link
-                    href={`/products/${p.slug}`}
-                    prefetch={true}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline"
-                  >
-                    View Specs <ArrowRight className="h-3 w-3" />
-                  </Link>
+                <div className="pt-4 border-t border-stone-200 dark:border-white/10 mt-4 flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-900 dark:text-white font-mono">{formatCurrency(p.price)}</span>
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300">
+                    View Specs <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                  </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((p) => (
-              <div
+              <Link
                 key={p.id}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 bg-white p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40"
+                href={`/products/${p.slug}`}
+                prefetch={true}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 dark:border-white/10 bg-white dark:bg-[#121216]/60 p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40 cursor-pointer text-left block"
               >
                 <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
                   {p.images?.[0]?.url ? (
@@ -200,14 +200,11 @@ export function FeaturedProductsSection() {
 
                 <div className="pt-4 border-t border-neutral-200 dark:border-white/10 mt-4 flex items-center justify-between">
                   <span className="text-xs font-bold text-neutral-900 dark:text-white font-mono">{formatCurrency(p.price)}</span>
-                  <Link
-                    href={`/products/${p.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-                  >
-                    View Specs <ArrowRight className="h-3 w-3" />
-                  </Link>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300">
+                    View Specs <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                  </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

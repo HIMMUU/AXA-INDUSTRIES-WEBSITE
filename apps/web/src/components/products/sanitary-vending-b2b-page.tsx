@@ -133,15 +133,15 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
 
           <div className="flex items-center gap-2.5 w-full md:w-auto justify-end">
             <a
-              href="tel:+918076496709"
+              href="tel:+918595156873"
               className="flex items-center gap-1.5 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-100 dark:bg-white/5 px-3.5 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-white/10 transition"
             >
               <PhoneCall className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-              <span className="hidden sm:inline">+91 80764 96709</span>
+              <span className="hidden sm:inline">+91 85951 56873</span>
             </a>
 
             <a
-              href="https://wa.me/918076496709?text=Hi%20AXA%20Industries,%20I%20want%20a%20quotation%20for%20Sanitary%20Napkin%20Vending%20Machine%20(Model%20AVND50H)."
+              href="https://wa.me/918595156873?text=Hi%20AXA%20Industries,%20I%20want%20a%20quotation%20for%20Sanitary%20Napkin%20Vending%20Machine%20(Model%20AVND50H)."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition"
@@ -240,7 +240,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
                   </button>
 
                   <a
-                    href="https://wa.me/918076496709?text=Hi%20AXA%20Industries,%20I%20want%20to%20know%20more%20about%20Sanitary%20Napkin%20Vending%20Machine"
+                    href="https://wa.me/918595156873?text=Hi%20AXA%20Industries,%20I%20want%20to%20know%20more%20about%20Sanitary%20Napkin%20Vending%20Machine"
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-2 rounded-2xl border border-neutral-300 dark:border-white/10 bg-neutral-100 dark:bg-white/5 px-5 py-3.5 text-xs font-semibold text-neutral-800 dark:text-white hover:bg-neutral-200 dark:hover:bg-white/10 transition"

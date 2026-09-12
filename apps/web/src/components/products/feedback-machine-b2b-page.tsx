@@ -123,15 +123,15 @@ export function FeedbackMachineB2BPage({ product }: B2BPageProps) {
 
           <div className="flex items-center gap-4 text-xs">
             <a
-              href="tel:+918076496709"
+              href="tel:+918595156873"
               className="flex items-center gap-1.5 font-bold text-cyan-300 hover:text-white transition"
             >
               <PhoneCall className="w-3.5 h-3.5 text-cyan-400" />
-              <span>+91 80764 96709</span>
+              <span>+91 85951 56873</span>
             </a>
 
             <a
-              href="https://wa.me/918076496709?text=Hi%20AXA%20Industries,%20I%20need%20a%20quotation%20for%20Swachh%20Toilet%20Feedback%20Machine"
+              href="https://wa.me/918595156873?text=Hi%20AXA%20Industries,%20I%20need%20a%20quotation%20for%20Swachh%20Toilet%20Feedback%20Machine"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1.5 font-bold text-emerald-400 hover:text-emerald-300 transition"
@@ -278,7 +278,7 @@ export function FeedbackMachineB2BPage({ product }: B2BPageProps) {
                   </button>
 
                   <a
-                    href="https://wa.me/918076496709?text=Hi%20AXA%20Industries,%20I%20want%20to%20know%20more%20about%20Swachh%20Toilet%20Feedback%20Machine"
+                    href="https://wa.me/918595156873?text=Hi%20AXA%20Industries,%20I%20want%20to%20know%20more%20about%20Swachh%20Toilet%20Feedback%20Machine"
                     target="_blank"
                     rel="noreferrer"
                     className="flex-1 sm:flex-none bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold px-6 py-4 rounded-xl border border-emerald-200 transition flex items-center justify-center gap-2 text-sm"

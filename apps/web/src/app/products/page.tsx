@@ -268,9 +268,11 @@ export default function ProductsCataloguePage() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map((p) => (
-                <div
+                <Link
                   key={p.id}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 bg-white p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40"
+                  href={`/products/${p.slug}`}
+                  prefetch={true}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 dark:border-white/10 bg-white dark:bg-[#121216]/60 p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40 cursor-pointer text-left block"
                 >
                   <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
                     {p.images?.[0]?.url ? (
@@ -306,16 +308,12 @@ export default function ProductsCataloguePage() {
                       </span>
                     </div>
 
-                    <Link
-                      href={`/products/${p.slug}`}
-                      prefetch={true}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-2 text-xs font-bold text-white shadow-md hover:bg-blue-500 transition active:scale-95"
-                    >
+                    <span className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-2 text-xs font-bold text-white shadow-md group-hover:bg-blue-500 transition active:scale-95">
                       <span>Details & Quote</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

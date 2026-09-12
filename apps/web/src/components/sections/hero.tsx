@@ -394,11 +394,11 @@ export function HeroSection() {
 
         {/* Fast Action Support */}
         <a
-          href="tel:+918076496709"
+          href="tel:+918595156873"
           className="hidden sm:flex items-center gap-2 font-bold text-neutral-800 dark:text-neutral-200 hover:text-blue-600 dark:hover:text-blue-400 transition"
         >
           <PhoneCall className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-          <span>+91 80764 96709</span>
+          <span>+91 85951 56873</span>
         </a>
       </div>
     </section>

@@ -28,7 +28,7 @@ export default function ContactPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: name || company || 'Valued Client',
-          phone: phone || '+91 8076496709',
+          phone: phone || '+91 85951 56873',
           email: email || undefined,
           company: company || undefined,
           message: message || 'Contact sales inquiry',
@@ -135,7 +135,7 @@ export default function ContactPage() {
                         name="phoneNumber"
                         type="text"
                         required
-                        placeholder="+91 8076496709"
+                        placeholder="+91 85951 56873"
                         className="w-full rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-white/5 px-3.5 py-2.5 text-xs font-mono text-neutral-900 dark:text-white placeholder-neutral-400 focus:border-blue-500 focus:outline-none shadow-sm"
                       />
                     </div>
