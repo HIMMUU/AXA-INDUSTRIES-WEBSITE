@@ -113,8 +113,9 @@ export default function ProductsCataloguePage() {
           sortBy: by,
           sortOrder: order
         });
-        const res = await fetch(`http://localhost:4000/api/v1/products?${params.toString()}`, {
-          signal: AbortSignal.timeout(400)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+        const res = await fetch(`${apiUrl}/v1/products?${params.toString()}`, {
+          signal: AbortSignal.timeout(1500)
         });
         const json = await res.json();
         const apiItems = json.data || [];

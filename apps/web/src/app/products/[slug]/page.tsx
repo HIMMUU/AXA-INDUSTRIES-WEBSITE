@@ -49,8 +49,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   let productData = null;
   try {
-    const res = await fetch(`http://localhost:4000/api/v1/products/${slug}`, {
-      signal: AbortSignal.timeout(400),
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+    const res = await fetch(`${apiUrl}/v1/products/${slug}`, {
+      signal: AbortSignal.timeout(1500),
       next: { revalidate: 10 }
     });
     if (res.ok) {

@@ -11,8 +11,9 @@ export function FeaturedProductsSection() {
     queryKey: ['featured-products'],
     queryFn: async () => {
       try {
-        const res = await fetch('http://localhost:4000/api/v1/products?limit=6', {
-          signal: AbortSignal.timeout(400)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+        const res = await fetch(`${apiUrl}/v1/products?limit=6`, {
+          signal: AbortSignal.timeout(1500)
         });
         const json = await res.json();
         return json.data || [];
