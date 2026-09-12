@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "postinstall": "pnpm --filter @axa/db exec prisma generate && pnpm --filter @axa/types build && pnpm --filter @axa/utils build && pnpm --filter @axa/db build",
     "build": "npx pnpm turbo build",
     "dev": "npx pnpm turbo dev",
     "lint": "npx pnpm turbo lint",

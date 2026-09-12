@@ -159,14 +159,14 @@ export class AuthService {
     );
 
     const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(payload, {
+      this.jwtService.signAsync(payload as any, {
         secret,
         expiresIn: '15m'
-      }),
-      this.jwtService.signAsync(payload, {
+      } as any),
+      this.jwtService.signAsync(payload as any, {
         secret: refreshSecret,
         expiresIn: '7d'
-      })
+      } as any)
     ]);
 
     return { accessToken, refreshToken };
