@@ -8,11 +8,13 @@ import { Mail, Phone, MapPin, Clock, Send, CheckCircle2, ShieldCheck } from 'luc
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setSubmissionError(null);
 
     const formData = new FormData(e.currentTarget);
     const name = (formData.get('fullName') || '').toString();
@@ -23,7 +25,7 @@ export default function ContactPage() {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-      await fetch(`${apiUrl}/v1/enquiries`, {
+      const res = await fetch(`${apiUrl}/v1/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -36,11 +38,19 @@ export default function ContactPage() {
           source: 'CONTACT_PAGE'
         })
       });
+      const json: unknown = await res.json();
+      if (!res.ok || !isEnquiryResponse(json)) {
+        throw new Error('The enquiry service did not confirm the submission.');
+      }
+
+      setSubmitted(true);
     } catch (err) {
-      console.warn('Backend contact enquiry submission:', err);
+      console.error('Contact enquiry submission failed.', err);
+      setSubmissionError(
+        'We could not confirm your request was received. Please try again, or contact us by phone or email.'
+      );
     } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
     }
   };
 
@@ -83,6 +93,12 @@ export default function ContactPage() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <h3 className="text-base font-bold text-neutral-900 dark:text-white mb-2">Request Custom Quote</h3>
+
+                  {submissionError && (
+                    <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300">
+                      {submissionError}
+                    </p>
+                  )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
@@ -228,5 +244,14 @@ export default function ContactPage() {
 
       <Footer />
     </div>
+  );
+}
+
+function isEnquiryResponse(response: unknown): response is { success: true } {
+  return (
+    typeof response === 'object' &&
+    response !== null &&
+    'success' in response &&
+    response.success === true
   );
 }

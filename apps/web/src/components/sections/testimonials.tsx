@@ -55,7 +55,7 @@ export function TestimonialsSection() {
               </div>
 
               <div className="flex items-center gap-3 pt-6 border-t border-neutral-200 dark:border-white/10 mt-6">
-                <img src={r.avatar} alt={r.name} className="h-10 w-10 rounded-full object-cover border border-neutral-200 dark:border-white/10" />
+                <img src={r.avatar} alt={r.name} loading="lazy" decoding="async" className="h-10 w-10 rounded-full object-cover border border-neutral-200 dark:border-white/10" />
                 <div>
                   <h4 className="text-xs font-bold text-neutral-900 dark:text-white">{r.name}</h4>
                   <p className="text-[11px] text-neutral-500 dark:text-neutral-400">{r.role}</p>

@@ -3,7 +3,7 @@ import { Footer } from '@/components/layout/footer';
 
 export const metadata = {
   title: 'Terms & Conditions | AXA Industries',
-  description: 'AXA Industries corporate terms of service and commercial warranty parameters.'
+  description: 'AXA Industries terms of service, quotations, and product-specific warranty information.'
 };
 
 export default function TermsPage() {
@@ -24,9 +24,9 @@ export default function TermsPage() {
               All product dimensions, pressure ratings, and CAD parameters provided on AXA Industries digital storefront are subject to final technical review by AXA engineers upon quote submission.
             </p>
 
-            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">2. Quality Warranty & Class VI Testing</h2>
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">2. Product-Specific Warranty</h2>
             <p>
-              Equipment manufactured by AXA Industries includes a 5-year corporate warranty covering material defects and high-temperature stress endurance per ISO 9001:2015 standards.
+              Warranty duration, covered parts, exclusions, and service terms vary by product and model. The applicable terms will be stated in the written quotation and warranty documentation provided for the selected model. Please confirm those documents before placing an order.
             </p>
           </div>
         </div>

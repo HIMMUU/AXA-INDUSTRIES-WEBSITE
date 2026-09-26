@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import Link from 'next/link';
+import { getCloudinaryUrl } from '@/lib/cloudinary';
 import {
   ArrowRight,
   ShieldCheck,
@@ -76,7 +77,7 @@ const HERO_SLIDES: CarouselSlide[] = [
     image: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png',
     slug: 'axa-sense-10-1-touch-feedback-machine-kiosk',
     category: 'Washroom & Hygiene Automation',
-    price: '₹14,999',
+    price: '₹14,999 + GST',
     badge: 'Real-Time CSAT Analytics • 4G Cloud Reporting • Instant SMS Supervisor Alerts',
     colorTheme: 'blue'
   },
@@ -87,7 +88,7 @@ const HERO_SLIDES: CarouselSlide[] = [
     image: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png',
     slug: 'axa-thermal-destroyer-100-solid-waste-incinerator',
     category: 'Solid Waste Systems',
-    price: '₹2,45,000',
+    price: '₹2,45,000 + GST',
     badge: 'Dual Combustion Chamber • Wet Scrubber',
     colorTheme: 'blue'
   }
@@ -96,7 +97,6 @@ const HERO_SLIDES: CarouselSlide[] = [
 export function HeroSection() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [pointer, setPointer] = useState({ x: 0, y: 0 });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -105,42 +105,64 @@ export function HeroSection() {
 
   // Autoplay Effect
   useEffect(() => {
-    if (isHovered) return;
+    if (isHovered || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const interval = setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4500);
+      if (document.visibilityState === 'visible') {
+        setActiveIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+      }
+    }, 6500);
     return () => clearInterval(interval);
   }, [isHovered]);
 
-  // Pointer Parallax Effect
+  // Update parallax through CSS variables to avoid rerendering the entire hero.
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || e.pointerType !== 'mouse') return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setPointer({ x: x * 30, y: y * 20 });
+    containerRef.current.style.setProperty('--hero-parallax-x', `${x * 30}px`);
+    containerRef.current.style.setProperty('--hero-parallax-y', `${y * 20}px`);
   };
 
-  // Per-Frame Mask Synchronization (CrazyGL Technique)
-  useEffect(() => {
-    let animId: number;
+  // Keep the mask aligned only when its layout or image dimensions change.
+  useLayoutEffect(() => {
     const syncMask = () => {
       if (slideRef.current && imgRef.current && overlayRef.current) {
         const sr = slideRef.current.getBoundingClientRect();
         const ir = imgRef.current.getBoundingClientRect();
+        const parallaxX = Number.parseFloat(
+          containerRef.current?.style.getPropertyValue('--hero-parallax-x') || '0'
+        ) || 0;
+        const parallaxY = Number.parseFloat(
+          containerRef.current?.style.getPropertyValue('--hero-parallax-y') || '0'
+        ) || 0;
         overlayRef.current.style.maskSize = `${ir.width}px ${ir.height}px`;
         overlayRef.current.style.webkitMaskSize = `${ir.width}px ${ir.height}px`;
-        overlayRef.current.style.maskPosition = `${ir.left - sr.left}px ${ir.top - sr.top}px`;
-        overlayRef.current.style.webkitMaskPosition = `${ir.left - sr.left}px ${ir.top - sr.top}px`;
-
+        overlayRef.current.style.maskPosition = `${ir.left - sr.left - parallaxX}px ${ir.top - sr.top - parallaxY}px`;
+        overlayRef.current.style.webkitMaskPosition = `${ir.left - sr.left - parallaxX}px ${ir.top - sr.top - parallaxY}px`;
       }
-      animId = requestAnimationFrame(syncMask);
     };
-    animId = requestAnimationFrame(syncMask);
-    return () => cancelAnimationFrame(animId);
+
+    const slide = slideRef.current;
+    const image = imgRef.current;
+    if (!slide || !image) return;
+
+    syncMask();
+    const resizeObserver = new ResizeObserver(syncMask);
+    resizeObserver.observe(slide);
+    resizeObserver.observe(image);
+    image.addEventListener('load', syncMask);
+    image.addEventListener('transitionend', syncMask);
+
+    return () => {
+      resizeObserver.disconnect();
+      image.removeEventListener('load', syncMask);
+      image.removeEventListener('transitionend', syncMask);
+    };
   }, [activeIdx]);
 
   const currentSlide = HERO_SLIDES[activeIdx];
+  const currentImage = getCloudinaryUrl(currentSlide.image);
   const theme = currentSlide.colorTheme || 'pink';
 
   // Dynamic Theme Styling Tokens
@@ -192,25 +214,27 @@ export function HeroSection() {
     sand: "bg-[#B5AD9A] hover:bg-[#a69e8b] shadow-[#B5AD9A]/30 text-neutral-950 font-bold"
   }[theme];
 
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const touchStart = useRef<number | null>(null);
+  const touchEnd = useRef<number | null>(null);
 
   const minSwipeDistance = 40;
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
+    touchEnd.current = null;
+    touchStart.current = e.targetTouches[0].clientX;
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    touchEnd.current = e.targetTouches[0].clientX;
   };
 
   const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
+    if (touchStart.current === null || touchEnd.current === null) return;
+    const distance = touchStart.current - touchEnd.current;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
+    touchStart.current = null;
+    touchEnd.current = null;
 
     if (isLeftSwipe) {
       setActiveIdx((prev) => (prev + 1) % HERO_SLIDES.length);
@@ -226,7 +250,8 @@ export function HeroSection() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
-        setPointer({ x: 0, y: 0 });
+        containerRef.current?.style.setProperty('--hero-parallax-x', '0px');
+        containerRef.current?.style.setProperty('--hero-parallax-y', '0px');
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -268,13 +293,16 @@ export function HeroSection() {
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
             style={{
-              transform: `translate3d(${pointer.x}px, ${pointer.y}px, 0px)`
+              transform: 'translate3d(var(--hero-parallax-x, 0px), var(--hero-parallax-y, 0px), 0px)'
             }}
           >
             <img
               ref={imgRef}
-              src={currentSlide.image}
+              src={currentImage}
               alt={currentSlide.heading}
+              loading={activeIdx === 0 ? 'eager' : 'lazy'}
+              fetchPriority={activeIdx === 0 ? 'high' : 'auto'}
+              decoding="async"
               className={`max-w-[85%] max-h-[85%] sm:max-w-[65%] sm:max-h-[90%] lg:max-w-[55%] lg:max-h-[95%] object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)] transition-transform duration-700 ease-out animate-pulse-subtle ${currentSlide.scaleClass || ''}`}
             />
           </div>
@@ -284,8 +312,9 @@ export function HeroSection() {
             ref={overlayRef}
             className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 transition-all duration-700"
             style={{
-              maskImage: `url("${currentSlide.image}")`,
-              WebkitMaskImage: `url("${currentSlide.image}")`,
+              transform: 'translate3d(var(--hero-parallax-x, 0px), var(--hero-parallax-y, 0px), 0px)',
+              maskImage: `url("${currentImage}")`,
+              WebkitMaskImage: `url("${currentImage}")`,
               maskRepeat: 'no-repeat',
               WebkitMaskRepeat: 'no-repeat'
             }}
@@ -309,6 +338,7 @@ export function HeroSection() {
             <span>•</span>
             <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">{currentSlide.price}</span>
           </div>
+          <p className="text-[11px] text-neutral-500 dark:text-neutral-400">{currentSlide.caption} · Indicative price, GST extra</p>
 
           <h2 className="text-xl sm:text-2xl font-extrabold text-neutral-900 dark:text-white">
             {currentSlide.subheading}

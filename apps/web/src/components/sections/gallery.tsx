@@ -31,6 +31,8 @@ export function GallerySection() {
               <img
                 src={img.url}
                 alt={img.title}
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
@@ -54,7 +56,7 @@ export function GallerySection() {
           >
             <X className="h-6 w-6" />
           </button>
-          <img src={activeImage} alt="Expanded Facility Preview" className="max-h-[85vh] max-w-[90vw] rounded-2xl object-contain shadow-2xl" />
+          <img src={activeImage} alt="Expanded Facility Preview" decoding="async" className="max-h-[85vh] max-w-[90vw] rounded-2xl object-contain shadow-2xl" />
         </div>
       )}
     </section>

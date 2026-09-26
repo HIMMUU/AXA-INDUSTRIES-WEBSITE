@@ -21,6 +21,7 @@ export function ProductEnquiryModal({
 }: ProductEnquiryModalProps) {
   const [submittedRef, setSubmittedRef] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: '',
     company: '',
@@ -37,6 +38,7 @@ export function ProductEnquiryModal({
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setSubmissionError(null);
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
@@ -54,18 +56,26 @@ export function ProductEnquiryModal({
           source: source || 'QUICK_QUOTE'
         })
       });
-      const json = await res.json();
-      if (json.success) {
-        setSubmittedRef(json.data.referenceNumber);
-      } else {
-        setSubmittedRef('AXA-' + Math.floor(100000 + Math.random() * 900000));
+      const json: unknown = await res.json();
+      if (!res.ok || !isEnquiryResponse(json)) {
+        throw new Error('The enquiry service did not confirm the submission.');
       }
+
+      setSubmittedRef(json.data.referenceNumber);
     } catch (err) {
-      console.error(err);
-      setSubmittedRef('AXA-' + Math.floor(100000 + Math.random() * 900000));
+      console.error('Product enquiry submission failed.', err);
+      setSubmissionError(
+        'We could not confirm your request was received. Please try again, or contact us by phone or WhatsApp.'
+      );
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleClose = () => {
+    setSubmittedRef(null);
+    setSubmissionError(null);
+    onClose();
   };
 
   return (
@@ -73,7 +83,8 @@ export function ProductEnquiryModal({
       <div className="relative w-full max-w-lg rounded-3xl border border-white/10 bg-[#121216] p-6 shadow-2xl space-y-4">
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
+          aria-label="Close quote request"
           className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-neutral-400 hover:text-white"
         >
           <X className="h-4 w-4" />
@@ -94,8 +105,7 @@ export function ProductEnquiryModal({
             </p>
             <button
               onClick={() => {
-                setSubmittedRef(null);
-                onClose();
+                handleClose();
               }}
               className="rounded-xl bg-blue-600 px-5 py-2 text-xs font-semibold text-white hover:bg-blue-500"
             >
@@ -195,6 +205,12 @@ export function ProductEnquiryModal({
               />
             </div>
 
+            {submissionError && (
+              <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                {submissionError}
+              </p>
+            )}
+
             <button
               type="submit"
               disabled={isSubmitting}
@@ -207,5 +223,18 @@ export function ProductEnquiryModal({
         )}
       </div>
     </div>
+  );
+}
+
+function isEnquiryResponse(
+  response: unknown
+): response is { success: true; data: { referenceNumber: string } } {
+  if (typeof response !== 'object' || response === null) return false;
+
+  const payload = response as { success?: unknown; data?: { referenceNumber?: unknown } };
+  return (
+    payload.success === true &&
+    typeof payload.data?.referenceNumber === 'string' &&
+    payload.data.referenceNumber.trim().length > 0
   );
 }

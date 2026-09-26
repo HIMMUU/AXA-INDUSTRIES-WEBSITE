@@ -32,7 +32,7 @@ export function WhyChooseUsSection() {
     {
       icon: Headphones,
       title: '24/7 Dedicated Support & Warranty',
-      desc: 'Direct engineer hotline (+91 85951 56873) and 3-year factory warranty on core heating & dispensing modules.'
+      desc: 'Direct engineer hotline (+91 85951 56873) and product-specific warranty coverage confirmed with every quotation.'
     }
   ];
 

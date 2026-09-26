@@ -108,7 +108,9 @@ export function GenericProductView({ product }: { product: Product }) {
                   <Sparkles className="h-3 w-3" /> {themeBadge.label}
                 </span>
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 dark:text-white">{product.name}</h1>
-                <p className="text-2xl font-bold font-mono text-blue-600 dark:text-blue-400">{formatCurrency(product.price)}</p>
+                <p className="text-2xl font-bold font-mono text-blue-600 dark:text-blue-400">
+                  {formatCurrency(product.price)} <span className="text-sm">+ GST</span>
+                </p>
                 <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed pt-2 border-t border-neutral-200 dark:border-white/10">
                   {product.shortDescription}
                 </p>

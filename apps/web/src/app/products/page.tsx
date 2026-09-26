@@ -96,7 +96,7 @@ export default function ProductsCataloguePage() {
           name: 'AXA EcoVend Cloth Bag Vending Machine Dispenser',
           slug: 'axa-cloth-bag-vending-machine-eco-dispenser',
           price: 18500,
-          shortDescription: 'Model CBVND100 • 100+ Canvas Bag Capacity • Coin / UPI QR Payment • Heavy-Duty Steel Body',
+          shortDescription: 'Model CBV-100 • 100 Bag Capacity • Coin Payment • Heavy-Duty Steel Body • + GST',
           description: 'Eco-friendly automatic cloth bag vending dispenser for supermarkets, malls, metro stations, and public plazas.',
           status: 'ACTIVE',
           createdAt: new Date().toISOString(),
@@ -280,6 +280,8 @@ export default function ProductsCataloguePage() {
                       <img
                         src={p.images[0].url}
                         alt={p.name}
+                        loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
@@ -303,7 +305,7 @@ export default function ProductsCataloguePage() {
 
                   <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/10 flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-neutral-500 block">Indicative Price</span>
+                      <span className="text-[10px] uppercase font-bold text-neutral-500 block">Indicative Price · Excl. GST</span>
                       <span className="text-sm font-extrabold text-neutral-900 dark:text-white">
                         {formatCurrency(p.price)}
                       </span>

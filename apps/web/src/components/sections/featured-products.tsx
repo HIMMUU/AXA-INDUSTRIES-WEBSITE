@@ -65,7 +65,7 @@ export function FeaturedProductsSection() {
                 category: 'Automatic Hygiene Dispenser',
                 shortDescription: 'Model AVND 50 H • 50-Pad Storage • LCD Display & Battery Backup • + GST Extra.',
                 price: 6600,
-                badge: 'Automatic • From ₹4,500',
+                badge: 'Automatic • From ₹4,500 + GST',
                 badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-400',
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg'
               },
@@ -82,11 +82,11 @@ export function FeaturedProductsSection() {
               },
               {
                 id: '3',
-                slug: 'cloth-bag-vending-machine-eco-dispenser-200',
+                slug: 'axa-cloth-bag-vending-machine-eco-dispenser',
                 name: 'AXA EcoVend Cloth Bag Vending Machine Dispenser',
                 category: 'Plastic-Free Automation',
-                shortDescription: 'Model CBVND100 • 100+ Canvas Bag Capacity • Coin / Smart UPI QR • Anti-Theft Dispense Spiral.',
-                price: 24999,
+                shortDescription: 'Model CBV-100 • 100 Bag Capacity • Coin Payment • Heavy-Duty Steel Body • + GST.',
+                price: 18500,
                 badge: 'Eco Bag Dispenser #B5AD9A',
                 badgeColor: 'border-[#B5AD9A]/40 bg-[#B5AD9A]/15 text-[#D1C9B8]',
                 img: '/images/cloth-bag-vending-pink-front.png'
@@ -96,7 +96,7 @@ export function FeaturedProductsSection() {
                 slug: 'axa-sense-10-1-touch-feedback-machine-kiosk',
                 name: 'AXA Sense 10.1" Smart Washroom Feedback Kiosk',
                 category: 'IoT Washroom Analytics',
-                shortDescription: 'Model Sense 3B • Real-Time CSAT Survey • 4G Cloud Reporting • Instant Supervisor SMS Alerts.',
+                shortDescription: 'Model Sense 3B / 10.1 • Real-Time CSAT Survey • 4G Cloud Reporting • Instant Supervisor SMS Alerts • + GST.',
                 price: 14999,
                 badge: 'Smart CSAT Analytics',
                 badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
@@ -107,7 +107,7 @@ export function FeaturedProductsSection() {
                 slug: 'axa-thermal-destroyer-100-solid-waste-incinerator',
                 name: 'AXA Thermal Destroyer 100 Solid Waste Incinerator',
                 category: 'Solid Waste Systems',
-                shortDescription: 'Dual Combustion Chamber • 100kg/day Solid & Biomedical Waste Thermal Destruction • Wet Scrubber.',
+                shortDescription: 'Model Thermal Destroyer 100 • Dual Combustion Chamber • Wet Scrubber • + GST.',
                 price: 245000,
                 badge: 'Dual Chamber CPCB Compliant',
                 badgeColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400',
@@ -120,7 +120,7 @@ export function FeaturedProductsSection() {
                 category: 'Mechanical Dispenser',
                 shortDescription: 'Model VND Series (VND 25 to 200) • Mechanical Coin Acceptor • Zero Electricity • + GST Extra.',
                 price: 3500,
-                badge: 'Zero Power • From ₹3,500',
+                badge: 'Zero Power • From ₹3,500 + GST',
                 badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg'
               }
@@ -135,10 +135,12 @@ export function FeaturedProductsSection() {
                   <img
                     src={p.img}
                     alt={p.name}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                   />
                   <span className="absolute top-3 right-3 rounded-lg bg-white/95 dark:bg-black/80 border border-stone-200 dark:border-white/10 px-2.5 py-1 text-[11px] font-extrabold text-slate-900 dark:text-white shadow-sm">
-                    {formatCurrency(p.price)}
+                    {formatCurrency(p.price)} + GST
                   </span>
                   <div className={`absolute bottom-3 left-3 rounded-full border px-2.5 py-0.5 text-[9px] font-bold shadow-xs ${p.badgeColor}`}>
                     {p.badge}
@@ -156,7 +158,7 @@ export function FeaturedProductsSection() {
                 </div>
 
                 <div className="pt-4 border-t border-stone-200 dark:border-white/10 mt-4 flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-900 dark:text-white font-mono">{formatCurrency(p.price)}</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white font-mono">{formatCurrency(p.price)} + GST</span>
                   <span className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300">
                     View Specs <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                   </span>
@@ -178,6 +180,8 @@ export function FeaturedProductsSection() {
                     <img
                       src={p.images[0].url}
                       alt={p.name}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
@@ -186,7 +190,7 @@ export function FeaturedProductsSection() {
                     </div>
                   )}
                   <span className="absolute top-3 right-3 rounded-lg bg-black/70 px-2.5 py-1 text-[10px] font-bold text-white font-mono backdrop-blur-md">
-                    {formatCurrency(p.price)}
+                    {formatCurrency(p.price)} + GST
                   </span>
                 </div>
 
@@ -200,7 +204,7 @@ export function FeaturedProductsSection() {
                 </div>
 
                 <div className="pt-4 border-t border-neutral-200 dark:border-white/10 mt-4 flex items-center justify-between">
-                  <span className="text-xs font-bold text-neutral-900 dark:text-white font-mono">{formatCurrency(p.price)}</span>
+                  <span className="text-xs font-bold text-neutral-900 dark:text-white font-mono">{formatCurrency(p.price)} + GST</span>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300">
                     View Specs <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                   </span>
