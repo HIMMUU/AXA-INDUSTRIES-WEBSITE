@@ -201,8 +201,8 @@ const SAMPLE_CATEGORY_PRODUCTS = [
     ],
     images: [
       {
-        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304876/ChatGPT_Image_Aug_10_2026_01_16_20_AM_usvtak.png',
-        publicId: 'cloth-bag-vending-101',
+        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png',
+        publicId: 'CLOTH_BAG_VENNDING_COOMBO_pwx7d4',
         order: 0
       }
     ]

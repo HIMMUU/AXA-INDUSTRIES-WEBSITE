@@ -7,7 +7,10 @@ import { formatCurrency } from '@axa/utils';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
 import { CatalogProductImage, getCloudinaryProductImageUrl } from '@/components/products/catalog-product-image';
-import { mergeCatalogProducts } from '@/lib/catalog-products';
+import {
+  CLOTH_BAG_VENDING_CLOUDINARY_IMAGE,
+  mergeCatalogProducts
+} from '@/lib/catalog-products';
 
 export function FeaturedProductsSection() {
   const { data: products = [], isLoading, error } = useQuery<Product[]>({
@@ -121,7 +124,7 @@ export function FeaturedProductsSection() {
                 price: 18500,
                 badge: 'Plastic-Free Retail',
                 badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
-                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png'
+                img: CLOTH_BAG_VENDING_CLOUDINARY_IMAGE
               },
               {
                 id: '6',

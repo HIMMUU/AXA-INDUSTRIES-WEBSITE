@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { CldImage } from 'next-cloudinary';
+import Image from 'next/image';
 import { Product } from '@axa/types';
 import { formatCurrency } from '@axa/utils';
 import { Navbar } from '@/components/layout/navbar';
@@ -33,7 +33,6 @@ import {
   Sparkles,
   ArrowRight,
   Check,
-  Package,
   Share2,
   Clock,
   Settings,
@@ -365,42 +364,44 @@ export function ClothBagVendingB2BPage({ product }: B2BPageProps) {
                   {/* Active Visual Container */}
                   <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100/80 border border-stone-200 flex items-center justify-center p-2">
                     {activeGalleryTab === 'front' && (
-                      <CldImage
-                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png"
-                        alt="AXA Automatic Cloth Bag Vending Machine"
-                        width={800}
-                        height={800}
+                      <Image
+                        src="/images/cloth-bag-vending-pink-front.png"
+                        alt="AXA Automatic Cloth Bag Vending Machine front view"
+                        fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        preserveTransformations
                         priority
-                        className="h-full w-full rounded-xl object-contain"
+                        className="rounded-xl object-contain"
                       />
                     )}
 
                     {activeGalleryTab === 'inside' && (
-                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
-                        <Package className="h-10 w-10" aria-hidden="true" />
-                        <span className="text-xs">Cloudinary product image unavailable</span>
-                      </div>
+                      <Image
+                        src="/images/cloth-bag-vending-pink-inside.png"
+                        alt="Inside view of the AXA cloth bag vending machine"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="rounded-xl object-contain"
+                      />
                     )}
 
                     {activeGalleryTab === 'perspective' && (
-                      <CldImage
-                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png"
-                        alt="AXA Cloth Bag Vending Machine"
-                        width={800}
-                        height={800}
+                      <Image
+                        src="/images/cloth-bag-vending-pink-perspective.png"
+                        alt="AXA cloth bag vending machine perspective view"
+                        fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        preserveTransformations
-                        className="h-full w-full rounded-xl object-contain"
+                        className="rounded-xl object-contain"
                       />
                     )}
 
                     {activeGalleryTab === 'installed' && (
-                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
-                        <Package className="h-10 w-10" aria-hidden="true" />
-                        <span className="text-xs">Cloudinary installation image unavailable</span>
-                      </div>
+                      <Image
+                        src="/images/cloth-bag-vending-supermarket-installed.jpg"
+                        alt="AXA cloth bag vending machine installed in a supermarket"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="rounded-xl object-cover"
+                      />
                     )}
 
                     {activeGalleryTab === 'specs' && (

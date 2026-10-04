@@ -1,5 +1,8 @@
 import { Product, ProductStatus } from '@axa/types';
 
+export const CLOTH_BAG_VENDING_CLOUDINARY_IMAGE =
+  'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png';
+
 const fallbackTimestamp = '2026-01-01T00:00:00.000Z';
 
 function fallbackProduct(
@@ -48,7 +51,7 @@ export const catalogFallbackProducts: Product[] = [
     'AXA EcoVend cloth bag vending machine for retail centers, supermarkets, and municipal markets.',
     18500,
     {
-      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png',
+      url: CLOTH_BAG_VENDING_CLOUDINARY_IMAGE,
       publicId: 'CLOTH_BAG_VENNDING_COOMBO_pwx7d4'
     }
   ),

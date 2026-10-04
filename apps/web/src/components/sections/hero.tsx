@@ -3,6 +3,7 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import Link from 'next/link';
 import { getCloudinaryUrl } from '@/lib/cloudinary';
+import { CLOTH_BAG_VENDING_CLOUDINARY_IMAGE } from '@/lib/catalog-products';
 import {
   ArrowRight,
   ShieldCheck,
@@ -52,7 +53,7 @@ const HERO_SLIDES: CarouselSlide[] = [
     heading: 'CLOTH BAG',
     subheading: 'Automatic Eco-Friendly Cloth Bag Vending Machine',
     caption: '02 — Model CBVND100',
-    image: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png',
+    image: CLOTH_BAG_VENDING_CLOUDINARY_IMAGE,
     slug: 'axa-cloth-bag-vending-machine-eco-dispenser',
     category: 'Eco-Friendly Automation',
     price: '₹18,500 + GST',
