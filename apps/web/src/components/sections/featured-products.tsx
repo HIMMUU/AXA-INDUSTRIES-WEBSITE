@@ -5,19 +5,22 @@ import { useQuery } from '@tanstack/react-query';
 import { Product } from '@axa/types';
 import { formatCurrency } from '@axa/utils';
 import { ArrowRight, Package, Sparkles } from 'lucide-react';
+import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
+import { isVisibleInProductCatalog } from '@/lib/catalog-visibility';
 
 export function FeaturedProductsSection() {
-  const { data: products = [], isLoading } = useQuery<Product[]>({
+  const { data: products = [], isLoading, error } = useQuery<Product[]>({
     queryKey: ['featured-products'],
     queryFn: async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-        const res = await fetch(`${apiUrl}/v1/products?limit=6`, {
+        const apiUrl = getApiBaseUrl();
+        const res = await fetch(`${apiUrl}/v1/products?limit=20`, {
           signal: AbortSignal.timeout(1500)
         });
         const json = await res.json();
-        return json.data || [];
+        return (json.data || []).filter(isVisibleInProductCatalog);
       } catch (err) {
+        if (err instanceof ApiUrlConfigurationError) throw err;
         return [];
       }
     }
@@ -48,6 +51,12 @@ export function FeaturedProductsSection() {
           </Link>
         </div>
 
+        {error instanceof ApiUrlConfigurationError && (
+          <p role="alert" className="mb-6 text-sm text-red-600">
+            {error.message}
+          </p>
+        )}
+
         {/* Product Grid */}
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -68,50 +77,6 @@ export function FeaturedProductsSection() {
                 badge: 'Automatic • From ₹4,500 + GST',
                 badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-400',
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg'
-              },
-              {
-                id: '2',
-                slug: 'sanitary-napkin-incinerator-machine-ecoburn-100',
-                name: 'AXA EcoBurn Sanitary Napkin Disposal Incinerator',
-                category: 'Eco Incinerator',
-                shortDescription: 'SND Series (100 to 600) • Ceramic Thermal Core • Auto Cut-Off • Smokeless Ash • + GST Extra.',
-                price: 3800,
-                badge: 'Starting ₹3,800 + GST',
-                badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
-                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458267/mainsnd_mle9pt.jpg'
-              },
-              {
-                id: '3',
-                slug: 'axa-cloth-bag-vending-machine-eco-dispenser',
-                name: 'AXA EcoVend Cloth Bag Vending Machine Dispenser',
-                category: 'Plastic-Free Automation',
-                shortDescription: 'Model CBV-100 • 100 Bag Capacity • Coin Payment • Heavy-Duty Steel Body • + GST.',
-                price: 18500,
-                badge: 'Eco Bag Dispenser #B5AD9A',
-                badgeColor: 'border-[#B5AD9A]/40 bg-[#B5AD9A]/15 text-[#D1C9B8]',
-                img: '/images/cloth-bag-vending-pink-front.png'
-              },
-              {
-                id: '4',
-                slug: 'axa-sense-10-1-touch-feedback-machine-kiosk',
-                name: 'AXA Sense 10.1" Smart Washroom Feedback Kiosk',
-                category: 'IoT Washroom Analytics',
-                shortDescription: 'Model Sense 3B / 10.1 • Real-Time CSAT Survey • 4G Cloud Reporting • Instant Supervisor SMS Alerts • + GST.',
-                price: 14999,
-                badge: 'Smart CSAT Analytics',
-                badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
-                img: '/images/feedback-machine-front.png'
-              },
-              {
-                id: '5',
-                slug: 'axa-thermal-destroyer-100-solid-waste-incinerator',
-                name: 'AXA Thermal Destroyer 100 Solid Waste Incinerator',
-                category: 'Solid Waste Systems',
-                shortDescription: 'Model Thermal Destroyer 100 • Dual Combustion Chamber • Wet Scrubber • + GST.',
-                price: 245000,
-                badge: 'Dual Chamber CPCB Compliant',
-                badgeColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400',
-                img: '/images/solid-waste-incinerator-5-8kg.jpg'
               },
               {
                 id: '6',

@@ -8,6 +8,8 @@ import { formatCurrency } from '@axa/utils';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Search, ArrowRight, Package, ArrowUpDown, Download, FileText } from 'lucide-react';
+import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
+import { isVisibleInProductCatalog } from '@/lib/catalog-visibility';
 
 export default function ProductsCataloguePage() {
   const [search, setSearch] = useState('');
@@ -22,7 +24,7 @@ export default function ProductsCataloguePage() {
 
   const [by, order] = sortBy.split('-');
 
-  const { data, isLoading } = useQuery<{ items: Product[]; meta: any }>({
+  const { data, isLoading, error } = useQuery<{ items: Product[]; meta: any }>({
     queryKey: ['storefront-products', page, debouncedSearch, by, order],
     queryFn: async () => {
       const fallbackItems: Product[] = [
@@ -38,71 +40,6 @@ export default function ProductsCataloguePage() {
           updatedAt: new Date().toISOString(),
           images: [{ id: 'img1', url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg', isPrimary: true }]
         },
-        {
-          id: 'fb-snd-500',
-          name: 'AXA Sanitary Napkin Disposal Incinerator Machine',
-          slug: 'axa-ecoburn-100-sanitary-napkin-disposal-machine',
-          price: 3800,
-          shortDescription: 'SND Series (SND 100 to SND 600) • Ceramic Heater • LCD Temp Display • Auto Cutoff • Starting ₹3,800 + GST',
-          description: 'Compact Sanitary Napkin & Mask Incinerator machine with lowest power consumption, automatic thermosensor, and 100-600 napkin daily burn capacity. CE approved & CPCB compliant.',
-          status: 'ACTIVE',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          images: [
-            { id: 'img2-1', url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458267/mainsnd_mle9pt.jpg', isPrimary: true },
-            { id: 'img2-2', url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458267/frrontsnd_qypbta.jpg', isPrimary: false },
-            { id: 'img2-3', url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458267/left_snd_ozcmjm.jpg', isPrimary: false },
-            { id: 'img2-4', url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458268/installsnd_ifajcr.png', isPrimary: false }
-          ]
-        },
-        {
-          id: 'fb-swachh-feedback',
-          name: 'AXA Swachh Toilet Feedback Machine',
-          slug: 'axa-sense-10-1-touch-feedback-machine-kiosk',
-          price: 8500,
-          shortDescription: 'Model Swachh TFM • 3-Button Feedback (Good, Average, Dirty) • App-Based Software Live Monitoring',
-          description: 'App-based live monitoring washroom feedback machine with 3 distinct feedback push buttons (Green, Yellow, Red) and MS powder-coated body.',
-          status: 'ACTIVE',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          images: [{ id: 'img3', url: '/images/feedback-machine-front.png', isPrimary: true }]
-        },
-        {
-          id: 'fb-swi-3kw',
-          name: 'AXA Solid Waste Incinerator Machine (SWI 3kW / 5-8kg)',
-          slug: 'axa-swi-3kw-solid-waste-incinerator',
-          price: 165000,
-          shortDescription: 'Model SWI-3KW • 5-8 kg Batch Capacity • 3kW Heater • Digital Temp Controller • 4 Caster Wheels',
-          description: 'Solid Waste Incinerator Machine used to dispose general dry waste & medical waste such as used PPE kits, masks, cotton, dry leaves, papers & other dry waste.',
-          status: 'ACTIVE',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          images: [{ id: 'img4', url: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=1200&auto=format&fit=crop', isPrimary: true }]
-        },
-        {
-          id: 'fb-swi-4.5kw',
-          name: 'AXA Solid Waste Incinerator Machine (SWI 4.5kW / 8-10kg)',
-          slug: 'axa-thermal-destroyer-100-solid-waste-incinerator',
-          price: 215000,
-          shortDescription: 'Model SWI-4.5KW • 8-10 kg Batch Capacity • 4.5kW Heater • Digital Temp Controller • 4 Caster Wheels',
-          description: 'Heavy-duty Solid Waste Incinerator Machine for institutional dry waste and PPE kit disposal with automatic digital temperature controller.',
-          status: 'ACTIVE',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          images: [{ id: 'img5', url: '/images/solid-waste-incinerator-5-8kg.jpg', isPrimary: true }]
-        },
-        {
-          id: 'fb-cloth-bag',
-          name: 'AXA EcoVend Cloth Bag Vending Machine Dispenser',
-          slug: 'axa-cloth-bag-vending-machine-eco-dispenser',
-          price: 18500,
-          shortDescription: 'Model CBV-100 • 100 Bag Capacity • Coin Payment • Heavy-Duty Steel Body • + GST',
-          description: 'Eco-friendly automatic cloth bag vending dispenser for supermarkets, malls, metro stations, and public plazas.',
-          status: 'ACTIVE',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          images: [{ id: 'img-cb', url: '/images/cloth-bag-vending-pink-front.png', isPrimary: true }]
-        }
       ] as unknown as Product[];
 
       try {
@@ -113,7 +50,7 @@ export default function ProductsCataloguePage() {
           sortBy: by,
           sortOrder: order
         });
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+        const apiUrl = getApiBaseUrl();
         const res = await fetch(`${apiUrl}/v1/products?${params.toString()}`, {
           signal: AbortSignal.timeout(1500)
         });
@@ -121,11 +58,12 @@ export default function ProductsCataloguePage() {
         const apiItems = json.data || [];
         if (apiItems.length > 0) {
           return {
-            items: apiItems,
+            items: apiItems.filter(isVisibleInProductCatalog),
             meta: json.meta || { page: 1, limit: 9, total: apiItems.length, totalPages: 1 }
           };
         }
       } catch (err) {
+        if (err instanceof ApiUrlConfigurationError) throw err;
         // Fallback to local catalog items if API server is offline
       }
 
@@ -144,7 +82,7 @@ export default function ProductsCataloguePage() {
     }
   });
 
-  const products = data?.items || [];
+  const products = (data?.items || []).filter(isVisibleInProductCatalog);
 
   const categoryBrochures = [
     {
@@ -183,6 +121,11 @@ export default function ProductsCataloguePage() {
 
       <main className="pt-28 pb-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+          {error instanceof ApiUrlConfigurationError && (
+            <p role="alert" className="mb-6 text-sm text-red-600">
+              {error.message}
+            </p>
+          )}
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-neutral-200 dark:border-white/10 pb-6">
             <div>
@@ -250,6 +193,21 @@ export default function ProductsCataloguePage() {
               );
             })}
           </div>
+
+          <nav aria-label="Equipment buying guides" className="flex flex-wrap gap-x-5 gap-y-2 text-xs">
+            <Link href="/sanitary-napkin-vending-machine" className="font-semibold text-blue-700 hover:underline dark:text-blue-300">
+              Sanitary napkin vending machine guide
+            </Link>
+            <Link href="/sanitary-napkin-vending-machine-price" className="font-semibold text-blue-700 hover:underline dark:text-blue-300">
+              Vending machine price guide
+            </Link>
+            <Link href="/sanitary-napkin-incinerator" className="font-semibold text-blue-700 hover:underline dark:text-blue-300">
+              Sanitary napkin disposal guide
+            </Link>
+            <Link href="/menstrual-waste-management" className="font-semibold text-blue-700 hover:underline dark:text-blue-300">
+              Institutional menstrual waste planning
+            </Link>
+          </nav>
 
           {/* Product Grid */}
           {isLoading ? (

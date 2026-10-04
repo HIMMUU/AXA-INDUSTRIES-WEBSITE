@@ -8,15 +8,26 @@ import { StickyContactWidget } from '@/components/shared/sticky-contact-widget';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'AXA Industries | Official B2B E-Commerce & Institutional Portal',
-  description: 'AXA Industries official business portal & catalogue for Sanitary Napkin Vending Machines, Incinerators, Cloth Bag Vending & Feedback Kiosks.',
+  metadataBase: new URL('https://axaindustries.com'),
+  title: 'Sanitary Napkin Vending Machines & Incinerators | AXA Industries',
+  description: 'Compare sanitary napkin vending machines, pad dispensers and sanitary napkin incinerators for schools, colleges, hostels and institutions across India. Request an itemized quote from AXA Industries.',
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: 'AXA Industries',
+    title: 'Sanitary Napkin Vending Machines & Incinerators | AXA Industries',
+    description: 'Institutional sanitary napkin vending, disposal and hygiene equipment. Compare models and request a quote.',
+    url: 'https://axaindustries.com/',
+    locale: 'en_IN'
+  },
+  robots: { index: true, follow: true },
   icons: {
     icon: [
-      { url: '/images/axa-industries-logo.png', type: 'image/png' },
-      { url: '/favicon.ico', type: 'image/x-icon' }
+      { url: '/favicon.ico', type: 'image/x-icon' },
+      { url: '/icon.png', type: 'image/png', sizes: '512x512' }
     ],
-    shortcut: '/images/axa-industries-logo.png',
-    apple: '/images/axa-industries-logo.png'
+    shortcut: '/favicon.ico',
+    apple: '/icon.png'
   }
 };
 
@@ -38,6 +49,19 @@ export default function RootLayout({
           </Suspense>
           <StickyContactWidget />
         </ThemeProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              '@id': 'https://axaindustries.com/#website',
+              url: 'https://axaindustries.com/',
+              name: 'AXA Industries',
+              inLanguage: 'en-IN'
+            }).replace(/</g, '\\u003c')
+          }}
+        />
       </body>
     </html>
   );

@@ -2,38 +2,59 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://axaindustries.com/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://axaindustries.com/products</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/sanitary-napkin-vending-machine</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/sanitary-napkin-vending-machine-price</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/sanitary-napkin-incinerator</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/sanitary-napkin-incinerator-price</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/sanitary-waste-disposal-machine</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/menstrual-waste-management</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/sanitary-napkin-vending-machine-delhi-ncr</loc>
   </url>
   <url>
     <loc>https://axaindustries.com/about</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://axaindustries.com/contact</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://axaindustries.com/privacy-policy</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://axaindustries.com/terms-and-conditions</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/products/axa-autovend-50-sanitary-napkin-vending-machine</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/products/axa-ecoburn-100-sanitary-napkin-disposal-machine</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/products/axa-sense-10-1-touch-feedback-machine-kiosk</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/products/axa-swi-3kw-solid-waste-incinerator</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/products/axa-thermal-destroyer-100-solid-waste-incinerator</loc>
+  </url>
+  <url>
+    <loc>https://axaindustries.com/products/axa-cloth-bag-vending-machine-eco-dispenser</loc>
   </url>
 </urlset>

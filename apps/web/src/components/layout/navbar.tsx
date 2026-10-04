@@ -47,13 +47,14 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links - Mathematically Centered */}
-        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1 rounded-2xl border border-neutral-200 dark:border-white/10 bg-neutral-100/80 dark:bg-white/5 p-1.5 backdrop-blur-xl shadow-sm">
+        <nav aria-label="Main navigation" className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1 rounded-2xl border border-neutral-200 dark:border-white/10 bg-neutral-100/80 dark:bg-white/5 p-1.5 backdrop-blur-xl shadow-sm">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive ? 'page' : undefined}
                 prefetch={true}
                 className={`rounded-xl px-4 py-1.5 text-xs font-medium transition ${
                   isActive
@@ -94,6 +95,10 @@ export function Navbar() {
         <div className="flex md:hidden items-center gap-2">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            type="button"
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation-menu"
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-100 dark:bg-white/5 text-neutral-700 dark:text-neutral-300"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -103,12 +108,13 @@ export function Navbar() {
 
       {/* Mobile Animated Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden glass-panel border-b border-neutral-200 dark:border-white/10 px-4 py-4 space-y-3 mt-3 animate-in slide-in-from-top duration-200">
-          <nav className="flex flex-col space-y-2">
+        <div id="mobile-navigation-menu" className="md:hidden glass-panel border-b border-neutral-200 dark:border-white/10 px-4 py-4 space-y-3 mt-3 animate-in slide-in-from-top duration-200">
+          <nav aria-label="Mobile navigation" className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={pathname === link.href ? 'page' : undefined}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`rounded-xl px-4 py-2.5 text-xs font-medium ${
                   pathname === link.href ? 'bg-neutral-900 dark:bg-white/10 text-white font-bold' : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'

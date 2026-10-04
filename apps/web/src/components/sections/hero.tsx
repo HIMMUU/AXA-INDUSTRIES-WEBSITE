@@ -358,8 +358,8 @@ export function HeroSection() {
             </Link>
 
             <a
-              href="documents/AXA-INDUSTRIES-CATALOG.pdf"
-              download="AXA-INDUSTRIES-CATALOG.pdf"
+              href="/documents/axa-industries-official-brochure.pdf"
+              download="AXA-Industries-Official-Brochure.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-2xl border border-neutral-200 dark:border-white/10 bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 px-5 py-3.5 text-xs font-semibold text-neutral-800 dark:text-white transition"

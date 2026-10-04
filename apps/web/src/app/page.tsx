@@ -12,8 +12,8 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 
 export const metadata = {
-  title: 'AXA Industries | Smart Hygiene Vending & Environmental Incineration Systems',
-  description: 'Leading manufacturer of Automatic Sanitary Napkin Vending Machines, EcoBurn Electric Incinerators, Cloth Bag Dispensers, Touch CSAT Feedback Kiosks, and Industrial Solid Waste Destroyers.'
+  title: 'Sanitary Napkin Vending Machines & Incinerators for Institutions | AXA Industries',
+  description: 'Explore manual and automatic sanitary napkin vending machines and sanitary napkin disposal equipment for schools, colleges, hostels and workplaces. Compare models and request a quote from AXA Industries.'
 };
 
 export default function HomePage() {

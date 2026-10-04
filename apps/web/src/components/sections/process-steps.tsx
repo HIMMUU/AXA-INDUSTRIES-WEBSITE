@@ -20,7 +20,7 @@ export function ProcessStepsSection() {
       num: '03',
       icon: CheckCircle2,
       title: 'Technical Review & Quotation',
-      desc: 'Our sales engineers verify coin/token logic, power specs, and issue formal quotation within 2 hours.'
+      desc: 'Our sales team reviews your requirements and prepares a model-specific quotation.'
     },
     {
       num: '04',

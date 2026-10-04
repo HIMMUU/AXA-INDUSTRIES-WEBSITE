@@ -56,6 +56,18 @@ export function Footer() {
                 <Link href="/products" className="hover:text-neutral-900 dark:hover:text-white transition">Product Catalogue</Link>
               </li>
               <li>
+                <Link href="/sanitary-napkin-vending-machine" className="hover:text-neutral-900 dark:hover:text-white transition">Sanitary Napkin Vending Machines</Link>
+              </li>
+              <li>
+                <Link href="/sanitary-napkin-incinerator" className="hover:text-neutral-900 dark:hover:text-white transition">Sanitary Napkin Incinerators</Link>
+              </li>
+              <li>
+                <Link href="/menstrual-waste-management" className="hover:text-neutral-900 dark:hover:text-white transition">Institutional Waste Planning</Link>
+              </li>
+              <li>
+                <Link href="/sanitary-napkin-vending-machine-delhi-ncr" className="hover:text-neutral-900 dark:hover:text-white transition">Delhi NCR Enquiries</Link>
+              </li>
+              <li>
                 <Link href="/about" className="hover:text-neutral-900 dark:hover:text-white transition">About AXA</Link>
               </li>
               <li>

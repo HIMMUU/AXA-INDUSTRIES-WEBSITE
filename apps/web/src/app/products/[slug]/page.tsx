@@ -1,79 +1,97 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { SanitaryVendingB2BPage } from '@/components/products/sanitary-vending-b2b-page';
 import { SanitaryDisposalB2BPage } from '@/components/products/sanitary-disposal-b2b-page';
 import { ClothBagVendingB2BPage } from '@/components/products/cloth-bag-vending-b2b-page';
 import { FeedbackMachineB2BPage } from '@/components/products/feedback-machine-b2b-page';
 import { SolidWasteIncineratorB2BPage } from '@/components/products/solid-waste-incinerator-b2b-page';
-import { GenericProductView } from '@/components/products/generic-product-view';
 
-export const dynamic = 'force-dynamic';
+const products = {
+  'axa-autovend-50-sanitary-napkin-vending-machine': {
+    title: 'AXA AutoVend 50 Sanitary Napkin Vending Machine | AXA Industries',
+    description:
+      'AXA AutoVend 50 is a coin- and UPI QR-operated sanitary napkin vending machine with 50-pad capacity for institutional settings.',
+    page: SanitaryVendingB2BPage
+  },
+  'axa-ecoburn-100-sanitary-napkin-disposal-machine': {
+    title: 'AXA Sanitary Napkin Disposal Machine | AXA Industries',
+    description:
+      'Explore AXA SND series sanitary napkin and mask incinerators, available in SND 100 to SND 600 variants with LCD temperature display and automatic cutoff.',
+    page: SanitaryDisposalB2BPage
+  },
+  'axa-sense-10-1-touch-feedback-machine-kiosk': {
+    title: 'AXA Swachh Toilet Feedback Machine | AXA Industries',
+    description:
+      'AXA Swachh Toilet Feedback Machine records Good, Average and Dirty washroom ratings with three feedback buttons and app-based live monitoring.',
+    page: FeedbackMachineB2BPage
+  },
+  'axa-swi-3kw-solid-waste-incinerator': {
+    title: 'AXA SWI 3kW Solid Waste Incinerator | AXA Industries',
+    description:
+      'AXA SWI 3kW solid waste incinerator for dry and medical waste, including PPE kits, masks, cotton and paper, with a stated 5–8 kg capacity.',
+    page: SolidWasteIncineratorB2BPage
+  },
+  'axa-thermal-destroyer-100-solid-waste-incinerator': {
+    title: 'AXA SWI 4.5kW Solid Waste Incinerator | AXA Industries',
+    description:
+      'AXA SWI 4.5kW solid waste incinerator for dry and medical waste, including PPE kits, masks, cotton and paper, with a stated 8–10 kg capacity.',
+    page: SolidWasteIncineratorB2BPage
+  },
+  'axa-cloth-bag-vending-machine-eco-dispenser': {
+    title: 'AXA EcoVend Cloth Bag Vending Machine | AXA Industries',
+    description:
+      'AXA EcoVend is an automatic cotton cloth bag vending dispenser with coin and UPI QR payment options and capacity for 100+ folded bags.',
+    page: ClothBagVendingB2BPage
+  }
+} as const;
 
-export async function generateStaticParams() {
-  return [
-    { slug: 'axa-ecoburn-100-sanitary-napkin-disposal-machine' },
-    { slug: 'axa-autovend-50-sanitary-napkin-vending-machine' },
-    { slug: 'sanitary-napkin-incinerator-machine-ecoburn-100' },
-    { slug: 'automatic-sanitary-napkin-vending-machine-avnd50' },
-    { slug: 'axa-sense-10-1-touch-feedback-machine-kiosk' },
-    { slug: 'swachh-toilet-feedback-machine' },
-    { slug: 'automatic-cloth-bag-vending-machine' },
-    { slug: 'axa-cloth-bag-vending-machine-eco-dispenser' },
-    { slug: 'axa-swi-3kw-solid-waste-incinerator' },
-    { slug: 'axa-thermal-destroyer-100-solid-waste-incinerator' }
-  ];
+type ProductSlug = keyof typeof products;
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return Object.keys(products).map((slug) => ({ slug }));
 }
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await Promise.resolve(params);
-  const slug = resolvedParams?.slug || '';
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = products[slug as ProductSlug];
 
-  // Immediate rendering for specialized B2B product pages
-  if (slug.includes('solid-waste') || slug.includes('swi') || slug.includes('thermal-destroyer')) {
-    return <SolidWasteIncineratorB2BPage />;
+  if (!product) {
+    notFound();
   }
 
-  if (slug.includes('feedback') || slug.includes('sense') || slug.includes('toilet')) {
-    return <FeedbackMachineB2BPage />;
-  }
+  const canonical = `https://axaindustries.com/products/${slug}`;
 
-  if (slug.includes('cloth-bag') || slug.includes('cloth') || slug.includes('cbv')) {
-    return <ClothBagVendingB2BPage />;
-  }
-
-  if (slug.includes('vending') || slug.includes('autovend')) {
-    return <SanitaryVendingB2BPage />;
-  }
-
-  if (slug.includes('disposal') || slug.includes('incinerator')) {
-    return <SanitaryDisposalB2BPage />;
-  }
-
-  let productData = null;
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-    const res = await fetch(`${apiUrl}/v1/products/${slug}`, {
-      signal: AbortSignal.timeout(1500),
-      next: { revalidate: 10 }
-    });
-    if (res.ok) {
-      const json = await res.json();
-      productData = json.data;
+  return {
+    title: product.title,
+    description: product.description,
+    alternates: { canonical },
+    openGraph: {
+      title: product.title,
+      description: product.description,
+      url: canonical,
+      type: 'website'
     }
-  } catch (err) {
-    // API server offline fallback
+  };
+}
+
+export default async function ProductDetailPage({
+  params
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const product = products[slug as ProductSlug];
+
+  if (!product) {
+    notFound();
   }
 
-  const fallbackProduct = productData || {
-    id: 'fallback-1',
-    name: slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()) : 'AXA Industrial Precision Product',
-    slug: slug,
-    price: 1250,
-    shortDescription: 'High-precision engineering product manufactured for industrial infrastructure.',
-    description: 'AXA Industries manufactures enterprise-grade valves, pressure sensors, and precision equipment designed for chemical, petrochemical, and heavy manufacturing plants globally.',
-    status: 'ACTIVE',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    images: [{ id: '1', url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop&q=80', isPrimary: true }]
-  };
-
-  return <GenericProductView product={fallbackProduct as any} />;
+  const ProductPage = product.page;
+  return <ProductPage />;
 }

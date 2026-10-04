@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -24,7 +25,7 @@ export default function ContactPage() {
     const message = (formData.get('messageText') || '').toString();
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+      const apiUrl = getApiBaseUrl();
       const res = await fetch(`${apiUrl}/v1/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,7 +48,9 @@ export default function ContactPage() {
     } catch (err) {
       console.error('Contact enquiry submission failed.', err);
       setSubmissionError(
-        'We could not confirm your request was received. Please try again, or contact us by phone or email.'
+        err instanceof ApiUrlConfigurationError
+          ? err.message
+          : 'We could not confirm your request was received. Please try again, or contact us by phone or email.'
       );
     } finally {
       setIsSubmitting(false);
@@ -67,7 +70,7 @@ export default function ContactPage() {
               Contact AXA Engineering Sales
             </h1>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-xl mx-auto leading-relaxed">
-              Submit your project specifications or custom quote parameters. Our technical engineering division responds within 2 business hours.
+              Submit your project specifications or custom quote parameters. Our team will review your request and follow up using the contact details provided.
             </p>
           </div>
 
@@ -234,7 +237,7 @@ export default function ContactPage() {
 
                 <div className="pt-4 border-t border-neutral-200 dark:border-white/10 flex items-center gap-2 text-[11px] text-neutral-600 dark:text-neutral-400">
                   <ShieldCheck className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
-                  <span>ISO 9001:2015 Quality Assured Response Guarantee</span>
+                  <span>Direct access to the AXA Industries team</span>
                 </div>
               </div>
             </div>
