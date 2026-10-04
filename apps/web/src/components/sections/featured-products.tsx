@@ -121,7 +121,7 @@ export function FeaturedProductsSection() {
                 price: 18500,
                 badge: 'Plastic-Free Retail',
                 badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
-                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304876/ChatGPT_Image_Aug_10_2026_01_16_20_AM_usvtak.png'
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png'
               },
               {
                 id: '6',

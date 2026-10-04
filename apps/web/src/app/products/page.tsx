@@ -128,7 +128,7 @@ export default function ProductsCataloguePage() {
                 Smart Hygiene & Environmental Solutions
               </h1>
               <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 max-w-xl">
-                Browse our complete lineup of Automatic Sanitary Napkin Vending Machines, SND 500 Incinerators, Swachh Toilet Feedback Machines, SWI Solid Waste Incinerators & Cloth Bag Dispensers.
+                Browse Manual VND and automatic sanitary napkin vending machines, SND incinerators, washroom feedback terminals, thermal waste destroyers, and EcoVend cloth bag dispensers.
               </p>
             </div>
 

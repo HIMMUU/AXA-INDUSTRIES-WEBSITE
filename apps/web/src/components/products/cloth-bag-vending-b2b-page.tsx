@@ -366,7 +366,7 @@ export function ClothBagVendingB2BPage({ product }: B2BPageProps) {
                   <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100/80 border border-stone-200 flex items-center justify-center p-2">
                     {activeGalleryTab === 'front' && (
                       <CldImage
-                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786304876/ChatGPT_Image_Aug_10_2026_01_16_20_AM_usvtak.png"
+                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png"
                         alt="AXA Automatic Cloth Bag Vending Machine"
                         width={800}
                         height={800}

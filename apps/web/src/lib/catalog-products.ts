@@ -48,8 +48,8 @@ export const catalogFallbackProducts: Product[] = [
     'AXA EcoVend cloth bag vending machine for retail centers, supermarkets, and municipal markets.',
     18500,
     {
-      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304876/ChatGPT_Image_Aug_10_2026_01_16_20_AM_usvtak.png',
-      publicId: 'ChatGPT_Image_Aug_10_2026_01_16_20_AM_usvtak'
+      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png',
+      publicId: 'CLOTH_BAG_VENNDING_COOMBO_pwx7d4'
     }
   ),
   fallbackProduct(
@@ -130,11 +130,10 @@ export function mergeCatalogProducts(apiProducts: Product[]): Product[] {
     const apiProduct = apiProductsBySlug.get(fallbackProduct.slug);
     if (!apiProduct) return fallbackProduct;
 
-    const hasCloudinaryImage = apiProduct.images?.some(({ url }) => isCloudinaryImageUrl(url));
     return {
       ...fallbackProduct,
       ...apiProduct,
-      images: hasCloudinaryImage ? apiProduct.images : fallbackProduct.images
+      images: fallbackProduct.images
     };
   });
 }
