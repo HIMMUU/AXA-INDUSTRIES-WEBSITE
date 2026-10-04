@@ -39,12 +39,16 @@ import {
 
 interface SanitaryVendingB2BPageProps {
   product?: Product;
+  initialPricingCategory?: 'automatic' | 'manual';
 }
 
-export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps) {
+export function SanitaryVendingB2BPage({
+  product,
+  initialPricingCategory = 'automatic'
+}: SanitaryVendingB2BPageProps) {
   const [activeGalleryTab, setActiveGalleryTab] = useState<'front' | 'inside' | 'coin' | 'installed'>('front');
   const [selectedVariant, setSelectedVariant] = useState('AVND 50 H');
-  const [pricingCategory, setPricingCategory] = useState<'automatic' | 'manual'>('automatic');
+  const [pricingCategory, setPricingCategory] = useState<'automatic' | 'manual'>(initialPricingCategory);
   const [autoFilter, setAutoFilter] = useState<'all' | 'coin' | 'push_button'>('all');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
@@ -59,7 +63,7 @@ export function SanitaryVendingB2BPage({ product }: SanitaryVendingB2BPageProps)
     designation: '',
     phone: '',
     email: '',
-    model: 'AVND 50 H',
+    model: initialPricingCategory === 'manual' ? 'VND 25' : 'AVND 50 H',
     orgType: 'School / College',
     femaleUsers: '100-500',
     quantity: '2 to 5 Units',

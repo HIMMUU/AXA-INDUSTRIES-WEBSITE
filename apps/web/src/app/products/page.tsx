@@ -9,7 +9,8 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Search, ArrowRight, Package, ArrowUpDown, Download, FileText } from 'lucide-react';
 import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
-import { isVisibleInProductCatalog } from '@/lib/catalog-visibility';
+import { catalogFallbackProducts, mergeCatalogProducts } from '@/lib/catalog-products';
+import { CatalogProductImage, getCloudinaryProductImageUrl } from '@/components/products/catalog-product-image';
 
 export default function ProductsCataloguePage() {
   const [search, setSearch] = useState('');
@@ -27,25 +28,10 @@ export default function ProductsCataloguePage() {
   const { data, isLoading, error } = useQuery<{ items: Product[]; meta: any }>({
     queryKey: ['storefront-products', page, debouncedSearch, by, order],
     queryFn: async () => {
-      const fallbackItems: Product[] = [
-        {
-          id: 'fb-vending',
-          name: 'AXA AutoVend 50 Sanitary Napkin Vending Machine',
-          slug: 'axa-autovend-50-sanitary-napkin-vending-machine',
-          price: 6600,
-          shortDescription: 'Model AVND 50 H • 50-Pad Storage • LCD Display & Battery Backup • Starting from ₹3,500 + GST',
-          description: 'Industrial automatic sanitary napkin vending machine for schools, colleges, factories, and corporate offices.',
-          status: 'ACTIVE',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          images: [{ id: 'img1', url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg', isPrimary: true }]
-        },
-      ] as unknown as Product[];
-
       try {
         const params = new URLSearchParams({
           page: page.toString(),
-          limit: '9',
+          limit: '100',
           ...(debouncedSearch && { q: debouncedSearch }),
           sortBy: by,
           sortOrder: order
@@ -55,11 +41,18 @@ export default function ProductsCataloguePage() {
           signal: AbortSignal.timeout(1500)
         });
         const json = await res.json();
-        const apiItems = json.data || [];
-        if (apiItems.length > 0) {
+        if (json.data?.length > 0) {
+          const mergedItems = mergeCatalogProducts(json.data);
+          const matchingItems = debouncedSearch
+            ? mergedItems.filter((item) =>
+                `${item.name} ${item.shortDescription} ${item.description}`
+                  .toLowerCase()
+                  .includes(debouncedSearch.toLowerCase())
+              )
+            : mergedItems;
           return {
-            items: apiItems.filter(isVisibleInProductCatalog),
-            meta: json.meta || { page: 1, limit: 9, total: apiItems.length, totalPages: 1 }
+            items: matchingItems,
+            meta: { page: 1, limit: 100, total: matchingItems.length, totalPages: 1 }
           };
         }
       } catch (err) {
@@ -68,12 +61,13 @@ export default function ProductsCataloguePage() {
       }
 
       const filtered = debouncedSearch
-        ? fallbackItems.filter(
+        ? catalogFallbackProducts.filter(
             (item) =>
               item.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-              item.shortDescription.toLowerCase().includes(debouncedSearch.toLowerCase())
+              item.shortDescription.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+              item.description.toLowerCase().includes(debouncedSearch.toLowerCase())
           )
-        : fallbackItems;
+        : catalogFallbackProducts;
 
       return {
         items: filtered,
@@ -82,7 +76,7 @@ export default function ProductsCataloguePage() {
     }
   });
 
-  const products = (data?.items || []).filter(isVisibleInProductCatalog);
+  const products = data?.items || [];
 
   const categoryBrochures = [
     {
@@ -234,19 +228,11 @@ export default function ProductsCataloguePage() {
                   className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 dark:border-white/10 bg-white dark:bg-[#121216]/60 p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40 cursor-pointer text-left block"
                 >
                   <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
-                    {p.images?.[0]?.url ? (
-                      <img
-                        src={p.images[0].url}
-                        alt={p.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-neutral-600">
-                        <Package className="h-10 w-10" />
-                      </div>
-                    )}
+                    <CatalogProductImage
+                      src={getCloudinaryProductImageUrl(p)}
+                      alt={p.name}
+                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
                     <span className="absolute top-3 left-3 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider border border-white/10">
                       Factory Direct
                     </span>

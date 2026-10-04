@@ -6,6 +6,14 @@ import { ClothBagVendingB2BPage } from '@/components/products/cloth-bag-vending-
 import { FeedbackMachineB2BPage } from '@/components/products/feedback-machine-b2b-page';
 import { SolidWasteIncineratorB2BPage } from '@/components/products/solid-waste-incinerator-b2b-page';
 
+function SolidWaste45KwProductPage() {
+  return <SolidWasteIncineratorB2BPage initialVariant="SWI4.5KW" />;
+}
+
+function ManualSanitaryVendingProductPage() {
+  return <SanitaryVendingB2BPage initialPricingCategory="manual" />;
+}
+
 const products = {
   'axa-autovend-50-sanitary-napkin-vending-machine': {
     title: 'AXA AutoVend 50 Sanitary Napkin Vending Machine | AXA Industries',
@@ -35,13 +43,19 @@ const products = {
     title: 'AXA SWI 4.5kW Solid Waste Incinerator | AXA Industries',
     description:
       'AXA SWI 4.5kW solid waste incinerator for dry and medical waste, including PPE kits, masks, cotton and paper, with a stated 8–10 kg capacity.',
-    page: SolidWasteIncineratorB2BPage
+    page: SolidWaste45KwProductPage
   },
   'axa-cloth-bag-vending-machine-eco-dispenser': {
     title: 'AXA EcoVend Cloth Bag Vending Machine | AXA Industries',
     description:
       'AXA EcoVend is an automatic cotton cloth bag vending dispenser with coin and UPI QR payment options and capacity for 100+ folded bags.',
     page: ClothBagVendingB2BPage
+  },
+  'manual-sanitary-napkin-vending-machine': {
+    title: 'AXA Manual Sanitary Napkin Vending Machine | AXA Industries',
+    description:
+      'AXA VND manual sanitary napkin vending machines are available in multiple capacities with a mechanical coin acceptor and no electricity requirement.',
+    page: ManualSanitaryVendingProductPage
   }
 } as const;
 

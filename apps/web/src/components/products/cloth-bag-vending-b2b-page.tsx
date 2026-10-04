@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 import { Product } from '@axa/types';
 import { formatCurrency } from '@axa/utils';
 import { Navbar } from '@/components/layout/navbar';
@@ -116,7 +116,7 @@ export function ClothBagVendingB2BPage({ product }: B2BPageProps) {
           email: email || 'lead@organization.com',
           phone: phone || '9999999999',
           company: org || 'Commercial Client',
-          productSlug: 'automatic-cloth-bag-vending-machine',
+          productSlug: 'axa-cloth-bag-vending-machine-eco-dispenser',
           productName: `AXA Automatic Cloth Bag Vending Machine (${selectedVariant})`,
           quantity: qty,
           message: `[B2B Quote Request - Cloth Bag Vending Machine] Model: ${selectedVariant}, Org Type: ${formData.orgType}, City: ${formData.city}, State: ${formData.state}. Additional Notes: ${notes}`
@@ -365,47 +365,41 @@ export function ClothBagVendingB2BPage({ product }: B2BPageProps) {
                   {/* Active Visual Container */}
                   <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100/80 border border-stone-200 flex items-center justify-center p-2">
                     {activeGalleryTab === 'front' && (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src="/images/cloth-bag-vending-pink-front.png"
-                          alt="AXA Automatic Cloth Bag Vending Machine Front View"
-                          fill
-                          className="object-contain rounded-xl"
-                          priority
-                        />
-                      </div>
+                      <CldImage
+                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786304876/ChatGPT_Image_Aug_10_2026_01_16_20_AM_usvtak.png"
+                        alt="AXA Automatic Cloth Bag Vending Machine"
+                        width={800}
+                        height={800}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        preserveTransformations
+                        priority
+                        className="h-full w-full rounded-xl object-contain"
+                      />
                     )}
 
                     {activeGalleryTab === 'inside' && (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src="/images/cloth-bag-vending-pink-inside.png"
-                          alt="AXA Cloth Bag Vending Machine Open Cabinet Internal View"
-                          fill
-                          className="object-contain rounded-xl"
-                        />
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
+                        <Package className="h-10 w-10" aria-hidden="true" />
+                        <span className="text-xs">Cloudinary product image unavailable</span>
                       </div>
                     )}
 
                     {activeGalleryTab === 'perspective' && (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src="/images/cloth-bag-vending-pink-perspective.png"
-                          alt="AXA Cloth Bag Vending Machine 3D Angle View"
-                          fill
-                          className="object-contain rounded-xl"
-                        />
-                      </div>
+                      <CldImage
+                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png"
+                        alt="AXA Cloth Bag Vending Machine"
+                        width={800}
+                        height={800}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        preserveTransformations
+                        className="h-full w-full rounded-xl object-contain"
+                      />
                     )}
 
                     {activeGalleryTab === 'installed' && (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src="/images/cloth-bag-vending-supermarket-installed.jpg"
-                          alt="AXA Cloth Bag Vending Machine Installed at Supermarket Checkout"
-                          fill
-                          className="object-cover rounded-xl"
-                        />
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
+                        <Package className="h-10 w-10" aria-hidden="true" />
+                        <span className="text-xs">Cloudinary installation image unavailable</span>
                       </div>
                     )}
 

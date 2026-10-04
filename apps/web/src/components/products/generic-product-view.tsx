@@ -7,6 +7,7 @@ import { formatCurrency } from '@axa/utils';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { ProductEnquiryModal } from '@/components/shared/product-enquiry-modal';
+import { CatalogProductImage, getCloudinaryProductImageUrl } from '@/components/products/catalog-product-image';
 import { ArrowLeft, ShieldCheck, Sliders, Send, Share2, Check, MessageSquare, Sparkles, Download } from 'lucide-react';
 
 export function GenericProductView({ product }: { product: Product }) {
@@ -22,8 +23,10 @@ export function GenericProductView({ product }: { product: Product }) {
     }
   };
 
-  const images = product.images || [];
-  const currentImg = images[activeImgIdx]?.url || '/images/vending-combo-transparent.png';
+  const images = (product.images || []).filter((image) =>
+    getCloudinaryProductImageUrl({ images: [image] })
+  );
+  const currentImg = images[activeImgIdx]?.url;
 
   const slug = product.slug || '';
   const isVending = slug.includes('vending') || slug.includes('autovend');
@@ -81,7 +84,11 @@ export function GenericProductView({ product }: { product: Product }) {
             {/* Product Image Viewer */}
             <div className="lg:col-span-7 space-y-4">
               <div className="aspect-square w-full overflow-hidden rounded-3xl border border-neutral-200 dark:border-white/10 bg-neutral-900 shadow-2xl relative flex items-center justify-center p-6">
-                <img src={currentImg} alt={product.name} className="h-full w-full object-contain" />
+                <CatalogProductImage
+                  src={currentImg}
+                  alt={product.name}
+                  className="h-full w-full object-contain"
+                />
               </div>
 
               {images.length > 1 && (
@@ -94,7 +101,11 @@ export function GenericProductView({ product }: { product: Product }) {
                         activeImgIdx === idx ? 'border-blue-500 ring-2 ring-blue-500/30' : 'border-neutral-200 dark:border-white/10 opacity-60 hover:opacity-100'
                       }`}
                     >
-                      <img src={img.url} alt={`Thumb ${idx + 1}`} className="h-full w-full object-contain" />
+                      <CatalogProductImage
+                        src={img.url}
+                        alt={`${product.name} image ${idx + 1}`}
+                        className="h-full w-full object-contain"
+                      />
                     </button>
                   ))}
                 </div>

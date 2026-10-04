@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { Product } from '@axa/types';
 import { formatCurrency } from '@axa/utils';
-import { ArrowRight, Package, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
-import { isVisibleInProductCatalog } from '@/lib/catalog-visibility';
+import { CatalogProductImage, getCloudinaryProductImageUrl } from '@/components/products/catalog-product-image';
+import { mergeCatalogProducts } from '@/lib/catalog-products';
 
 export function FeaturedProductsSection() {
   const { data: products = [], isLoading, error } = useQuery<Product[]>({
@@ -14,11 +15,11 @@ export function FeaturedProductsSection() {
     queryFn: async () => {
       try {
         const apiUrl = getApiBaseUrl();
-        const res = await fetch(`${apiUrl}/v1/products?limit=20`, {
+        const res = await fetch(`${apiUrl}/v1/products?limit=100`, {
           signal: AbortSignal.timeout(1500)
         });
         const json = await res.json();
-        return (json.data || []).filter(isVisibleInProductCatalog);
+        return mergeCatalogProducts(json.data || []);
       } catch (err) {
         if (err instanceof ApiUrlConfigurationError) throw err;
         return [];
@@ -69,7 +70,7 @@ export function FeaturedProductsSection() {
             {[
               {
                 id: '1',
-                slug: 'automatic-sanitary-napkin-vending-machine-avnd50',
+                slug: 'axa-autovend-50-sanitary-napkin-vending-machine',
                 name: 'AXA AutoVend 50 Sanitary Napkin Vending Machine',
                 category: 'Automatic Hygiene Dispenser',
                 shortDescription: 'Model AVND 50 H • 50-Pad Storage • LCD Display & Battery Backup • + GST Extra.',
@@ -77,6 +78,50 @@ export function FeaturedProductsSection() {
                 badge: 'Automatic • From ₹4,500 + GST',
                 badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-400',
                 img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg'
+              },
+              {
+                id: 'fallback-snd',
+                slug: 'axa-ecoburn-100-sanitary-napkin-disposal-machine',
+                name: 'AXA SND Sanitary Napkin & Mask Incinerator Machine',
+                category: 'Sanitary Napkin Disposal',
+                shortDescription: 'Compact electric incinerator with LCD temperature display and automatic cutoff.',
+                price: 3800,
+                badge: 'SND Series',
+                badgeColor: 'border-rose-500/30 bg-rose-500/10 text-rose-400',
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458267/mainsnd_mle9pt.jpg'
+              },
+              {
+                id: 'fallback-sense',
+                slug: 'axa-sense-10-1-touch-feedback-machine-kiosk',
+                name: 'AXA Swachh Toilet Feedback Machine',
+                category: 'Washroom Feedback System',
+                shortDescription: 'App-based washroom feedback system with Good, Average, and Dirty response buttons.',
+                price: 8500,
+                badge: 'Live Monitoring',
+                badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png'
+              },
+              {
+                id: 'fallback-swi-4-5kw',
+                slug: 'axa-thermal-destroyer-100-solid-waste-incinerator',
+                name: 'AXA SWI 4.5kW Solid Waste Incinerator',
+                category: 'Solid Waste Incinerator',
+                shortDescription: 'Heavy-duty 4.5kW incinerator for dry and medical waste disposal.',
+                price: 215000,
+                badge: '8–10kg Capacity',
+                badgeColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400',
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png'
+              },
+              {
+                id: 'fallback-cloth-bag',
+                slug: 'axa-cloth-bag-vending-machine-eco-dispenser',
+                name: 'AXA EcoVend Cloth Bag Vending Machine',
+                category: 'Reusable Bag Dispenser',
+                shortDescription: 'Automatic cotton cloth bag dispenser with coin and UPI QR payment.',
+                price: 18500,
+                badge: 'Plastic-Free Retail',
+                badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304876/ChatGPT_Image_Aug_10_2026_01_16_20_AM_usvtak.png'
               },
               {
                 id: '6',
@@ -97,11 +142,9 @@ export function FeaturedProductsSection() {
                 className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 dark:border-white/10 bg-white dark:bg-[#121216]/60 p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40 cursor-pointer text-left block"
               >
                 <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
-                  <img
-                    src={p.img}
+                  <CatalogProductImage
+                    src={p.img || undefined}
                     alt={p.name}
-                    loading="lazy"
-                    decoding="async"
                     className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                   />
                   <span className="absolute top-3 right-3 rounded-lg bg-white/95 dark:bg-black/80 border border-stone-200 dark:border-white/10 px-2.5 py-1 text-[11px] font-extrabold text-slate-900 dark:text-white shadow-sm">
@@ -141,19 +184,11 @@ export function FeaturedProductsSection() {
                 className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 dark:border-white/10 bg-white dark:bg-[#121216]/60 p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40 cursor-pointer text-left block"
               >
                 <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
-                  {p.images?.[0]?.url ? (
-                    <img
-                      src={p.images[0].url}
-                      alt={p.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-neutral-600">
-                      <Package className="h-10 w-10" />
-                    </div>
-                  )}
+                  <CatalogProductImage
+                    src={getCloudinaryProductImageUrl(p)}
+                    alt={p.name}
+                    className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
                   <span className="absolute top-3 right-3 rounded-lg bg-black/70 px-2.5 py-1 text-[10px] font-bold text-white font-mono backdrop-blur-md">
                     {formatCurrency(p.price)} + GST
                   </span>

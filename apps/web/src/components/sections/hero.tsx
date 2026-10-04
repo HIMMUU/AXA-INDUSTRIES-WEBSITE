@@ -63,7 +63,7 @@ const HERO_SLIDES: CarouselSlide[] = [
     heading: 'DISPOSAL',
     subheading: 'Sanitary Napkin Incinerator (SND Series)',
     caption: '03 — Model SND 100',
-    image: '/images/disposal-combo-transparent.png',
+    image: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786458267/mainsnd_mle9pt.jpg',
     slug: 'axa-ecoburn-100-sanitary-napkin-disposal-machine',
     category: 'Thermal Waste Treatment',
     price: '₹3,800 + GST',

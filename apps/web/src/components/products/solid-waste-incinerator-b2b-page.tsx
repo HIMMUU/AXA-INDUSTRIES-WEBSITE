@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 import { Product } from '@axa/types';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
@@ -35,6 +35,7 @@ import {
   Shield,
   Activity,
   ShoppingBag,
+  Package,
   Hotel,
   Train,
   Plane,
@@ -45,11 +46,17 @@ import {
 
 interface B2BPageProps {
   product?: Product;
+  initialVariant?: 'SWI3KW' | 'SWI4.5KW';
 }
 
-export function SolidWasteIncineratorB2BPage({ product }: B2BPageProps) {
-  const [activeGalleryTab, setActiveGalleryTab] = useState<'3kw' | '4.5kw' | 'installed'>('3kw');
-  const [selectedVariant, setSelectedVariant] = useState<'SWI3KW' | 'SWI4.5KW'>('SWI3KW');
+export function SolidWasteIncineratorB2BPage({
+  product,
+  initialVariant = 'SWI3KW'
+}: B2BPageProps) {
+  const [activeGalleryTab, setActiveGalleryTab] = useState<'3kw' | '4.5kw' | 'installed'>(
+    initialVariant === 'SWI4.5KW' ? '4.5kw' : '3kw'
+  );
+  const [selectedVariant, setSelectedVariant] = useState<'SWI3KW' | 'SWI4.5KW'>(initialVariant);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
@@ -101,7 +108,9 @@ export function SolidWasteIncineratorB2BPage({ product }: B2BPageProps) {
           email: email || 'lead@organization.com',
           phone: phone || '9999999999',
           company: org || 'Commercial Client',
-          productSlug: 'axa-swi-3kw-solid-waste-incinerator',
+          productSlug: selectedVariant === 'SWI3KW'
+            ? 'axa-swi-3kw-solid-waste-incinerator'
+            : 'axa-thermal-destroyer-100-solid-waste-incinerator',
           productName: `AXA Solid Waste Incinerator Machine (${selectedVariant})`,
           quantity: qty,
           message: `[B2B Quote Request - Solid Waste Incinerator] Model: ${selectedVariant}, Org Type: ${formData.orgType}, City: ${formData.city}, State: ${formData.state}. Additional Notes: ${notes}`
@@ -348,36 +357,28 @@ export function SolidWasteIncineratorB2BPage({ product }: B2BPageProps) {
                   {/* Active Visual Container */}
                   <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100/80 border border-stone-200 flex items-center justify-center p-2">
                     {activeGalleryTab === '3kw' && (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src="/images/solid-waste-incinerator-5-8kg.jpg"
-                          alt="AXA Solid Waste Incinerator Machine SWI 3kW (5-8kg)"
-                          fill
-                          className="object-contain rounded-xl"
-                          priority
-                        />
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
+                        <Package className="h-10 w-10" aria-hidden="true" />
+                        <span className="text-xs">Cloudinary product image unavailable</span>
                       </div>
                     )}
 
                     {activeGalleryTab === '4.5kw' && (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src="/images/solid-waste-incinerator-8-10kg.jpg"
-                          alt="AXA Solid Waste Incinerator Machine SWI 4.5kW (8-10kg)"
-                          fill
-                          className="object-contain rounded-xl"
-                        />
-                      </div>
+                      <CldImage
+                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png"
+                        alt="AXA Solid Waste Incinerator Machine SWI 4.5kW (8-10kg)"
+                        width={800}
+                        height={800}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        preserveTransformations
+                        className="h-full w-full rounded-xl object-contain"
+                      />
                     )}
 
                     {activeGalleryTab === 'installed' && (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src="/images/solid-waste-incinerator-site-installed.jpg"
-                          alt="AXA SWI Incinerator Installed Site Bio-Medical Waste Area"
-                          fill
-                          className="object-cover rounded-xl"
-                        />
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
+                        <Package className="h-10 w-10" aria-hidden="true" />
+                        <span className="text-xs">Cloudinary installation image unavailable</span>
                       </div>
                     )}
 
