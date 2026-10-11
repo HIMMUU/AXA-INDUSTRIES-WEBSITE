@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     ],
     shortcut: '/favicon.ico',
     apple: '/icon.png'
+  },
+  verification: {
+    google: 'H1cpmL4P_xqXy4Ux9fl4Ri-TSr7Qg4zwug98eedm9Vk'
   }
 };
 
