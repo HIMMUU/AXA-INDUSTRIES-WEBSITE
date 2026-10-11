@@ -255,6 +255,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
                     height={800}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority
+                    preserveTransformations
                     className="h-full w-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute top-4 left-4 bg-rose-600 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md">

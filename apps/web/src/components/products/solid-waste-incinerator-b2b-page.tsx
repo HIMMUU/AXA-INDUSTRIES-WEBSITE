@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CldImage } from 'next-cloudinary';
 import { Product } from '@axa/types';
 import { Navbar } from '@/components/layout/navbar';
@@ -357,15 +358,19 @@ export function SolidWasteIncineratorB2BPage({
                   {/* Active Visual Container */}
                   <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100/80 border border-stone-200 flex items-center justify-center p-2">
                     {activeGalleryTab === '3kw' && (
-                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
-                        <Package className="h-10 w-10" aria-hidden="true" />
-                        <span className="text-xs">Cloudinary product image unavailable</span>
-                      </div>
+                      <Image
+                        src="/images/solid-waste-incinerator-5-8kg.jpg"
+                        alt="AXA Solid Waste Incinerator Machine SWI 3kW (5-8kg)"
+                        width={800}
+                        height={800}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="h-full w-full rounded-xl object-contain"
+                      />
                     )}
 
                     {activeGalleryTab === '4.5kw' && (
                       <CldImage
-                        src="https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png"
+                        src="https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png"
                         alt="AXA Solid Waste Incinerator Machine SWI 4.5kW (8-10kg)"
                         width={800}
                         height={800}
@@ -376,10 +381,14 @@ export function SolidWasteIncineratorB2BPage({
                     )}
 
                     {activeGalleryTab === 'installed' && (
-                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500">
-                        <Package className="h-10 w-10" aria-hidden="true" />
-                        <span className="text-xs">Cloudinary installation image unavailable</span>
-                      </div>
+                      <Image
+                        src="/images/solid-waste-incinerator-site-installed.jpg"
+                        alt="AXA Solid Waste Incinerator Machine Installed On-Site"
+                        width={800}
+                        height={800}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="h-full w-full rounded-xl object-contain"
+                      />
                     )}
 
                     {/* Badge Overlay */}

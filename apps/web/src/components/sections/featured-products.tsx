@@ -102,7 +102,7 @@ export function FeaturedProductsSection() {
                 price: 8500,
                 badge: 'Live Monitoring',
                 badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
-                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png'
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png'
               },
               {
                 id: 'fallback-swi-4-5kw',
@@ -113,7 +113,7 @@ export function FeaturedProductsSection() {
                 price: 215000,
                 badge: '8–10kg Capacity',
                 badgeColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400',
-                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png'
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png'
               },
               {
                 id: 'fallback-cloth-bag',
@@ -124,7 +124,7 @@ export function FeaturedProductsSection() {
                 price: 18500,
                 badge: 'Plastic-Free Retail',
                 badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
-                img: CLOTH_BAG_VENDING_CLOUDINARY_IMAGE
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png'
               },
               {
                 id: '6',
@@ -135,7 +135,7 @@ export function FeaturedProductsSection() {
                 price: 3500,
                 badge: 'Zero Power • From ₹3,500 + GST',
                 badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
-                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg'
+                img: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg'
               }
             ].map((p) => (
               <Link

@@ -8,10 +8,10 @@ export function GallerySection() {
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const images = [
-    { url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg', title: 'AVND 50 Internal Dispenser Assembly' },
-    { url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786307641/raplace_washroom_machine_with_mine_202608100203_xukqfa.jpg', title: 'Institutional Washroom Deployment' },
+    { url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg', title: 'AVND 50 Internal Dispenser Assembly' },
+    { url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786307641/raplace_washroom_machine_with_mine_202608100203_xukqfa.jpg', title: 'Institutional Washroom Deployment' },
     { url: CLOTH_BAG_VENDING_CLOUDINARY_IMAGE, title: 'Cloth Bag Vending Kiosk Production' },
-    { url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png', title: 'Thermal Destroyer Incineration Assembly' }
+    { url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png', title: 'Thermal Destroyer Incineration Assembly' }
   ];
 
   return (

@@ -46,7 +46,7 @@ const SAMPLE_CATEGORY_PRODUCTS = [
     ],
     images: [
       {
-        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786383062/ChatGPT_Image_Aug_10_2026_10_59_46_PM_1_kvcdy8.png',
+        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786383062/ChatGPT_Image_Aug_10_2026_10_59_46_PM_1_kvcdy8.png',
         publicId: 'vending-machine-50',
         order: 0
       }
@@ -119,7 +119,7 @@ const SAMPLE_CATEGORY_PRODUCTS = [
     ],
     images: [
       {
-        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png',
+        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png',
         publicId: 'swachh-feedback-machine',
         order: 0
       }
@@ -175,7 +175,7 @@ const SAMPLE_CATEGORY_PRODUCTS = [
     ],
     images: [
       {
-        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png',
+        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png',
         publicId: 'swi-4.5kw-incinerator',
         order: 0
       }
@@ -201,7 +201,7 @@ const SAMPLE_CATEGORY_PRODUCTS = [
     ],
     images: [
       {
-        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png',
+        url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786305121/CLOTH_BAG_VENNDING_COOMBO_pwx7d4.png',
         publicId: 'CLOTH_BAG_VENNDING_COOMBO_pwx7d4',
         order: 0
       }

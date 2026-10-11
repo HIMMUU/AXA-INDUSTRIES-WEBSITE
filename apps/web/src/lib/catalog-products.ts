@@ -75,7 +75,7 @@ export const catalogFallbackProducts: Product[] = [
     'AXA Swachh Toilet Feedback Machine provides three-button washroom feedback and app-based monitoring.',
     8500,
     {
-      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png',
+      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786303502/Studio_product_photography_creation_2K_202608100044_mcmwez.png',
       publicId: 'Studio_product_photography_creation_2K_202608100044_mcmwez'
     }
   ),
@@ -87,7 +87,7 @@ export const catalogFallbackProducts: Product[] = [
     'AXA SWI 4.5kW solid waste incinerator for larger institutional waste disposal.',
     215000,
     {
-      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png',
+      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786304387/ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc.png',
       publicId: 'ChatGPT_Image_Aug_10_2026_01_09_31_AM_krrlsc'
     }
   ),
@@ -99,7 +99,7 @@ export const catalogFallbackProducts: Product[] = [
     'AXA VND manual sanitary napkin vending machines are available in multiple pad capacities for institutional washrooms.',
     3500,
     {
-      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg',
+      url: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg',
       publicId: 'Autoomatic_vending_machine_interrnal_nv2phl'
     }
   )
@@ -112,6 +112,8 @@ export function isCatalogProduct(product: Pick<Product, 'slug'>): boolean {
 }
 
 export function isCloudinaryImageUrl(url: string): boolean {
+  if (!url) return false;
+  if (url.startsWith('/')) return true;
   try {
     const parsedUrl = new URL(url);
     return (

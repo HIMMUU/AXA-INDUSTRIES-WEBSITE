@@ -73,10 +73,10 @@ export function SanitaryVendingB2BPage({
   });
 
   const galleryImages = {
-    front: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg',
-    inside: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg',
-    coin: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg',
-    installed: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1786307641/raplace_washroom_machine_with_mine_202608100203_xukqfa.jpg'
+    front: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg',
+    inside: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_interrnal_nv2phl.jpg',
+    coin: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg',
+    installed: 'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786307641/raplace_washroom_machine_with_mine_202608100203_xukqfa.jpg'
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

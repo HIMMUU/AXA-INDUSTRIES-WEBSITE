@@ -1,12 +1,11 @@
-'use client';
-
+import Image from 'next/image';
 import { CldImage } from 'next-cloudinary';
 import { Package } from 'lucide-react';
 import type { Product } from '@axa/types';
 import { isCloudinaryImageUrl } from '@/lib/catalog-products';
 
 export function getCloudinaryProductImageUrl(product: Pick<Product, 'images'>): string | undefined {
-  return (product.images ?? []).find(({ url }) => isCloudinaryImageUrl(url))?.url;
+  return (product.images ?? []).find(({ url }) => isCloudinaryImageUrl(url))?.url || product.images?.[0]?.url;
 }
 
 export function CatalogProductImage({
@@ -23,6 +22,20 @@ export function CatalogProductImage({
       <div className={`flex h-full items-center justify-center text-neutral-500 ${className ?? ''}`}>
         <Package className="h-10 w-10" aria-hidden="true" />
       </div>
+    );
+  }
+
+  if (src.startsWith('/')) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={600}
+        height={600}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        loading="lazy"
+        className={className}
+      />
     );
   }
 
