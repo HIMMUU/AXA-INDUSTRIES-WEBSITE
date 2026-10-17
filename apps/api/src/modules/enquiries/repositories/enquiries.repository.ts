@@ -78,6 +78,16 @@ export class EnquiriesRepository {
         take: limit,
         orderBy: { [sortBy]: sortOrder },
         include: {
+          emailAttempts: {
+            where: { notificationType: 'ADMIN_ALERT' },
+            orderBy: { attemptedAt: 'desc' },
+            take: 1,
+            select: {
+              status: true,
+              errorText: true,
+              attemptedAt: true
+            }
+          },
           customer: {
             select: { id: true, name: true, phone: true, email: true, company: true }
           },
@@ -127,6 +137,9 @@ export class EnquiriesRepository {
         },
         timeline: {
           orderBy: { createdAt: 'desc' }
+        },
+        emailAttempts: {
+          orderBy: { attemptedAt: 'desc' }
         }
       }
     });

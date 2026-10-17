@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getLeadAttribution } from '@/lib/landing-analytics';
 import { getApiBaseUrl } from '@/lib/api-url';
@@ -182,7 +183,7 @@ export function InstitutionalLeadForm() {
         <input name="consent" type="checkbox" required className="mt-1 h-4 w-4 accent-blue-700" />
         <span>
           I agree that AXA Industries may use these details to respond to my enquiry. See the{' '}
-          <a href="/privacy-policy" className="font-semibold underline underline-offset-2">Privacy Policy</a>. *
+          <Link href="/privacy-policy" className="font-semibold underline underline-offset-2">Privacy Policy</Link>. *
         </span>
       </label>
 

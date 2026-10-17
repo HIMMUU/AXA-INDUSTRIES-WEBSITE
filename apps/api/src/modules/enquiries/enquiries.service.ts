@@ -59,21 +59,32 @@ export class EnquiriesService {
       `Reference #${referenceNumber} generated via ${dto.source || 'Contact Page'}`
     );
 
-    // 5. Trigger Email Automation in Background (Sub-second response time)
-    if (dto.email) {
-      this.emailService.sendCustomerConfirmation(dto.email, referenceNumber, dto.name)
-        .then(() => {
-          this.repository.addTimelineEvent(
-            enquiry.id,
-            'Confirmation Email Sent',
-            `Automated response sent to ${dto.email}`
-          );
-        })
-        .catch((err) => this.logger.error(`Async customer email failed: ${err.message}`));
-    }
+    const mailDetails = {
+      referenceNumber,
+      name: dto.name,
+      phone: dto.phone,
+      company: dto.company,
+      email: dto.email,
+      city: dto.city,
+      quantity: dto.quantity,
+      message: dto.message,
+      createdAt: enquiry.createdAt
+    };
 
-    this.emailService.sendAdminNotification(referenceNumber, dto.name, dto.phone, dto.company)
-      .catch((err) => this.logger.error(`Async admin email failed: ${err.message}`));
+    // Persisting the enquiry is authoritative; mail delivery cannot change its success response.
+    const adminNotificationSent = await this.emailService.sendAdminNotification(
+      enquiry.id,
+      mailDetails
+    );
+
+    if (adminNotificationSent && dto.email) {
+      await this.emailService.sendCustomerConfirmation(
+        enquiry.id,
+        dto.email,
+        referenceNumber,
+        dto.name
+      );
+    }
 
     return enquiry;
   }

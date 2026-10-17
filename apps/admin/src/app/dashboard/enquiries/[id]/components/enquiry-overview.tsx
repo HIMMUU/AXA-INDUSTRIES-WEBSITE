@@ -64,6 +64,22 @@ export function EnquiryOverview({ enquiry }: { enquiry: Enquiry }) {
               </pre>
             </details>
           )}
+          {enquiry.emailAttempts?.length ? (
+            <div className="col-span-2 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+              <p className="font-semibold text-neutral-300">Email delivery attempts</p>
+              <ul className="mt-2 space-y-2">
+                {enquiry.emailAttempts.map((attempt) => (
+                  <li key={attempt.id} className="flex flex-wrap items-baseline justify-between gap-2 text-[11px]">
+                    <span className={attempt.status === 'FAILED' ? 'font-semibold text-red-300' : attempt.status === 'SENT' ? 'font-semibold text-emerald-300' : 'font-semibold text-amber-300'}>
+                      {attempt.notificationType.replace('_', ' ')} · {attempt.status} · attempt {attempt.attemptNumber}
+                    </span>
+                    <span className="text-neutral-500">{formatDateTimeInIndia(attempt.attemptedAt)}</span>
+                    {attempt.errorText && <span className="w-full text-red-200">{attempt.errorText}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
       </div>
 

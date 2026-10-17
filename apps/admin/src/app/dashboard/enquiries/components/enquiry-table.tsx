@@ -246,6 +246,11 @@ export function EnquiryTable({ enquiries, meta, isLoading, refetch }: EnquiryTab
                       {/* Status Badge */}
                       <td className="p-4">
                         <EnquiryStatusBadge status={e.status} />
+                        {e.emailAttempts?.[0]?.status === 'FAILED' && (
+                          <span className="mt-1 block rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-[10px] font-semibold text-red-300">
+                            Email alert failed
+                          </span>
+                        )}
                       </td>
 
                       {/* Submitted Date */}

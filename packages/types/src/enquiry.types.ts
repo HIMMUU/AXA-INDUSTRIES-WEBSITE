@@ -36,6 +36,17 @@ export interface EnquiryTimelineItem {
   createdAt: string;
 }
 
+export interface EnquiryEmailAttempt {
+  id: string;
+  enquiryId: string;
+  notificationType: 'ADMIN_ALERT' | 'CUSTOMER_ACKNOWLEDGEMENT';
+  attemptNumber: number;
+  status: 'RETRYING' | 'SENT' | 'FAILED';
+  providerMessageId?: string | null;
+  errorText?: string | null;
+  attemptedAt: string;
+}
+
 export interface Enquiry {
   id: string;
   referenceNumber: string;
@@ -74,6 +85,7 @@ export interface Enquiry {
   consent?: boolean;
   consentAt?: string | null;
   attribution?: Record<string, unknown> | null;
+  emailAttempts?: EnquiryEmailAttempt[];
   notesList?: EnquiryNoteItem[];
   timeline?: EnquiryTimelineItem[];
   createdAt: string;

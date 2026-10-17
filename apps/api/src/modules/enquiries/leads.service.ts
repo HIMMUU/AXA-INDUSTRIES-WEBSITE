@@ -102,14 +102,28 @@ export class LeadsService {
         attribution
       });
 
-      if (dto.email) {
-        this.emailService
-          .sendCustomerConfirmation(dto.email, enquiry.referenceNumber, dto.name)
-          .catch(() => this.logger.error('Lead confirmation email delivery failed.'));
+      const adminNotificationSent = await this.emailService.sendAdminNotification(enquiry.id, {
+        referenceNumber: enquiry.referenceNumber,
+        name: dto.name,
+        phone,
+        company: dto.organisation,
+        email: dto.email,
+        city: dto.city,
+        institutionType: dto.institution_type,
+        quantity: QUANTITY_MINIMUMS[dto.quantity],
+        quantityBand: dto.quantity,
+        message: dto.message,
+        attribution,
+        createdAt: enquiry.createdAt
+      });
+      if (adminNotificationSent && dto.email) {
+        await this.emailService.sendCustomerConfirmation(
+          enquiry.id,
+          dto.email,
+          enquiry.referenceNumber,
+          dto.name
+        );
       }
-      this.emailService
-        .sendAdminNotification(enquiry.referenceNumber, dto.name, phone, dto.organisation)
-        .catch(() => this.logger.error('Lead notification email delivery failed.'));
 
       return { ok: true, lead_id: enquiry.referenceNumber };
     } catch (error) {

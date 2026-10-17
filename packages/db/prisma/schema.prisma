@@ -68,6 +68,17 @@ enum EnquirySource {
   FLOATING_WIDGET
 }
 
+enum EmailNotificationType {
+  ADMIN_ALERT
+  CUSTOMER_ACKNOWLEDGEMENT
+}
+
+enum EmailAttemptStatus {
+  RETRYING
+  SENT
+  FAILED
+}
+
 model Admin {
   id               String      @id @default(uuid())
   email            String      @unique
@@ -242,6 +253,7 @@ model Enquiry {
   idempotencyKey        String?           @unique @map("idempotency_key")
   notesList             EnquiryNote[]
   timeline              EnquiryTimeline[]
+  emailAttempts         EmailNotificationAttempt[]
   createdAt             DateTime          @default(now()) @map("created_at")
   updatedAt             DateTime          @updatedAt @map("updated_at")
   deletedAt             DateTime?         @map("deleted_at")
@@ -271,6 +283,21 @@ model EnquiryTimeline {
   createdAt   DateTime @default(now()) @map("created_at")
 
   @@map("enquiry_timelines")
+}
+
+model EmailNotificationAttempt {
+  id                String                @id @default(uuid())
+  enquiryId         String                @map("enquiry_id")
+  enquiry           Enquiry               @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  notificationType  EmailNotificationType @map("notification_type")
+  attemptNumber     Int                   @map("attempt_number")
+  status            EmailAttemptStatus
+  providerMessageId String?               @map("provider_message_id")
+  errorText         String?               @map("error_text")
+  attemptedAt       DateTime              @default(now()) @map("attempted_at")
+
+  @@index([enquiryId, notificationType, attemptedAt])
+  @@map("email_notification_attempts")
 }
 
 model Settings {

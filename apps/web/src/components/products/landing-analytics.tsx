@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
 import {
@@ -73,7 +74,7 @@ export function LandingAnalytics() {
           <p className="text-sm font-semibold">Optional analytics</p>
           <p className="mt-1 text-xs leading-5 text-neutral-600 dark:text-neutral-300">
             Allow analytics cookies to measure this page and retain ad attribution for up to 90 days. Your enquiry form works either way. See our{' '}
-            <a className="underline underline-offset-2" href="/privacy-policy">Privacy Policy</a>.
+            <Link className="underline underline-offset-2" href="/privacy-policy">Privacy Policy</Link>.
           </p>
           <div className="mt-3 flex gap-2">
             <button
