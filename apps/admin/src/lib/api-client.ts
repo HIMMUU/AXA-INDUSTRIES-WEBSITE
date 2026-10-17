@@ -7,8 +7,12 @@ export class ApiUrlConfigurationError extends Error {
   }
 }
 
+const DEFAULT_PRODUCTION_API_URL = 'https://axa-industries-website-api.vercel.app/api';
+
 export function getApiBaseUrl(): string {
-  const configuredUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+  const configuredUrl =
+    process.env.NEXT_PUBLIC_API_URL?.trim() ||
+    (process.env.NODE_ENV === 'production' ? DEFAULT_PRODUCTION_API_URL : undefined);
 
   if (!configuredUrl) {
     if (process.env.NODE_ENV === 'development') {

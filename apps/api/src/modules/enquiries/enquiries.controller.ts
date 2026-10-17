@@ -22,7 +22,6 @@ import { Public } from '../auth/decorators/public.decorator';
 import { EnquiryStatus, EnquirySource } from '@axa/db';
 
 @ApiTags('Enquiries')
-@Public()
 @Controller('v1/enquiries')
 export class EnquiriesController {
   constructor(private readonly enquiriesService: EnquiriesService) {}
