@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { useCustomersStore } from '@/store/use-customers-store';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, apiFetch } from '@/lib/api-client';
 import { Customer } from '@axa/types';
 import { CustomerFilters } from './components/customer-filters';
 import { CustomerTable } from './components/customer-table';
@@ -46,13 +46,14 @@ export default function CustomersPage() {
 
   const handleExportAllCsv = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/v1/customers/export', {
+      const res = await apiFetch('/v1/customers/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('axa_access_token')}`
         }
       });
+      if (!res.ok) throw new Error(`Customer export failed (${res.status}).`);
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { EnquiryNoteItem } from '@axa/types';
-import { formatDate } from '@axa/utils';
+import { formatDateTimeInIndia } from '@axa/utils';
 import { apiClient } from '@/lib/api-client';
 import { StickyNote, Plus, Trash2 } from 'lucide-react';
 
@@ -87,7 +87,7 @@ export function EnquiryNotes({
             <div key={n.id} className="group relative rounded-2xl border border-white/5 bg-white/5 p-3 text-xs space-y-1">
               <div className="flex items-center justify-between text-[11px] text-neutral-400 border-b border-white/5 pb-1">
                 <span className="font-semibold text-amber-400">{n.createdBy}</span>
-                <span>{formatDate(n.createdAt)}</span>
+                <span>{formatDateTimeInIndia(n.createdAt)}</span>
               </div>
               <p className="text-neutral-200 leading-relaxed pt-1">{n.content}</p>
               <button

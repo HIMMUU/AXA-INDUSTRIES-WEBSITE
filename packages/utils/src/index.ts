@@ -23,3 +23,17 @@ export function formatDate(date: Date | string | number): string {
     year: 'numeric'
   }).format(new Date(date));
 }
+
+export function formatDateTimeInIndia(date: Date | string | number): string {
+  const formattedDateTime = new Intl.DateTimeFormat('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'Asia/Kolkata'
+  }).format(new Date(date));
+
+  return `${formattedDateTime} IST`;
+}

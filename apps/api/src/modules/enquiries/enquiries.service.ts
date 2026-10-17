@@ -84,6 +84,10 @@ export class EnquiriesService {
     q?: string;
     status?: EnquiryStatus;
     source?: EnquirySource;
+    institutionType?: string;
+    city?: string;
+    fromDate?: Date;
+    toDate?: Date;
     productId?: string;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
@@ -158,15 +162,63 @@ export class EnquiriesService {
       items = res.items;
     }
 
-    const header = 'Reference #,Name,Company,Phone,Email,Product,Quantity,Source,Status,Created At\n';
+    const header = [
+      'Reference #',
+      'Name',
+      'Company',
+      'Phone',
+      'Email',
+      'Product',
+      'Quantity',
+      'Institution Type',
+      'Quantity Band',
+      'GCLID',
+      'WBRAID',
+      'GBRAID',
+      'Source',
+      'Status',
+      'Created At'
+    ].map(this.csvCell).join(',') + '\n';
     const rows = items
       .map(
-        (e) =>
-          `"${e.referenceNumber}","${e.name}","${e.company || ''}","${e.phone}","${e.email || ''}","${e.product?.name || ''}","${e.quantity}","${e.source}","${e.status}","${e.createdAt.toISOString()}"`
+        (e) => {
+          const attribution = e.attribution;
+          const firstTouch =
+            attribution && typeof attribution === 'object' && !Array.isArray(attribution)
+              ? attribution.first_touch
+              : null;
+          const clickIds =
+            firstTouch && typeof firstTouch === 'object' && !Array.isArray(firstTouch)
+              ? firstTouch
+              : {};
+          return [
+            e.referenceNumber,
+            e.name,
+            e.company,
+            e.phone,
+            e.email,
+            e.product?.name,
+            e.quantity,
+            e.institutionType,
+            e.quantityBand,
+            'gclid' in clickIds ? clickIds.gclid : '',
+            'wbraid' in clickIds ? clickIds.wbraid : '',
+            'gbraid' in clickIds ? clickIds.gbraid : '',
+            e.source,
+            e.status,
+            e.createdAt.toISOString()
+          ].map(this.csvCell).join(',');
+        }
       )
       .join('\n');
 
     return header + rows;
+  }
+
+  private csvCell(value: unknown): string {
+    const raw = value === null || value === undefined ? '' : String(value);
+    const safe = /^[=+\-@\t\r]/.test(raw) ? `'${raw}` : raw;
+    return `"${safe.replace(/"/g, '""')}"`;
   }
 
   async bulkOperation(body: { enquiryIds: string[]; action: 'DELETE' | 'MARK_CONTACTED' | 'MARK_CONVERTED'; status?: EnquiryStatus }) {

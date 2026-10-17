@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, apiFetch } from '@/lib/api-client';
 import { useOrdersStore } from '@/store/use-orders-store';
 import { Order, OrderStatus } from '@axa/types';
 import {
@@ -73,11 +73,12 @@ export default function OrdersDirectoryPage() {
   const handleExportCsv = async () => {
     setIsExporting(true);
     try {
-      const res = await fetch('http://localhost:4000/api/v1/orders/export', {
+      const res = await apiFetch('/v1/orders/export', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids: selectedIds })
       });
+      if (!res.ok) throw new Error(`Order export failed (${res.status}).`);
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');

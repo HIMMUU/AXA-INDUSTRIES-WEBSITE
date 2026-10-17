@@ -4,7 +4,7 @@ import { use } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, apiFetch } from '@/lib/api-client';
 import { Customer } from '@axa/types';
 import { CustomerOverview } from '../components/customer-overview';
 import { CustomerStats } from '../components/customer-stats';
@@ -37,7 +37,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
 
   const handleExportCsv = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/v1/customers/export', {
+      const res = await apiFetch('/v1/customers/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,6 +45,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
         },
         body: JSON.stringify({ customerIds: [id], action: 'EXPORT' })
       });
+      if (!res.ok) throw new Error(`Customer export failed (${res.status}).`);
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');

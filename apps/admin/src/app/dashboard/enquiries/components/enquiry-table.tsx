@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { useEnquiriesStore } from '@/store/use-enquiries-store';
 import { Enquiry } from '@axa/types';
-import { formatDate } from '@axa/utils';
+import { formatDateTimeInIndia } from '@axa/utils';
 import { EnquiryStatusBadge } from './status-badge';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, apiFetch } from '@/lib/api-client';
 import {
   Eye,
   Trash2,
@@ -72,7 +72,7 @@ export function EnquiryTable({ enquiries, meta, isLoading, refetch }: EnquiryTab
 
   const handleExportSelectedCsv = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/v1/enquiries/export', {
+      const res = await apiFetch('/v1/enquiries/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,6 +80,7 @@ export function EnquiryTable({ enquiries, meta, isLoading, refetch }: EnquiryTab
         },
         body: JSON.stringify({ enquiryIds: selectedIds })
       });
+      if (!res.ok) throw new Error(`Enquiry export failed (${res.status}).`);
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -249,7 +250,7 @@ export function EnquiryTable({ enquiries, meta, isLoading, refetch }: EnquiryTab
 
                       {/* Submitted Date */}
                       <td className="p-4 text-[11px] text-neutral-400 whitespace-nowrap">
-                        {formatDate(e.createdAt)}
+                        {formatDateTimeInIndia(e.createdAt)}
                       </td>
 
                       {/* Actions */}

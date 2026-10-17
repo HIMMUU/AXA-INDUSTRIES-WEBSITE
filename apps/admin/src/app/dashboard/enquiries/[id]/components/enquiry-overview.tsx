@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Enquiry } from '@axa/types';
-import { formatDate } from '@axa/utils';
+import { formatDateTimeInIndia } from '@axa/utils';
 import { EnquiryStatusBadge } from '../../components/status-badge';
 import { User, Building, Phone, Mail, MapPin, Calendar, ExternalLink } from 'lucide-react';
 
@@ -30,7 +30,7 @@ export function EnquiryOverview({ enquiry }: { enquiry: Enquiry }) {
           </div>
           <div>
             <p className="text-neutral-500 font-medium">Created Date</p>
-            <p className="text-neutral-300 mt-0.5">{formatDate(enquiry.createdAt)}</p>
+            <p className="text-neutral-300 mt-0.5">{formatDateTimeInIndia(enquiry.createdAt)}</p>
           </div>
           <div>
             <p className="text-neutral-500 font-medium">Preferred Contact</p>
@@ -38,6 +38,32 @@ export function EnquiryOverview({ enquiry }: { enquiry: Enquiry }) {
               {enquiry.preferredContactMethod || 'Any'} ({enquiry.preferredContactTime || 'Flexible'})
             </p>
           </div>
+          {enquiry.institutionType && (
+            <div>
+              <p className="text-neutral-500 font-medium">Institution Type</p>
+              <p className="text-neutral-300 mt-0.5">{enquiry.institutionType}</p>
+            </div>
+          )}
+          {enquiry.quantityBand && (
+            <div>
+              <p className="text-neutral-500 font-medium">Requested Quantity Band</p>
+              <p className="text-neutral-300 mt-0.5">{enquiry.quantityBand}</p>
+            </div>
+          )}
+          {enquiry.consentAt && (
+            <div>
+              <p className="text-neutral-500 font-medium">Enquiry Consent Recorded</p>
+              <p className="text-neutral-300 mt-0.5">{formatDateTimeInIndia(enquiry.consentAt)}</p>
+            </div>
+          )}
+          {enquiry.attribution && (
+            <details className="col-span-2 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+              <summary className="cursor-pointer font-semibold text-neutral-300">Attribution details</summary>
+              <pre className="mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-all text-[10px] leading-5 text-neutral-400">
+                {JSON.stringify(enquiry.attribution, null, 2)}
+              </pre>
+            </details>
+          )}
         </div>
       </div>
 

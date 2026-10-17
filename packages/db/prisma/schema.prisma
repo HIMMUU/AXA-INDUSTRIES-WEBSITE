@@ -49,10 +49,12 @@ enum OrderStatus {
 enum EnquiryStatus {
   NEW
   CONTACTED
+  QUALIFIED
   INTERESTED
   QUOTATION_SENT
   CONVERTED
   CLOSED
+  CLOSED_LOST
   REJECTED
   SPAM
 }
@@ -232,6 +234,12 @@ model Enquiry {
   preferredContactMethod String?          @map("preferred_contact_method")
   preferredContactTime   String?          @map("preferred_contact_time")
   notes                 String?
+  institutionType       String?           @map("institution_type")
+  quantityBand          String?           @map("quantity_band")
+  consent               Boolean           @default(false)
+  consentAt             DateTime?         @map("consent_at")
+  attribution           Json?             @db.JsonB
+  idempotencyKey        String?           @unique @map("idempotency_key")
   notesList             EnquiryNote[]
   timeline              EnquiryTimeline[]
   createdAt             DateTime          @default(now()) @map("created_at")

@@ -21,7 +21,7 @@ import {
   Mail
 } from 'lucide-react';
 import { useState } from 'react';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, apiFetch } from '@/lib/api-client';
 
 interface CustomerTableProps {
   customers: Customer[];
@@ -69,7 +69,7 @@ export function CustomerTable({ customers = [], meta, isLoading, refetch }: Cust
     setIsActionLoading(true);
     try {
       if (action === 'EXPORT') {
-        const res = await fetch('http://localhost:4000/api/v1/customers/export', {
+        const res = await apiFetch('/v1/customers/export', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -77,6 +77,7 @@ export function CustomerTable({ customers = [], meta, isLoading, refetch }: Cust
           },
           body: JSON.stringify({ customerIds: selectedCustomerIds, action: 'EXPORT' })
         });
+        if (!res.ok) throw new Error(`Customer export failed (${res.status}).`);
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');

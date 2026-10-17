@@ -6,6 +6,8 @@ export function EnquiryStatusBadge({ status }: { status: EnquiryStatus }) {
       return <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-blue-400 border border-blue-500/20">NEW</span>;
     case 'CONTACTED':
       return <span className="rounded-full bg-purple-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-purple-400 border border-purple-500/20">CONTACTED</span>;
+    case 'QUALIFIED':
+      return <span className="rounded-full bg-indigo-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-400 border border-indigo-500/20">QUALIFIED</span>;
     case 'INTERESTED':
       return <span className="rounded-full bg-indigo-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-400 border border-indigo-500/20">INTERESTED</span>;
     case 'QUOTATION_SENT':
@@ -14,6 +16,8 @@ export function EnquiryStatusBadge({ status }: { status: EnquiryStatus }) {
       return <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400 border border-emerald-500/20">CONVERTED</span>;
     case 'CLOSED':
       return <span className="rounded-full bg-neutral-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-neutral-400 border border-neutral-500/20">CLOSED</span>;
+    case 'CLOSED_LOST':
+      return <span className="rounded-full bg-neutral-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-neutral-400 border border-neutral-500/20">CLOSED LOST</span>;
     case 'REJECTED':
       return <span className="rounded-full bg-rose-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-rose-400 border border-rose-500/20">REJECTED</span>;
     case 'SPAM':

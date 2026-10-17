@@ -10,9 +10,16 @@ export function EnquiryFilters() {
     searchQuery,
     selectedStatus,
     selectedSource,
+    selectedInstitutionType,
+    selectedCity,
+    fromDate,
+    toDate,
     setSearchQuery,
     setSelectedStatus,
     setSelectedSource,
+    setSelectedInstitutionType,
+    setSelectedCity,
+    setDateRange,
     resetFilters
   } = useEnquiriesStore();
 
@@ -48,10 +55,12 @@ export function EnquiryFilters() {
           <option value="">All Lead Statuses</option>
           <option value="NEW">New</option>
           <option value="CONTACTED">Contacted</option>
+          <option value="QUALIFIED">Qualified</option>
           <option value="INTERESTED">Interested</option>
           <option value="QUOTATION_SENT">Quotation Sent</option>
           <option value="CONVERTED">Converted</option>
           <option value="CLOSED">Closed</option>
+          <option value="CLOSED_LOST">Closed Lost</option>
           <option value="REJECTED">Rejected</option>
           <option value="SPAM">Spam</option>
         </select>
@@ -70,8 +79,41 @@ export function EnquiryFilters() {
           <option value="QUICK_QUOTE">Quick Quote Modal</option>
         </select>
 
+        <select
+          value={selectedInstitutionType}
+          onChange={(e) => setSelectedInstitutionType(e.target.value)}
+          className="rounded-xl border border-white/10 bg-neutral-900 px-3 py-2 text-xs text-neutral-200 focus:outline-none cursor-pointer"
+          aria-label="Filter by institution type"
+        >
+          <option value="">All Institution Types</option>
+          <option value="school">School</option>
+          <option value="college-or-university">College / University</option>
+          <option value="hospital-or-clinic">Hospital / Clinic</option>
+          <option value="bank">Bank</option>
+          <option value="corporate-office">Corporate Office</option>
+          <option value="factory">Factory</option>
+          <option value="hostel">Hostel</option>
+          <option value="other">Other</option>
+        </select>
+        <input
+          type="search"
+          value={selectedCity}
+          onChange={(e) => setSelectedCity(e.target.value)}
+          placeholder="Filter city"
+          aria-label="Filter by city"
+          className="w-32 rounded-xl border border-white/10 bg-neutral-900 px-3 py-2 text-xs text-neutral-200 focus:outline-none"
+        />
+        <label className="flex items-center gap-1 text-[10px] text-neutral-400">
+          From
+          <input type="date" value={fromDate} onChange={(e) => setDateRange(e.target.value, toDate)} className="rounded-lg border border-white/10 bg-neutral-900 px-2 py-2 text-xs text-neutral-200" />
+        </label>
+        <label className="flex items-center gap-1 text-[10px] text-neutral-400">
+          To
+          <input type="date" value={toDate} onChange={(e) => setDateRange(fromDate, e.target.value)} className="rounded-lg border border-white/10 bg-neutral-900 px-2 py-2 text-xs text-neutral-200" />
+        </label>
+
         {/* Reset Button */}
-        {(selectedStatus || selectedSource || searchInput) && (
+        {(selectedStatus || selectedSource || selectedInstitutionType || selectedCity || fromDate || toDate || searchInput) && (
           <button
             onClick={() => {
               setSearchInput('');

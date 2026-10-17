@@ -9,7 +9,8 @@ import {
   Query,
   UseGuards,
   Res,
-  HttpStatus
+  HttpStatus,
+  BadRequestException
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -48,6 +49,10 @@ export class EnquiriesController {
   @ApiQuery({ name: 'q', required: false, type: String })
   @ApiQuery({ name: 'status', required: false, enum: EnquiryStatus })
   @ApiQuery({ name: 'source', required: false, enum: EnquirySource })
+  @ApiQuery({ name: 'institutionType', required: false, type: String })
+  @ApiQuery({ name: 'city', required: false, type: String })
+  @ApiQuery({ name: 'from', required: false, type: String })
+  @ApiQuery({ name: 'to', required: false, type: String })
   @ApiQuery({ name: 'productId', required: false, type: String })
   @ApiQuery({ name: 'sortBy', required: false, type: String })
   @ApiQuery({ name: 'sortOrder', required: false, enum: ['asc', 'desc'] })
@@ -57,16 +62,46 @@ export class EnquiriesController {
     @Query('q') q?: string,
     @Query('status') status?: EnquiryStatus,
     @Query('source') source?: EnquirySource,
+    @Query('institutionType') institutionType?: string,
+    @Query('city') city?: string,
+    @Query('from') from?: string,
+    @Query('to') to?: string,
     @Query('productId') productId?: string,
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'asc' | 'desc'
   ) {
+    const supportedInstitutionTypes = [
+      'school',
+      'college-or-university',
+      'hospital-or-clinic',
+      'bank',
+      'corporate-office',
+      'factory',
+      'hostel',
+      'other'
+    ];
+    if (institutionType && !supportedInstitutionTypes.includes(institutionType)) {
+      throw new BadRequestException('Unsupported institution type.');
+    }
+    const fromDate = from ? new Date(from) : undefined;
+    const toDate = to ? new Date(to) : undefined;
+    if (
+      (fromDate && Number.isNaN(fromDate.getTime())) ||
+      (toDate && Number.isNaN(toDate.getTime()))
+    ) {
+      throw new BadRequestException('Date filters must use valid ISO date values.');
+    }
+
     const result = await this.enquiriesService.getEnquiries({
       page: page ? parseInt(page, 10) : 1,
       limit: limit ? parseInt(limit, 10) : 10,
       q,
       status,
       source,
+      institutionType,
+      city,
+      fromDate,
+      toDate,
       productId,
       sortBy,
       sortOrder

@@ -139,10 +139,12 @@ export default function EnquiryDetailPage({ params }: { params: Promise<{ id: st
             >
               <option value="NEW" className="bg-neutral-900 text-white">Status: NEW</option>
               <option value="CONTACTED" className="bg-neutral-900 text-white">Status: CONTACTED</option>
+              <option value="QUALIFIED" className="bg-neutral-900 text-white">Status: QUALIFIED</option>
               <option value="INTERESTED" className="bg-neutral-900 text-white">Status: INTERESTED</option>
               <option value="QUOTATION_SENT" className="bg-neutral-900 text-white">Status: QUOTATION SENT</option>
               <option value="CONVERTED" className="bg-neutral-900 text-white">Status: CONVERTED</option>
               <option value="CLOSED" className="bg-neutral-900 text-white">Status: CLOSED</option>
+              <option value="CLOSED_LOST" className="bg-neutral-900 text-white">Status: CLOSED LOST</option>
               <option value="REJECTED" className="bg-neutral-900 text-white">Status: REJECTED</option>
               <option value="SPAM" className="bg-neutral-900 text-white">Status: SPAM</option>
             </select>

@@ -1,53 +1,104 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+export class ApiUrlConfigurationError extends Error {
+  constructor() {
+    super(
+      'NEXT_PUBLIC_API_URL must be configured to the deployed API endpoint for production admin requests.'
+    );
+    this.name = 'ApiUrlConfigurationError';
+  }
+}
+
+export function getApiBaseUrl(): string {
+  const configuredUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+
+  if (!configuredUrl) {
+    if (process.env.NODE_ENV === 'development') {
+      return 'http://localhost:4000/api';
+    }
+    throw new ApiUrlConfigurationError();
+  }
+
+  let apiUrl: URL;
+  try {
+    apiUrl = new URL(configuredUrl);
+  } catch {
+    throw new ApiUrlConfigurationError();
+  }
+
+  if (
+    (apiUrl.protocol !== 'http:' && apiUrl.protocol !== 'https:') ||
+    apiUrl.search ||
+    apiUrl.hash ||
+    apiUrl.username ||
+    apiUrl.password ||
+    (process.env.NODE_ENV === 'production' &&
+      (apiUrl.hostname === 'localhost' ||
+        apiUrl.hostname.endsWith('.localhost') ||
+        apiUrl.hostname === '::1' ||
+        apiUrl.hostname === '[::1]' ||
+        /^127\./.test(apiUrl.hostname)))
+  ) {
+    throw new ApiUrlConfigurationError();
+  }
+
+  const path = apiUrl.pathname.replace(/\/+$/, '');
+  apiUrl.pathname = path.endsWith('/api') ? path : `${path}/api`;
+  return apiUrl.toString().replace(/\/+$/, '');
+}
+
+export async function apiFetch(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<Response> {
+  const headers = new Headers(options.headers);
+  if (!headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json');
+  }
+
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('axa_access_token');
+    if (token && !headers.has('Authorization')) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+  }
+
+  const baseUrl = getApiBaseUrl();
+  const url = endpoint.startsWith('http')
+    ? endpoint
+    : `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+
+  const res = await fetch(url, {
+    ...options,
+    headers,
+    credentials: 'include'
+  });
+
+  if (res.status === 401 && typeof window !== 'undefined') {
+    localStorage.removeItem('axa_access_token');
+    localStorage.removeItem('axa_refresh_token');
+    const isAuthPath = [
+      '/login',
+      '/forgot-password',
+      '/reset-password',
+      '/unauthorized'
+    ].some((path) => window.location.pathname.startsWith(path));
+    if (!isAuthPath && !endpoint.includes('/auth/')) {
+      window.location.href = '/login';
+    }
+  }
+
+  return res;
+}
 
 export async function apiClient<T = any>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<{ success: boolean; message?: string; data?: T; [key: string]: any }> {
-  const defaultHeaders: Record<string, string> = {
-    'Content-Type': 'application/json'
-  };
+  const res = await apiFetch(endpoint, options);
+  const data = await res.json();
 
-  // Attach JWT Bearer token automatically if present in browser localStorage
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('axa_access_token');
-    if (token && !options.headers?.hasOwnProperty('Authorization')) {
-      defaultHeaders['Authorization'] = `Bearer ${token}`;
-    }
+  if (!res.ok) {
+    throw new Error(data.message || data.error || 'An error occurred');
   }
 
-  const config: RequestInit = {
-    ...options,
-    headers: {
-      ...defaultHeaders,
-      ...options.headers
-    },
-    credentials: 'include'
-  };
-
-  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`;
-
-  try {
-    const res = await fetch(url, config);
-    const data = await res.json();
-
-    if (res.status === 401 && typeof window !== 'undefined') {
-      localStorage.removeItem('axa_access_token');
-      localStorage.removeItem('axa_refresh_token');
-      const isAuthPath = ['/login', '/forgot-password', '/reset-password', '/unauthorized'].some((p) =>
-        window.location.pathname.startsWith(p)
-      );
-      if (!isAuthPath && !endpoint.includes('/auth/')) {
-        window.location.href = '/login';
-      }
-    }
-
-    if (!res.ok) {
-      throw new Error(data.message || data.error || 'An error occurred');
-    }
-
-    return data;
-  } catch (error: any) {
-    throw new Error(error.message || 'Network request failed');
-  }
+  return data;
 }

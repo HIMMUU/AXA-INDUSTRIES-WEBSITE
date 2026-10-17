@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { PhoneCall } from 'lucide-react';
 
 // Official authentic WhatsApp SVG icon
@@ -19,6 +20,9 @@ function WhatsAppIcon({ className = 'w-5 h-5' }: { className?: string }) {
 }
 
 export function StickyContactWidget() {
+  const pathname = usePathname();
+  if (pathname === '/sanitary-napkin-vending-machine' || pathname === '/thank-you') return null;
+
   const phoneNumber = '+91 85951 56873';
   const rawPhoneNumber = '+918595156873';
   const whatsappMessage = encodeURIComponent(

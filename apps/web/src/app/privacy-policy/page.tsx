@@ -24,12 +24,17 @@ export default function PrivacyPolicyPage() {
               AXA Industries respects the confidentiality of corporate client information. We collect contact details, phone numbers, and project quote specifications solely for processing corporate enquiries and issuing formal quotes.
             </p>
 
-            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">2. Customer Account Authentication</h2>
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">2. Enquiry processing and analytics choices</h2>
+            <p>
+              When you submit an enquiry, we use the information you provide to respond to that request. On the sanitary napkin vending machine landing page, optional analytics and advertising attribution are enabled only after you accept analytics. If accepted, first-touch and last-touch campaign details may be stored in first-party browser storage for up to 90 days and included with your enquiry. If you reject analytics, the enquiry form remains available and campaign attribution is not persisted in your browser.
+            </p>
+
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">3. Customer Account Authentication</h2>
             <p>
               Browsers and public website visitors do not create user accounts or log in. Customer records are automatically generated when a formal quote or order enquiry is submitted.
             </p>
 
-            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">3. Third-Party Sharing</h2>
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">4. Third-Party Sharing</h2>
             <p>
               AXA Industries does not sell, rent, or lease client data to external market aggregators. Data is used exclusively by our engineering sales team and logistics partners.
             </p>

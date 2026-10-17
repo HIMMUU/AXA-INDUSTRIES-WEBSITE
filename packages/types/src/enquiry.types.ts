@@ -1,10 +1,12 @@
 export type EnquiryStatus =
   | 'NEW'
   | 'CONTACTED'
+  | 'QUALIFIED'
   | 'INTERESTED'
   | 'QUOTATION_SENT'
   | 'CONVERTED'
   | 'CLOSED'
+  | 'CLOSED_LOST'
   | 'REJECTED'
   | 'SPAM';
 
@@ -67,6 +69,11 @@ export interface Enquiry {
   preferredContactMethod?: string | null;
   preferredContactTime?: string | null;
   notes?: string | null;
+  institutionType?: string | null;
+  quantityBand?: string | null;
+  consent?: boolean;
+  consentAt?: string | null;
+  attribution?: Record<string, unknown> | null;
   notesList?: EnquiryNoteItem[];
   timeline?: EnquiryTimelineItem[];
   createdAt: string;

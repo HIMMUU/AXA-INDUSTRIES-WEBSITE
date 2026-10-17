@@ -1,7 +1,7 @@
 'use client';
 
 import { EnquiryTimelineItem } from '@axa/types';
-import { formatDate } from '@axa/utils';
+import { formatDateTimeInIndia } from '@axa/utils';
 import { Activity, Clock } from 'lucide-react';
 
 export function EnquiryTimelineFeed({ timeline }: { timeline: EnquiryTimelineItem[] }) {
@@ -26,7 +26,7 @@ export function EnquiryTimelineFeed({ timeline }: { timeline: EnquiryTimelineIte
               </div>
               <div className="flex items-center justify-between text-[11px]">
                 <span className="font-bold text-white">{item.title}</span>
-                <span className="text-neutral-500">{formatDate(item.createdAt)}</span>
+                <span className="text-neutral-500">{formatDateTimeInIndia(item.createdAt)}</span>
               </div>
               {item.description && (
                 <p className="text-xs text-neutral-400 leading-relaxed">{item.description}</p>

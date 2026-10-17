@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { EnquiryStatus, EnquirySource, OrderStatus } from '@axa/db';
+import { EnquiryStatus, EnquirySource, OrderStatus, Prisma } from '@axa/db';
+import { randomUUID } from 'crypto';
 import { PrismaService } from '../../../common/prisma/prisma.service';
 import { CreateEnquiryDto } from '../dto/create-enquiry.dto';
 import { UpdateEnquiryDto } from '../dto/update-enquiry.dto';
@@ -21,6 +22,10 @@ export class EnquiriesRepository {
     q?: string;
     status?: EnquiryStatus;
     source?: EnquirySource;
+    institutionType?: string;
+    city?: string;
+    fromDate?: Date;
+    toDate?: Date;
     productId?: string;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
@@ -31,6 +36,10 @@ export class EnquiriesRepository {
       q,
       status,
       source,
+      institutionType,
+      city,
+      fromDate,
+      toDate,
       productId,
       sortBy = 'createdAt',
       sortOrder = 'desc'
@@ -45,12 +54,21 @@ export class EnquiriesRepository {
         { company: { contains: q, mode: 'insensitive' } },
         { phone: { contains: q, mode: 'insensitive' } },
         { email: { contains: q, mode: 'insensitive' } },
+        { city: { contains: q, mode: 'insensitive' } },
         { referenceNumber: { contains: q, mode: 'insensitive' } }
       ];
     }
 
     if (status) where.status = status;
     if (source) where.source = source;
+    if (institutionType) where.institutionType = institutionType;
+    if (city) where.city = { contains: city, mode: 'insensitive' };
+    if (fromDate || toDate) {
+      where.createdAt = {
+        ...(fromDate ? { gte: fromDate } : {}),
+        ...(toDate ? { lte: new Date(toDate.getTime() + 24 * 60 * 60 * 1000 - 1) } : {})
+      };
+    }
     if (productId) where.productId = productId;
 
     const [items, total] = await Promise.all([
@@ -138,6 +156,63 @@ export class EnquiriesRepository {
         customer: true,
         product: true
       }
+    });
+  }
+
+  async findByIdempotencyKey(idempotencyKey: string) {
+    return this.prisma.enquiry.findUnique({
+      where: { idempotencyKey }
+    });
+  }
+
+  async createInstitutionalLead(data: {
+    idempotencyKey: string;
+    name: string;
+    company: string;
+    phone: string;
+    email?: string;
+    city: string;
+    message: string;
+    quantity: number;
+    institutionType: string;
+    quantityBand: string;
+    consentAt: Date;
+    attribution: Prisma.InputJsonValue;
+  }) {
+    const referenceNumber = `LEAD-${new Date().getFullYear()}-${randomUUID().slice(0, 8).toUpperCase()}`;
+
+    return this.prisma.$transaction(async (transaction) => {
+      const enquiry = await transaction.enquiry.create({
+        data: {
+          referenceNumber,
+          name: data.name,
+          company: data.company,
+          phone: data.phone,
+          email: data.email,
+          city: data.city,
+          message: data.message,
+          quantity: data.quantity,
+          source: EnquirySource.PRODUCT_DETAILS,
+          status: EnquiryStatus.NEW,
+          institutionType: data.institutionType,
+          quantityBand: data.quantityBand,
+          consent: true,
+          consentAt: data.consentAt,
+          attribution: data.attribution,
+          idempotencyKey: data.idempotencyKey
+        }
+      });
+
+      await transaction.enquiryTimeline.create({
+        data: {
+          enquiryId: enquiry.id,
+          title: 'Institutional lead submitted',
+          description: `New ${data.institutionType} enquiry; requested quantity band ${data.quantityBand}.`,
+          type: 'SUBMITTED'
+        }
+      });
+
+      return enquiry;
     });
   }
 

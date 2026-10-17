@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useEnquiriesStore } from '@/store/use-enquiries-store';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, apiFetch } from '@/lib/api-client';
 import { Enquiry } from '@axa/types';
 import { EnquiryFilters } from './components/enquiry-filters';
 import { EnquiryTable } from './components/enquiry-table';
@@ -13,7 +13,11 @@ export default function EnquiriesPage() {
     page,
     searchQuery,
     selectedStatus,
-    selectedSource
+    selectedSource,
+    selectedInstitutionType,
+    selectedCity,
+    fromDate,
+    toDate
   } = useEnquiriesStore();
 
   const {
@@ -21,14 +25,18 @@ export default function EnquiriesPage() {
     isLoading,
     refetch
   } = useQuery<{ items: Enquiry[]; meta: any }>({
-    queryKey: ['enquiries', page, searchQuery, selectedStatus, selectedSource],
+    queryKey: ['enquiries', page, searchQuery, selectedStatus, selectedSource, selectedInstitutionType, selectedCity, fromDate, toDate],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: page.toString(),
         limit: '10',
         ...(searchQuery && { q: searchQuery }),
         ...(selectedStatus && { status: selectedStatus }),
-        ...(selectedSource && { source: selectedSource })
+        ...(selectedSource && { source: selectedSource }),
+        ...(selectedInstitutionType && { institutionType: selectedInstitutionType }),
+        ...(selectedCity && { city: selectedCity }),
+        ...(fromDate && { from: fromDate }),
+        ...(toDate && { to: toDate })
       });
 
       const res = await apiClient(`/v1/enquiries?${params.toString()}`);
@@ -48,13 +56,14 @@ export default function EnquiriesPage() {
 
   const handleExportAllCsv = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/v1/enquiries/export', {
+      const res = await apiFetch('/v1/enquiries/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('axa_access_token')}`
         }
       });
+      if (!res.ok) throw new Error(`Enquiry export failed (${res.status}).`);
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
