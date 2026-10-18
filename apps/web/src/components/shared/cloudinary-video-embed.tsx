@@ -26,13 +26,14 @@ export function CloudinaryVideoEmbed({
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div className="relative aspect-video overflow-hidden rounded-2xl bg-neutral-950">
+    <div className="relative mx-auto aspect-[9/16] w-full max-w-[360px] overflow-hidden rounded-2xl bg-neutral-950">
       {isPlaying ? (
         <>
           <CldVideoPlayer
             src={publicId}
-            width={1280}
-            height={720}
+            width={360}
+            height={640}
+            aspectRatio="9:16"
             quality="auto"
             preload="none"
             playsinline
@@ -59,8 +60,8 @@ export function CloudinaryVideoEmbed({
             alt=""
             fill
             unoptimized
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-contain"
+            sizes="(max-width: 640px) 90vw, 360px"
+            className="object-cover"
           />
           <span className="absolute inset-0 bg-black/25 transition group-hover:bg-black/40" />
           <span aria-hidden="true" className="relative flex h-16 w-16 items-center justify-center rounded-full bg-blue-700/95 text-2xl shadow-xl transition group-hover:scale-105">

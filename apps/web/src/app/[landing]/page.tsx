@@ -4,9 +4,21 @@ import { permanentRedirect, notFound } from 'next/navigation';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { CloudinaryVideoEmbed } from '@/components/shared/cloudinary-video-embed';
+import { InstitutionalProductCards } from '@/components/products/institutional-product-cards';
 import { MACHINE_PRICING } from '@axa/types';
 
 const siteUrl = 'https://axaindustries.com';
+const vendingVideo = {
+  publicId: 'IMG_4744_2_udzorf',
+  posterUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
+};
+const institutionalVideo = {
+  publicId: '1792225113703428_2_qvhbu7',
+  posterUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg'
+};
 
 const pages = {
   'sanitary-napkin-vending-machine': {
@@ -527,6 +539,36 @@ export default async function SeoLandingPage({
               </Link>
             </div>
           </header>
+
+          {landing === 'sanitary-napkin-vending-machine' && (
+            <section aria-labelledby="institutional-reels-title" className="space-y-6">
+              <div className="mx-auto max-w-3xl text-center">
+                <p className="text-sm font-bold uppercase tracking-widest text-blue-700 dark:text-blue-300">
+                  Product demonstration
+                </p>
+                <h2 id="institutional-reels-title" className="mt-2 text-2xl font-extrabold sm:text-3xl">
+                  Watch AXA Industries Video Reels
+                </h2>
+                <p className="mt-3 leading-7 text-neutral-600 dark:text-neutral-300">
+                  See our short vertical videos about vending equipment and institutional applications.
+                </p>
+              </div>
+              <div className="grid justify-items-center gap-6 sm:grid-cols-2">
+                <CloudinaryVideoEmbed
+                  publicId={vendingVideo.publicId}
+                  posterUrl={vendingVideo.posterUrl}
+                  title="AXA sanitary napkin vending machine reel"
+                />
+                <CloudinaryVideoEmbed
+                  publicId={institutionalVideo.publicId}
+                  posterUrl={institutionalVideo.posterUrl}
+                  title="AXA institutional equipment reel"
+                />
+              </div>
+            </section>
+          )}
+
+          {landing === 'sanitary-napkin-vending-machine' && <InstitutionalProductCards />}
 
           <div className="grid gap-8">
             {page.sections.map((section) => (

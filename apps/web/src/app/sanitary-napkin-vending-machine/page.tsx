@@ -5,6 +5,7 @@ import { ArrowRight, Check, MessageCircle, Phone } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { InstitutionalLeadForm } from '@/components/products/lead-form';
+import { InstitutionalProductCards } from '@/components/products/institutional-product-cards';
 import { LandingAnalytics } from '@/components/products/landing-analytics';
 import { CloudinaryVideoEmbed } from '@/components/shared/cloudinary-video-embed';
 import { TrackedContactLink } from '@/components/products/tracked-contact-link';
@@ -37,12 +38,12 @@ export const metadata: Metadata = {
 const vendingVideo = {
   publicId: 'IMG_4744_2_udzorf',
   posterUrl:
-    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
 };
 const institutionalVideo = {
   publicId: '1792225113703428_2_qvhbu7',
   posterUrl:
-    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg'
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg'
 };
 
 const faqs = [
@@ -194,6 +195,8 @@ export default function InstitutionalVendingLandingPage() {
           </div>
         </section>
 
+        <InstitutionalProductCards />
+
         <section aria-label="Institutional quotation information" className="border-y border-neutral-200 bg-violet-50/70 dark:border-white/10 dark:bg-white/[0.03]">
           <div className="mx-auto grid max-w-7xl gap-4 px-4 py-5 text-center text-sm font-semibold sm:grid-cols-3 sm:px-6 lg:px-8">
             <p>Bulk requirements welcome</p>
@@ -239,17 +242,24 @@ export default function InstitutionalVendingLandingPage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-            <div>
+          <div>
+            <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-bold uppercase tracking-widest text-blue-700 dark:text-blue-300">Product demonstration</p>
-              <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">See How the Vending Machine Works</h2>
-              <p className="mt-3 max-w-2xl leading-7 text-neutral-600 dark:text-neutral-300">View the operating method and controls in a product demonstration. Video is click-to-play and loads only when its media assets are configured.</p>
+              <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Watch AXA Industries Video Reels</h2>
+              <p className="mt-3 leading-7 text-neutral-600 dark:text-neutral-300">See our short vertical videos about vending equipment and institutional applications. Each video loads when you press play.</p>
             </div>
-            <CloudinaryVideoEmbed
-              publicId={vendingVideo.publicId}
-              posterUrl={vendingVideo.posterUrl}
-              title="AXA sanitary napkin vending machine video"
-            />
+            <div className="mt-8 grid justify-items-center gap-6 sm:grid-cols-2">
+              <CloudinaryVideoEmbed
+                publicId={vendingVideo.publicId}
+                posterUrl={vendingVideo.posterUrl}
+                title="AXA sanitary napkin vending machine reel"
+              />
+              <CloudinaryVideoEmbed
+                publicId={institutionalVideo.publicId}
+                posterUrl={institutionalVideo.posterUrl}
+                title="AXA institutional equipment reel"
+              />
+            </div>
           </div>
           <div className="mt-5">
             <QuoteLink>Request Quote</QuoteLink>
@@ -292,13 +302,6 @@ export default function InstitutionalVendingLandingPage() {
               <p className="text-sm font-bold uppercase tracking-widest text-blue-700 dark:text-blue-300">Applications</p>
               <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">One Machine for Every Institution</h2>
               <p className="mt-3 leading-7 text-neutral-600 dark:text-neutral-300">Plan capacity, placement and replenishment around each site’s users and operating policy.</p>
-              <div className="mt-5">
-                <CloudinaryVideoEmbed
-                  publicId={institutionalVideo.publicId}
-                  posterUrl={institutionalVideo.posterUrl}
-                  title="AXA Industries institutional equipment video"
-                />
-              </div>
               <div className="mt-4">
                 <TrackedContactLink
                   href="https://wa.me/918595156873?text=Hi%20AXA%20Industries%2C%20I%20want%20to%20discuss%20a%20vending%20machine%20for%20my%20institution."

@@ -16,7 +16,12 @@ import { CloudinaryVideoEmbed } from '@/components/shared/cloudinary-video-embed
 const homepageVideo = {
   publicId: 'IMG_4744_2_udzorf',
   posterUrl:
-    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
+};
+const institutionalVideo = {
+  publicId: '1792225113703428_2_qvhbu7',
+  posterUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg'
 };
 
 export const metadata: Metadata = {
@@ -33,9 +38,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: homepageVideo.posterUrl,
-        width: 960,
-        height: 540,
-        alt: 'AXA Industries product video'
+        width: 540,
+        height: 960,
+        alt: 'AXA Industries vertical product reel'
       }
     ]
   },
@@ -55,23 +60,30 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <section aria-labelledby="homepage-video-title" className="bg-neutral-50 py-12 dark:bg-white/[0.025] sm:py-16">
-          <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-            <div>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-bold uppercase tracking-widest text-blue-700 dark:text-blue-300">
-                AXA Industries product video
+                AXA Industries video reels
               </p>
               <h2 id="homepage-video-title" className="mt-2 text-2xl font-extrabold sm:text-3xl">
                 Explore Our Institutional Hygiene Equipment
               </h2>
-              <p className="mt-3 max-w-2xl leading-7 text-neutral-600 dark:text-neutral-300">
-                Watch the AXA Industries product video, then explore equipment options for your school, college, workplace or facility.
+              <p className="mt-3 leading-7 text-neutral-600 dark:text-neutral-300">
+                Watch our short vertical videos to explore equipment options for your school, college, workplace or facility.
               </p>
             </div>
-            <CloudinaryVideoEmbed
-              publicId={homepageVideo.publicId}
-              posterUrl={homepageVideo.posterUrl}
-              title="AXA Industries institutional hygiene equipment"
-            />
+            <div className="mt-8 grid justify-items-center gap-6 sm:grid-cols-2">
+              <CloudinaryVideoEmbed
+                publicId={homepageVideo.publicId}
+                posterUrl={homepageVideo.posterUrl}
+                title="AXA Industries product reel"
+              />
+              <CloudinaryVideoEmbed
+                publicId={institutionalVideo.publicId}
+                posterUrl={institutionalVideo.posterUrl}
+                title="AXA Industries institutional equipment reel"
+              />
+            </div>
           </div>
         </section>
         <TrustedBySection />
