@@ -1,52 +1,10 @@
-export class ApiUrlConfigurationError extends Error {
-  constructor() {
-    super(
-      'NEXT_PUBLIC_API_URL must be configured to the deployed API endpoint for production admin requests.'
-    );
-    this.name = 'ApiUrlConfigurationError';
-  }
-}
-
-const DEFAULT_PRODUCTION_API_URL = 'https://axa-industries-website-api.vercel.app/api';
+const PRODUCTION_API_URL = 'https://axa-industries-website-api.vercel.app/api';
 
 export function getApiBaseUrl(): string {
-  const configuredUrl =
-    process.env.NEXT_PUBLIC_API_URL?.trim() ||
-    (process.env.NODE_ENV === 'production' ? DEFAULT_PRODUCTION_API_URL : undefined);
-
-  if (!configuredUrl) {
-    if (process.env.NODE_ENV === 'development') {
-      return 'http://localhost:4000/api';
-    }
-    throw new ApiUrlConfigurationError();
+  if (process.env.NODE_ENV === 'development') {
+    return process.env.NEXT_PUBLIC_API_URL?.trim() || 'http://localhost:4000/api';
   }
-
-  let apiUrl: URL;
-  try {
-    apiUrl = new URL(configuredUrl);
-  } catch {
-    throw new ApiUrlConfigurationError();
-  }
-
-  if (
-    (apiUrl.protocol !== 'http:' && apiUrl.protocol !== 'https:') ||
-    apiUrl.search ||
-    apiUrl.hash ||
-    apiUrl.username ||
-    apiUrl.password ||
-    (process.env.NODE_ENV === 'production' &&
-      (apiUrl.hostname === 'localhost' ||
-        apiUrl.hostname.endsWith('.localhost') ||
-        apiUrl.hostname === '::1' ||
-        apiUrl.hostname === '[::1]' ||
-        /^127\./.test(apiUrl.hostname)))
-  ) {
-    throw new ApiUrlConfigurationError();
-  }
-
-  const path = apiUrl.pathname.replace(/\/+$/, '');
-  apiUrl.pathname = path.endsWith('/api') ? path : `${path}/api`;
-  return apiUrl.toString().replace(/\/+$/, '');
+  return PRODUCTION_API_URL;
 }
 
 export async function apiFetch(
