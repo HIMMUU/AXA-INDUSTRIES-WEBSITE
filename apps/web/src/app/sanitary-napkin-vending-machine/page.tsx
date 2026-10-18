@@ -6,7 +6,7 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { InstitutionalLeadForm } from '@/components/products/lead-form';
 import { LandingAnalytics } from '@/components/products/landing-analytics';
-import { ProductDemoVideo } from '@/components/products/product-demo-video';
+import { CloudinaryVideoEmbed } from '@/components/shared/cloudinary-video-embed';
 import { TrackedContactLink } from '@/components/products/tracked-contact-link';
 
 const canonical = 'https://axaindustries.com/sanitary-napkin-vending-machine';
@@ -34,15 +34,15 @@ export const metadata: Metadata = {
   }
 };
 
-const reelOne = {
-  videoUrl: process.env.NEXT_PUBLIC_REEL_1_MP4,
-  posterUrl: process.env.NEXT_PUBLIC_REEL_1_POSTER,
-  captionsUrl: process.env.NEXT_PUBLIC_REEL_1_CAPTIONS
+const vendingVideo = {
+  publicId: 'IMG_4744_2_udzorf',
+  posterUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
 };
-const reelTwo = {
-  videoUrl: process.env.NEXT_PUBLIC_REEL_2_MP4,
-  posterUrl: process.env.NEXT_PUBLIC_REEL_2_POSTER,
-  captionsUrl: process.env.NEXT_PUBLIC_REEL_2_CAPTIONS
+const institutionalVideo = {
+  publicId: '1792225113703428_2_qvhbu7',
+  posterUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg'
 };
 
 const faqs = [
@@ -245,7 +245,11 @@ export default function InstitutionalVendingLandingPage() {
               <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">See How the Vending Machine Works</h2>
               <p className="mt-3 max-w-2xl leading-7 text-neutral-600 dark:text-neutral-300">View the operating method and controls in a product demonstration. Video is click-to-play and loads only when its media assets are configured.</p>
             </div>
-            <ProductDemoVideo reelId="reel1" {...reelOne} />
+            <CloudinaryVideoEmbed
+              publicId={vendingVideo.publicId}
+              posterUrl={vendingVideo.posterUrl}
+              title="AXA sanitary napkin vending machine video"
+            />
           </div>
           <div className="mt-5">
             <QuoteLink>Request Quote</QuoteLink>
@@ -288,7 +292,13 @@ export default function InstitutionalVendingLandingPage() {
               <p className="text-sm font-bold uppercase tracking-widest text-blue-700 dark:text-blue-300">Applications</p>
               <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">One Machine for Every Institution</h2>
               <p className="mt-3 leading-7 text-neutral-600 dark:text-neutral-300">Plan capacity, placement and replenishment around each site’s users and operating policy.</p>
-              <div className="mt-5"><ProductDemoVideo reelId="reel2" {...reelTwo} /></div>
+              <div className="mt-5">
+                <CloudinaryVideoEmbed
+                  publicId={institutionalVideo.publicId}
+                  posterUrl={institutionalVideo.posterUrl}
+                  title="AXA Industries institutional equipment video"
+                />
+              </div>
               <div className="mt-4">
                 <TrackedContactLink
                   href="https://wa.me/918595156873?text=Hi%20AXA%20Industries%2C%20I%20want%20to%20discuss%20a%20vending%20machine%20for%20my%20institution."

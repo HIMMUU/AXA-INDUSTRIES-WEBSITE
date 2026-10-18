@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://axaindustries.com/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg</video:thumbnail_loc>
+      <video:title>AXA Industries institutional hygiene equipment</video:title>
+      <video:description>Watch the AXA Industries product video and explore equipment options for institutional facilities.</video:description>
+      <video:content_loc>https://res.cloudinary.com/j0f3i5re/video/upload/f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.mp4</video:content_loc>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
   </url>
   <url>
     <loc>https://axaindustries.com/products</loc>
   </url>
   <url>
     <loc>https://axaindustries.com/sanitary-napkin-vending-machine</loc>
+    <video:video>
+      <video:thumbnail_loc>https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg</video:thumbnail_loc>
+      <video:title>AXA sanitary napkin vending machine video</video:title>
+      <video:description>Watch the AXA sanitary napkin vending machine video on the institutional product page.</video:description>
+      <video:content_loc>https://res.cloudinary.com/j0f3i5re/video/upload/f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.mp4</video:content_loc>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_960,h_540,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg</video:thumbnail_loc>
+      <video:title>AXA Industries institutional equipment video</video:title>
+      <video:description>Watch the AXA Industries institutional equipment video in the applications section.</video:description>
+      <video:content_loc>https://res.cloudinary.com/j0f3i5re/video/upload/f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.mov</video:content_loc>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
   </url>
   <url>
     <loc>https://axaindustries.com/sanitary-napkin-vending-machine-price</loc>

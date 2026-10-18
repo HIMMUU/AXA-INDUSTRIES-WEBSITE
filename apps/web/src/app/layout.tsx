@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Suspense } from 'react';
 import './globals.css';
+import 'next-cloudinary/dist/cld-video-player.css';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { StickyContactWidget } from '@/components/shared/sticky-contact-widget';
 
@@ -57,11 +58,22 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              '@id': 'https://axaindustries.com/#website',
-              url: 'https://axaindustries.com/',
-              name: 'AXA Industries',
-              inLanguage: 'en-IN'
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': 'https://axaindustries.com/#organization',
+                  name: 'AXA Industries',
+                  url: 'https://axaindustries.com/'
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://axaindustries.com/#website',
+                  url: 'https://axaindustries.com/',
+                  name: 'AXA Industries',
+                  inLanguage: 'en-IN',
+                  publisher: { '@id': 'https://axaindustries.com/#organization' }
+                }
+              ]
             }).replace(/</g, '\\u003c')
           }}
         />
