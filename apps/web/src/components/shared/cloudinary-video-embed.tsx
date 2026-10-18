@@ -1,24 +1,16 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
 
-const CldVideoPlayer = dynamic(
-  () => import('next-cloudinary').then((cloudinary) => cloudinary.CldVideoPlayer),
-  { ssr: false }
-);
-
-const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'j0f3i5re';
-
 type CloudinaryVideoEmbedProps = {
-  publicId: string;
+  videoUrl: string;
   posterUrl: string;
   title: string;
 };
 
 export function CloudinaryVideoEmbed({
-  publicId,
+  videoUrl,
   posterUrl,
   title
 }: CloudinaryVideoEmbedProps) {
@@ -29,19 +21,17 @@ export function CloudinaryVideoEmbed({
     <div className="relative mx-auto aspect-[9/16] w-full max-w-[360px] overflow-hidden rounded-2xl bg-neutral-950">
       {isPlaying ? (
         <>
-          <CldVideoPlayer
-            src={publicId}
-            width={360}
-            height={640}
-            aspectRatio="9:16"
-            quality="auto"
-            preload="none"
-            playsinline
+          <video
+            autoPlay
             controls
-            poster={publicId}
-            config={{ cloud: { cloudName } }}
+            playsInline
+            preload="none"
+            poster={posterUrl}
             onError={() => setHasError(true)}
-          />
+            className="h-full w-full bg-black object-contain"
+          >
+            <source src={videoUrl} type="video/mp4" />
+          </video>
           {hasError && (
             <p role="alert" className="absolute inset-x-4 bottom-4 rounded-lg bg-black/80 p-3 text-sm text-white">
               This video could not be loaded. Please try again later.

@@ -27,6 +27,8 @@ type StoredAttribution = {
 
 type TrackParams = Record<string, string | number | boolean>;
 
+export const GOOGLE_ADS_ID = 'AW-18521031754';
+
 declare global {
   interface Window {
     dataLayer?: unknown[];
@@ -216,11 +218,10 @@ export function trackEvent(name: string, params: TrackParams = {}): void {
 
     if (
       name === 'generate_lead' &&
-      process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID &&
       process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL
     ) {
       window.gtag?.('event', 'conversion', {
-        send_to: `${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID}/${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL}`,
+        send_to: `${GOOGLE_ADS_ID}/${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL}`,
         value: 1,
         currency: 'INR'
       });

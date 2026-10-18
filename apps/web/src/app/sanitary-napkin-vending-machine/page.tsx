@@ -6,12 +6,12 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { InstitutionalLeadForm } from '@/components/products/lead-form';
 import { InstitutionalProductCards } from '@/components/products/institutional-product-cards';
-import { LandingAnalytics } from '@/components/products/landing-analytics';
 import { CloudinaryVideoEmbed } from '@/components/shared/cloudinary-video-embed';
 import { TrackedContactLink } from '@/components/products/tracked-contact-link';
 
 const canonical = 'https://axaindustries.com/sanitary-napkin-vending-machine';
-const heroImage = 'https://axaindustries.com/images/vending-machine-transparent.png';
+const heroImage =
+  'https://res.cloudinary.com/j0f3i5re/image/upload/f_auto,q_auto/v1786306986/Autoomatic_vending_machine_outer_t8odma.jpg';
 
 export const metadata: Metadata = {
   title: 'Sanitary Napkin Vending Machine for Institutions | AXA Industries',
@@ -36,14 +36,14 @@ export const metadata: Metadata = {
 };
 
 const vendingVideo = {
-  publicId: 'IMG_4744_2_udzorf',
-  posterUrl:
-    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
+  videoUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/f_mp4,q_auto:good,vc_h264,ac_aac/v1792271592/IMG_4744_2_udzorf.mp4',
+  posterUrl: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1792358307/IMG_1258_nwqxjn.jpg'
 };
 const institutionalVideo = {
-  publicId: '1792225113703428_2_qvhbu7',
-  posterUrl:
-    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg'
+  videoUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/f_mp4,q_auto:good,vc_h264,ac_aac/v1792271619/1792225113703428_2_qvhbu7.mp4',
+  posterUrl: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1792358307/IMG_1257_zawiiq.jpg'
 };
 
 const faqs = [
@@ -183,8 +183,8 @@ export default function InstitutionalVendingLandingPage() {
           </div>
           <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-3xl bg-violet-50 dark:bg-white/[0.04]">
             <Image
-              src="/images/vending-machine-transparent.png"
-              alt="AXA sanitary napkin vending machine for institutional washrooms"
+              src={heroImage}
+              alt="AXA AutoVend sanitary napkin vending machine for institutional washrooms"
               width={1024}
               height={1024}
               priority
@@ -250,12 +250,12 @@ export default function InstitutionalVendingLandingPage() {
             </div>
             <div className="mt-8 grid justify-items-center gap-6 sm:grid-cols-2">
               <CloudinaryVideoEmbed
-                publicId={vendingVideo.publicId}
+                videoUrl={vendingVideo.videoUrl}
                 posterUrl={vendingVideo.posterUrl}
                 title="AXA sanitary napkin vending machine reel"
               />
               <CloudinaryVideoEmbed
-                publicId={institutionalVideo.publicId}
+                videoUrl={institutionalVideo.videoUrl}
                 posterUrl={institutionalVideo.posterUrl}
                 title="AXA institutional equipment reel"
               />
@@ -394,7 +394,6 @@ export default function InstitutionalVendingLandingPage() {
       </div>
 
       <Footer />
-      <LandingAnalytics />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}

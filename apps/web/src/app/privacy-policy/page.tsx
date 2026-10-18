@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
 
             <h2 className="text-sm font-bold text-neutral-900 dark:text-white">2. Enquiry processing and analytics choices</h2>
             <p>
-              When you submit an enquiry, we use the information you provide to respond to that request. On the sanitary napkin vending machine landing page, optional analytics and advertising attribution are enabled only after you accept analytics. If accepted, first-touch and last-touch campaign details may be stored in first-party browser storage for up to 90 days and included with your enquiry. If you reject analytics, the enquiry form remains available and campaign attribution is not persisted in your browser.
+              When you submit an enquiry, we use the information you provide to respond to that request. Optional Google Analytics and Google Ads measurement are enabled only after you accept analytics. If accepted, first-touch and last-touch campaign details may be stored in first-party browser storage for up to 90 days and included with your enquiry. If you reject analytics, the enquiry form remains available and campaign attribution is not persisted in your browser.
             </p>
 
             <h2 className="text-sm font-bold text-neutral-900 dark:text-white">3. Customer Account Authentication</h2>

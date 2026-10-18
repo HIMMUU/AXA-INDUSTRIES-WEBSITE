@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { ArrowLeft, MessageCircle, Phone } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
-import { LandingAnalytics } from '@/components/products/landing-analytics';
 import { TrackedContactLink } from '@/components/products/tracked-contact-link';
 import { VerifiedLeadTracking } from '@/components/products/verified-lead-tracking';
 
@@ -46,7 +45,6 @@ export default function EnquiryThankYouPage() {
         </Link>
       </main>
       <Footer />
-      <LandingAnalytics />
       <VerifiedLeadTracking />
     </div>
   );

@@ -14,14 +14,14 @@ import { Footer } from '@/components/layout/footer';
 import { CloudinaryVideoEmbed } from '@/components/shared/cloudinary-video-embed';
 
 const homepageVideo = {
-  publicId: 'IMG_4744_2_udzorf',
-  posterUrl:
-    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271592/IMG_4744_2_udzorf.jpg'
+  videoUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/f_mp4,q_auto:good,vc_h264,ac_aac/v1792271592/IMG_4744_2_udzorf.mp4',
+  posterUrl: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1792358307/IMG_1258_nwqxjn.jpg'
 };
 const institutionalVideo = {
-  publicId: '1792225113703428_2_qvhbu7',
-  posterUrl:
-    'https://res.cloudinary.com/j0f3i5re/video/upload/so_0,w_540,h_960,c_limit,f_auto,q_auto/v1792271619/1792225113703428_2_qvhbu7.jpg'
+  videoUrl:
+    'https://res.cloudinary.com/j0f3i5re/video/upload/f_mp4,q_auto:good,vc_h264,ac_aac/v1792271619/1792225113703428_2_qvhbu7.mp4',
+  posterUrl: 'https://res.cloudinary.com/j0f3i5re/image/upload/v1792358307/IMG_1257_zawiiq.jpg'
 };
 
 export const metadata: Metadata = {
@@ -74,12 +74,12 @@ export default function HomePage() {
             </div>
             <div className="mt-8 grid justify-items-center gap-6 sm:grid-cols-2">
               <CloudinaryVideoEmbed
-                publicId={homepageVideo.publicId}
+                videoUrl={homepageVideo.videoUrl}
                 posterUrl={homepageVideo.posterUrl}
                 title="AXA Industries product reel"
               />
               <CloudinaryVideoEmbed
-                publicId={institutionalVideo.publicId}
+                videoUrl={institutionalVideo.videoUrl}
                 posterUrl={institutionalVideo.posterUrl}
                 title="AXA Industries institutional equipment reel"
               />

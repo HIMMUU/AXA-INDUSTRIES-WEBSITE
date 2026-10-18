@@ -7,12 +7,13 @@ import { usePathname } from 'next/navigation';
 import {
   captureLandingAttribution,
   getAnalyticsConsent,
+  GOOGLE_ADS_ID,
   setAnalyticsConsent,
   trackEvent
 } from '@/lib/landing-analytics';
 
 const measurementId = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
-const adsConversionId = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID;
+const googleTagId = measurementId || GOOGLE_ADS_ID;
 
 export function LandingAnalytics() {
   const pathname = usePathname();
@@ -55,14 +56,14 @@ export function LandingAnalytics() {
 
   return (
     <>
-      {consent === true && measurementId && (
+      {consent === true && (
         <>
           <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(googleTagId)}`}
             strategy="afterInteractive"
           />
-          <Script id="axa-analytics-init" strategy="afterInteractive">
-            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config',${JSON.stringify(measurementId)},{send_page_view:false});${adsConversionId ? `gtag('config',${JSON.stringify(adsConversionId)});` : ''}`}
+          <Script id="axa-google-tags-init" strategy="afterInteractive">
+            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());${measurementId ? `gtag('config',${JSON.stringify(measurementId)},{send_page_view:false});` : ''}gtag('config',${JSON.stringify(GOOGLE_ADS_ID)});`}
           </Script>
         </>
       )}

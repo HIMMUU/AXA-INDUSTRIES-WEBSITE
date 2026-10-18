@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Suspense } from 'react';
 import './globals.css';
-import 'next-cloudinary/dist/cld-video-player.css';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { StickyContactWidget } from '@/components/shared/sticky-contact-widget';
+import { LandingAnalytics } from '@/components/products/landing-analytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -50,6 +50,7 @@ export default function RootLayout({
             </div>
           }>
             {children}
+            <LandingAnalytics />
           </Suspense>
           <StickyContactWidget />
         </ThemeProvider>
