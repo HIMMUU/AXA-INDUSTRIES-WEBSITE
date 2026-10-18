@@ -7,6 +7,8 @@ import { CldImage } from 'next-cloudinary';
 import { Product } from '@axa/types';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { isSuccessfulEnquiryResponse } from '@/lib/enquiry-response';
+import { trackEvent } from '@/lib/landing-analytics';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -62,6 +64,7 @@ export function SolidWasteIncineratorB2BPage({
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   // Form State
@@ -89,6 +92,7 @@ export function SolidWasteIncineratorB2BPage({
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setSubmissionError(null);
 
     const formEl = e.currentTarget;
     const formValues = new FormData(formEl);
@@ -101,7 +105,7 @@ export function SolidWasteIncineratorB2BPage({
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-      await fetch(`${apiUrl}/v1/enquiries`, {
+      const response = await fetch(`${apiUrl}/v1/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -117,11 +121,18 @@ export function SolidWasteIncineratorB2BPage({
           message: `[B2B Quote Request - Solid Waste Incinerator] Model: ${selectedVariant}, Org Type: ${formData.orgType}, City: ${formData.city}, State: ${formData.state}. Additional Notes: ${notes}`
         })
       });
+      const result: unknown = await response.json();
+      if (!response.ok || !isSuccessfulEnquiryResponse(result)) {
+        throw new Error('The enquiry service did not confirm the submission.');
+      }
+
+      setQuoteSubmitted(true);
+      trackEvent('generate_lead', { form_id: 'solid-waste-incinerator-quote' });
     } catch (err) {
-      console.warn('Enquiry submission fallback:', err);
+      console.error('Solid waste incinerator enquiry submission failed.', err);
+      setSubmissionError('We could not confirm your request was received. Please try again, or contact us by phone or WhatsApp.');
     } finally {
       setIsSubmitting(false);
-      setQuoteSubmitted(true);
     }
   };
 
@@ -779,6 +790,7 @@ export function SolidWasteIncineratorB2BPage({
                   </p>
                 </div>
 
+                {submissionError && <p role="alert" className="mb-3 text-sm text-red-600">{submissionError}</p>}
                 <form onSubmit={handleFormSubmit} className="space-y-4 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>

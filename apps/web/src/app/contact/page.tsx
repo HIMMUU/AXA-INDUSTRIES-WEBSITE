@@ -5,6 +5,8 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
+import { isSuccessfulEnquiryResponse } from '@/lib/enquiry-response';
+import { trackEvent } from '@/lib/landing-analytics';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -40,11 +42,12 @@ export default function ContactPage() {
         })
       });
       const json: unknown = await res.json();
-      if (!res.ok || !isEnquiryResponse(json)) {
+      if (!res.ok || !isSuccessfulEnquiryResponse(json)) {
         throw new Error('The enquiry service did not confirm the submission.');
       }
 
       setSubmitted(true);
+      trackEvent('generate_lead', { form_id: 'contact-page-enquiry' });
     } catch (err) {
       console.error('Contact enquiry submission failed.', err);
       setSubmissionError(
@@ -247,14 +250,5 @@ export default function ContactPage() {
 
       <Footer />
     </div>
-  );
-}
-
-function isEnquiryResponse(response: unknown): response is { success: true } {
-  return (
-    typeof response === 'object' &&
-    response !== null &&
-    'success' in response &&
-    response.success === true
   );
 }

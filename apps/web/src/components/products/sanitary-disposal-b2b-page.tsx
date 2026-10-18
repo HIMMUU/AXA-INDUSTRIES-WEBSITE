@@ -6,6 +6,8 @@ import { CldImage } from 'next-cloudinary';
 import { Product, MACHINE_PRICING } from '@axa/types';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { isSuccessfulEnquiryResponse } from '@/lib/enquiry-response';
+import { trackEvent } from '@/lib/landing-analytics';
 import {
   ShieldCheck,
   Zap,
@@ -60,6 +62,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
   });
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   // Interactive ROI Calculator State
   const [femaleCount, setFemaleCount] = useState(250);
@@ -69,6 +72,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setSubmissionError(null);
 
     const formEl = e.currentTarget;
     const formValues = new FormData(formEl);
@@ -82,7 +86,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-      await fetch(`${apiUrl}/v1/enquiries`, {
+      const response = await fetch(`${apiUrl}/v1/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -95,11 +99,18 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
           source: 'PRODUCT_DETAILS'
         })
       });
+      const result: unknown = await response.json();
+      if (!response.ok || !isSuccessfulEnquiryResponse(result)) {
+        throw new Error('The enquiry service did not confirm the submission.');
+      }
+
+      setQuoteSubmitted(true);
+      trackEvent('generate_lead', { form_id: 'sanitary-disposal-quote' });
     } catch (err) {
-      console.warn('Backend enquiry submission:', err);
+      console.error('Sanitary disposal enquiry submission failed.', err);
+      setSubmissionError('We could not confirm your request was received. Please try again, or contact us by phone or WhatsApp.');
     } finally {
       setIsSubmitting(false);
-      setQuoteSubmitted(true);
     }
   };
 
@@ -742,6 +753,7 @@ export function SanitaryDisposalB2BPage({ product }: SanitaryDisposalB2BPageProp
               </div>
             ) : (
               <form onSubmit={handleFormSubmit} className="space-y-3 text-xs">
+                {submissionError && <p role="alert" className="mb-3 text-sm text-red-600">{submissionError}</p>}
                 <div>
                   <label className="font-semibold text-neutral-700 dark:text-neutral-300">Organization Name *</label>
                   <input

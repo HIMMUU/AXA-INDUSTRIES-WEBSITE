@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Product, MACHINE_PRICING } from '@axa/types';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { isSuccessfulEnquiryResponse } from '@/lib/enquiry-response';
+import { trackEvent } from '@/lib/landing-analytics';
 import {
   ShieldCheck,
   Zap,
@@ -54,6 +56,7 @@ export function SanitaryVendingB2BPage({
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   // Form State
@@ -83,6 +86,7 @@ export function SanitaryVendingB2BPage({
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setSubmissionError(null);
 
     const formEl = e.currentTarget;
     const formValues = new FormData(formEl);
@@ -96,7 +100,7 @@ export function SanitaryVendingB2BPage({
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-      await fetch(`${apiUrl}/v1/enquiries`, {
+      const response = await fetch(`${apiUrl}/v1/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -109,15 +113,22 @@ export function SanitaryVendingB2BPage({
           source: 'PRODUCT_DETAILS'
         })
       });
-    } catch (err) {
-      console.warn('Backend enquiry submission:', err);
-    } finally {
-      setIsSubmitting(false);
+      const result: unknown = await response.json();
+      if (!response.ok || !isSuccessfulEnquiryResponse(result)) {
+        throw new Error('The enquiry service did not confirm the submission.');
+      }
+
       setQuoteSubmitted(true);
+      trackEvent('generate_lead', { form_id: 'sanitary-vending-quote' });
       setTimeout(() => {
         setQuoteSubmitted(false);
         setShowQuoteModal(false);
       }, 4000);
+    } catch (err) {
+      console.error('Sanitary vending enquiry submission failed.', err);
+      setSubmissionError('We could not confirm your request was received. Please try again, or contact us by phone or WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -615,6 +626,7 @@ export function SanitaryVendingB2BPage({
                   </p>
                 </div>
 
+                {submissionError && <p role="alert" className="mb-3 text-sm text-red-600">{submissionError}</p>}
                 <form onSubmit={handleFormSubmit} className="space-y-4 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>

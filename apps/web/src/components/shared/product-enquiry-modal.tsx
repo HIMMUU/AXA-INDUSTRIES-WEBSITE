@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { EnquirySource } from '@axa/types';
 import { X, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { trackEvent } from '@/lib/landing-analytics';
 
 interface ProductEnquiryModalProps {
   isOpen: boolean;
@@ -137,6 +138,7 @@ export function ProductEnquiryModal({
       }
 
       setSubmittedRef(json.data.referenceNumber);
+      trackEvent('generate_lead', { form_id: 'product-enquiry-modal' });
     } catch (err) {
       console.error('Product enquiry submission failed.', err);
       setSubmissionError(
