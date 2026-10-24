@@ -37,7 +37,6 @@ declare global {
   }
 }
 
-const CONSENT_KEY = 'axa-vending-analytics-consent';
 const ATTRIBUTION_KEY = 'axa-vending-attribution';
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
 
@@ -75,15 +74,6 @@ function writeValue(key: string, value: string): void {
       // Analytics and attribution are optional; the lead form remains independent.
     }
   }
-}
-
-export function getAnalyticsConsent(): boolean | null {
-  const value = readValue(CONSENT_KEY);
-  return value === 'accepted' ? true : value === 'rejected' ? false : null;
-}
-
-export function setAnalyticsConsent(consent: boolean): void {
-  writeValue(CONSENT_KEY, consent ? 'accepted' : 'rejected');
 }
 
 function safeLandingPage(): string {
@@ -136,8 +126,6 @@ function getCurrentTouch(): AttributionTouch {
 }
 
 export function captureLandingAttribution(): void {
-  if (getAnalyticsConsent() !== true) return;
-
   let stored: StoredAttribution | null = null;
   try {
     const value = readValue(ATTRIBUTION_KEY);
@@ -175,23 +163,20 @@ export function captureLandingAttribution(): void {
 }
 
 export function getLeadAttribution(): LeadAttribution {
-  const consent = getAnalyticsConsent() === true;
-  if (consent) {
-    try {
-      const value = readValue(ATTRIBUTION_KEY);
-      if (value) {
-        const stored = JSON.parse(value) as StoredAttribution;
-        if (stored.expires_at > Date.now()) {
-          return {
-            first_touch: stored.first_touch,
-            last_touch: stored.last_touch,
-            consent: true
-          };
-        }
+  try {
+    const value = readValue(ATTRIBUTION_KEY);
+    if (value) {
+      const stored = JSON.parse(value) as StoredAttribution;
+      if (stored.expires_at > Date.now()) {
+        return {
+          first_touch: stored.first_touch,
+          last_touch: stored.last_touch,
+          consent: false
+        };
       }
-    } catch {
-      // Continue with a minimal direct attribution record.
     }
+  } catch {
+    // Continue with a minimal direct attribution record.
   }
 
   const directTouch: AttributionTouch = {
@@ -201,12 +186,10 @@ export function getLeadAttribution(): LeadAttribution {
     page_title: document.title.slice(0, 300),
     ts: new Date().toISOString()
   };
-  return { first_touch: directTouch, last_touch: directTouch, consent };
+  return { first_touch: directTouch, last_touch: directTouch, consent: false };
 }
 
 export function trackEvent(name: string, params: TrackParams = {}): void {
-  if (getAnalyticsConsent() !== true) return;
-
   try {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: name, ...params });

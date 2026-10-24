@@ -24,9 +24,9 @@ export default function PrivacyPolicyPage() {
               AXA Industries respects the confidentiality of corporate client information. We collect contact details, phone numbers, and project quote specifications solely for processing corporate enquiries and issuing formal quotes.
             </p>
 
-            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">2. Enquiry processing and analytics choices</h2>
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-white">2. Enquiry processing and analytics</h2>
             <p>
-              When you submit an enquiry, we use the information you provide to respond to that request. Optional Google Analytics and Google Ads measurement are enabled only after you accept analytics. If accepted, first-touch and last-touch campaign details may be stored in first-party browser storage for up to 90 days and included with your enquiry. If you reject analytics, the enquiry form remains available and campaign attribution is not persisted in your browser.
+              When you submit an enquiry, we use the information you provide to respond to that request. Google Analytics and Google Ads measurement run when you visit this website without an on-page consent prompt. First-touch and last-touch campaign details may be stored in first-party browser storage for up to 90 days and included with your enquiry. You can manage cookies through your browser settings.
             </p>
 
             <h2 className="text-sm font-bold text-neutral-900 dark:text-white">3. Customer Account Authentication</h2>
