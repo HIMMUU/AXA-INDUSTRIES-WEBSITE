@@ -4,7 +4,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateProductSchema, CreateProductInput, ProductStatus, Product, PRODUCT_CATEGORY_TEMPLATES } from '@axa/types';
+import {
+  CreateProductSchema,
+  CreateProductInput,
+  ProductStatus,
+  Product,
+  PRODUCT_CATEGORY_TEMPLATES,
+  PRODUCT_PAGE_TEMPLATE_LABELS,
+  ProductPageTemplate
+} from '@axa/types';
 import { apiClient } from '@/lib/api-client';
 import { ImageUploader } from './image-uploader';
 import { SpecificationsBuilder } from './specifications-builder';
@@ -39,6 +47,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
       description: initialData?.description || '',
       price: initialData?.price ? Number(initialData.price) : 0,
       status: initialData?.status || ProductStatus.DRAFT,
+      pageTemplate: initialData?.pageTemplate || 'STANDARD',
       featured: initialData?.featured || false,
       metaTitle: initialData?.metaTitle || '',
       metaDescription: initialData?.metaDescription || '',
@@ -65,6 +74,16 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
     setValue('metaTitle', tmpl.metaTitle);
     setValue('metaDescription', tmpl.metaDescription);
     setValue('specifications', tmpl.defaultSpecifications);
+    const pageTemplateByCategory: Record<string, ProductPageTemplate> = {
+      'sanitary-napkin-vending-machine': 'AUTOMATIC_VENDING',
+      'sanitary-napkin-disposal-machine': 'SANITARY_DISPOSAL',
+      'feedback-machine': 'FEEDBACK_MACHINE',
+      'solid-waste-incinerator': 'SOLID_WASTE_INCINERATOR',
+      'biomedical-hazardous-waste-incinerator': 'SOLID_WASTE_INCINERATOR',
+      'cloth-bag-vending-machine': 'CLOTH_BAG_VENDING',
+      'manual-sanitary-napkin-vending-machine': 'MANUAL_VENDING'
+    };
+    setValue('pageTemplate', pageTemplateByCategory[tmpl.id] || 'STANDARD');
     if ((watch('images') || []).length === 0) {
       setValue('images', tmpl.sampleImages);
     }
@@ -307,11 +326,29 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
             <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Section 2: Pricing</h3>
 
             <div className="space-y-1.5">
+              <label htmlFor="pageTemplate" className="text-xs font-medium text-neutral-300">
+                Storefront Page Template
+              </label>
+              <select
+                id="pageTemplate"
+                {...register('pageTemplate')}
+                className="w-full rounded-xl border border-white/10 bg-neutral-900 px-3.5 py-2.5 text-xs text-white focus:border-white/30 focus:outline-none"
+              >
+                {Object.entries(PRODUCT_PAGE_TEMPLATE_LABELS).map(([value, label]) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
+              {errors.pageTemplate && (
+                <p className="text-[11px] font-medium text-red-400">{errors.pageTemplate.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-1.5">
               <label htmlFor="price" className="text-xs font-medium text-neutral-300">
-                Price (USD $) *
+                Indicative Price (INR, excl. GST) *
               </label>
               <div className="relative">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 font-semibold text-xs">$</span>
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 font-semibold text-xs">₹</span>
                 <input
                   id="price"
                   type="number"

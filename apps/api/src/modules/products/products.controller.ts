@@ -19,10 +19,34 @@ import { BulkActionDto } from './dto/bulk-action.dto';
 import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Products')
-@Public()
 @Controller('v1/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
+  @Get('published')
+  @Public()
+  @ApiOperation({ summary: 'Get Published Product Catalogue' })
+  async getPublishedProducts(@Query() queryDto: ProductQueryDto) {
+    const result = await this.productsService.getPublishedProducts(queryDto);
+    return {
+      success: true,
+      message: 'Published products retrieved successfully',
+      data: result.items,
+      meta: result.meta
+    };
+  }
+
+  @Get('published/slug/:slug')
+  @Public()
+  @ApiOperation({ summary: 'Get Published Product Details by Slug' })
+  async getPublishedProductBySlug(@Param('slug') slug: string) {
+    const product = await this.productsService.getPublishedProductBySlug(slug);
+    return {
+      success: true,
+      message: 'Product retrieved successfully',
+      data: product
+    };
+  }
 
   @Get()
   @ApiOperation({ summary: 'Get Paginated Product Catalogue' })

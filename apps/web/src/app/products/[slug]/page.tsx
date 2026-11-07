@@ -5,6 +5,9 @@ import { SanitaryDisposalB2BPage } from '@/components/products/sanitary-disposal
 import { ClothBagVendingB2BPage } from '@/components/products/cloth-bag-vending-b2b-page';
 import { FeedbackMachineB2BPage } from '@/components/products/feedback-machine-b2b-page';
 import { SolidWasteIncineratorB2BPage } from '@/components/products/solid-waste-incinerator-b2b-page';
+import type { Product } from '@axa/types';
+import { AdminProductPage } from '@/components/products/admin-product-page';
+import { getApiBaseUrl } from '@/lib/api-url';
 
 function SolidWaste45KwProductPage() {
   return <SolidWasteIncineratorB2BPage initialVariant="SWI4.5KW" />;
@@ -79,10 +82,27 @@ const products = {
 
 type ProductSlug = keyof typeof products;
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return Object.keys(products).map((slug) => ({ slug }));
+}
+
+async function getPublishedProduct(slug: string): Promise<Product | null> {
+  const apiUrl = getApiBaseUrl();
+  const response = await fetch(
+    `${apiUrl}/v1/products/published/slug/${encodeURIComponent(slug)}`,
+    { cache: 'no-store' }
+  );
+  if (response.status === 404) return null;
+  if (!response.ok) {
+    throw new Error(`Could not load product '${slug}' (HTTP ${response.status}).`);
+  }
+  const result: { data?: Product } = await response.json();
+  if (!result.data) {
+    throw new Error(`The product service returned no product for '${slug}'.`);
+  }
+  return result.data;
 }
 
 export async function generateMetadata({
@@ -93,22 +113,37 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = products[slug as ProductSlug];
 
-  if (!product) {
-    notFound();
-  }
-
   const canonical = `https://axaindustries.com/products/${slug}`;
-
-  return {
-    title: product.title,
-    description: product.description,
-    alternates: { canonical },
-    openGraph: {
+  if (product) {
+    return {
       title: product.title,
       description: product.description,
+      alternates: { canonical },
+      openGraph: {
+        title: product.title,
+        description: product.description,
+        url: canonical,
+        type: 'website'
+      }
+    };
+  }
+
+  const dynamicProduct = await getPublishedProduct(slug);
+  if (!dynamicProduct) notFound();
+  const title = dynamicProduct.metaTitle || `${dynamicProduct.name} | AXA Industries`;
+  const description = dynamicProduct.metaDescription || dynamicProduct.shortDescription;
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
       url: canonical,
-      type: 'website'
-    }
+      type: 'website',
+      ...(dynamicProduct.images[0]?.url ? { images: [dynamicProduct.images[0].url] } : {})
+    },
+    robots: { index: true, follow: true }
   };
 }
 
@@ -120,23 +155,48 @@ export default async function ProductDetailPage({
   const { slug } = await params;
   const product = products[slug as ProductSlug];
 
-  if (!product) {
-    notFound();
+  if (product) {
+    const canonical = `https://axaindustries.com/products/${slug}`;
+    const structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      '@id': `${canonical}#product`,
+      name: product.name,
+      description: product.description,
+      ...(product.image ? { image: product.image } : {}),
+      brand: { '@type': 'Brand', name: 'AXA Industries' },
+      url: canonical
+    };
+
+    const ProductPage = product.page;
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, '\\u003c')
+          }}
+        />
+        <ProductPage />
+      </>
+    );
   }
 
+  const dynamicProduct = await getPublishedProduct(slug);
+  if (!dynamicProduct) notFound();
   const canonical = `https://axaindustries.com/products/${slug}`;
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     '@id': `${canonical}#product`,
-    name: product.name,
-    description: product.description,
-    ...(product.image ? { image: product.image } : {}),
+    name: dynamicProduct.name,
+    description: dynamicProduct.description,
+    ...(dynamicProduct.images[0]?.url ? { image: dynamicProduct.images.map(({ url }) => url) } : {}),
+    category: dynamicProduct.pageTemplate,
     brand: { '@type': 'Brand', name: 'AXA Industries' },
     url: canonical
   };
 
-  const ProductPage = product.page;
   return (
     <>
       <script
@@ -145,7 +205,7 @@ export default async function ProductDetailPage({
           __html: JSON.stringify(structuredData).replace(/</g, '\\u003c')
         }}
       />
-      <ProductPage />
+      <AdminProductPage product={dynamicProduct} />
     </>
   );
 }

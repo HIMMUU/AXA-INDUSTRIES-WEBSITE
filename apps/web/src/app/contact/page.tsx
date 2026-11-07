@@ -1,17 +1,38 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
 import { isSuccessfulEnquiryResponse } from '@/lib/enquiry-response';
 import { trackEvent } from '@/lib/landing-analytics';
+import { useCart } from '@/providers/cart-provider';
 
 export default function ContactPage() {
+  const { items } = useCart();
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [messageText, setMessageText] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (messageText.trim()) return;
+
+    const requestedItems =
+      params.get('cart') === '1'
+        ? items.map((item) => `- ${item.name} (Quantity: ${item.quantity})`)
+        : params.get('product')
+          ? [`- ${params.get('product')} (Quantity: 1)`]
+          : [];
+
+    if (requestedItems.length > 0) {
+      setMessageText(
+        `Products of interest:\n${requestedItems.join('\n')}\n\nPlease confirm current pricing, availability, taxes, and delivery.`
+      );
+    }
+  }, [items, messageText]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -172,6 +193,8 @@ export default function ContactPage() {
                       name="messageText"
                       rows={4}
                       required
+                      value={messageText}
+                      onChange={(event) => setMessageText(event.target.value)}
                       placeholder="Specify equipment requirements, incinerator capacity, vending machine counts, or custom specs..."
                       className="w-full rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-white/5 px-3.5 py-2.5 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:border-blue-500 focus:outline-none shadow-sm"
                     />

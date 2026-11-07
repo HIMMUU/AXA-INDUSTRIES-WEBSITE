@@ -156,6 +156,7 @@ model Product {
   description      String
   price            Decimal                @db.Decimal(10, 2)
   status           ProductStatus          @default(DRAFT)
+  pageTemplate     String                 @default("STANDARD") @map("page_template")
   featured         Boolean                @default(false)
   metaTitle        String?                @map("meta_title")
   metaDescription  String?                @map("meta_description")

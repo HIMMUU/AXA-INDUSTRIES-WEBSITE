@@ -7,6 +7,28 @@ export enum ProductStatus {
   ARCHIVED = 'ARCHIVED'
 }
 
+export const PRODUCT_PAGE_TEMPLATES = [
+  'STANDARD',
+  'MANUAL_VENDING',
+  'AUTOMATIC_VENDING',
+  'SANITARY_DISPOSAL',
+  'SOLID_WASTE_INCINERATOR',
+  'FEEDBACK_MACHINE',
+  'CLOTH_BAG_VENDING'
+] as const;
+
+export type ProductPageTemplate = (typeof PRODUCT_PAGE_TEMPLATES)[number];
+
+export const PRODUCT_PAGE_TEMPLATE_LABELS: Record<ProductPageTemplate, string> = {
+  STANDARD: 'Standard product',
+  MANUAL_VENDING: 'Manual vending machine',
+  AUTOMATIC_VENDING: 'Automatic vending machine',
+  SANITARY_DISPOSAL: 'Sanitary napkin disposal machine',
+  SOLID_WASTE_INCINERATOR: 'Solid waste incinerator',
+  FEEDBACK_MACHINE: 'Feedback machine',
+  CLOTH_BAG_VENDING: 'Cloth bag vending machine'
+};
+
 export interface ProductImageItem {
   id?: string;
   url: string;
@@ -30,6 +52,7 @@ export interface Product {
   price: number;
   status: ProductStatus;
   featured: boolean;
+  pageTemplate?: ProductPageTemplate;
   metaTitle?: string | null;
   metaDescription?: string | null;
   images: ProductImageItem[];
@@ -54,6 +77,7 @@ export const CreateProductSchema = z.object({
     .number({ invalid_type_error: 'Price must be a valid number' })
     .positive('Price must be greater than 0'),
   status: z.nativeEnum(ProductStatus).default(ProductStatus.DRAFT),
+  pageTemplate: z.enum(PRODUCT_PAGE_TEMPLATES).default('STANDARD'),
   featured: z.boolean().default(false),
   metaTitle: z.string().max(100, 'Meta title too long').optional().nullable(),
   metaDescription: z.string().max(300, 'Meta description too long').optional().nullable(),

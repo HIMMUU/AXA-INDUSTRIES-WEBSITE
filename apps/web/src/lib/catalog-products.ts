@@ -131,7 +131,7 @@ export function mergeCatalogProducts(apiProducts: Product[]): Product[] {
     apiProducts.filter(isCatalogProduct).map((product) => [product.slug, product])
   );
 
-  return catalogFallbackProducts.map((fallbackProduct) => {
+  const knownProducts = catalogFallbackProducts.map((fallbackProduct) => {
     const apiProduct = apiProductsBySlug.get(fallbackProduct.slug);
     if (!apiProduct) return fallbackProduct;
 
@@ -141,4 +141,7 @@ export function mergeCatalogProducts(apiProducts: Product[]): Product[] {
       images: fallbackProduct.images
     };
   });
+
+  const additionalProducts = apiProducts.filter((product) => !isCatalogProduct(product));
+  return [...knownProducts, ...additionalProducts];
 }

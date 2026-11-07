@@ -11,6 +11,7 @@ import { Search, ArrowRight, Package, ArrowUpDown, Download, FileText } from 'lu
 import { ApiUrlConfigurationError, getApiBaseUrl } from '@/lib/api-url';
 import { catalogFallbackProducts, mergeCatalogProducts } from '@/lib/catalog-products';
 import { CatalogProductImage, getCloudinaryProductImageUrl } from '@/components/products/catalog-product-image';
+import { AddToCartButton } from '@/components/products/add-to-cart-button';
 
 export default function ProductsCataloguePage() {
   const [search, setSearch] = useState('');
@@ -37,7 +38,7 @@ export default function ProductsCataloguePage() {
           sortOrder: order
         });
         const apiUrl = getApiBaseUrl();
-        const res = await fetch(`${apiUrl}/v1/products?${params.toString()}`, {
+        const res = await fetch(`${apiUrl}/v1/products/published?${params.toString()}`, {
           signal: AbortSignal.timeout(1500)
         });
         const json = await res.json();
@@ -221,13 +222,11 @@ export default function ProductsCataloguePage() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map((p) => (
-                <Link
+                <article
                   key={p.id}
-                  href={`/products/${p.slug}`}
-                  prefetch={true}
                   className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-stone-200 dark:border-white/10 bg-white dark:bg-[#121216]/60 p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/40 cursor-pointer text-left block"
                 >
-                  <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
+                  <Link href={`/products/${p.slug}`} prefetch={true} aria-label={`View ${p.name}`} className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-b from-stone-100/90 via-stone-50 to-white border border-stone-200/80 mb-4 relative flex items-center justify-center p-3">
                     <CatalogProductImage
                       src={getCloudinaryProductImageUrl(p)}
                       alt={p.name}
@@ -236,18 +235,18 @@ export default function ProductsCataloguePage() {
                     <span className="absolute top-3 left-3 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider border border-white/10">
                       Factory Direct
                     </span>
-                  </div>
+                  </Link>
 
                   <div className="space-y-2 flex-1">
                     <h3 className="text-base font-bold text-neutral-900 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
-                      {p.name}
+                      <Link href={`/products/${p.slug}`}>{p.name}</Link>
                     </h3>
                     <p className="text-xs text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">
                       {p.shortDescription}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/10 flex items-center justify-between">
+                  <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <span className="text-[10px] uppercase font-bold text-neutral-500 block">Indicative Price · Excl. GST</span>
                       <span className="text-sm font-extrabold text-neutral-900 dark:text-white">
@@ -255,12 +254,14 @@ export default function ProductsCataloguePage() {
                       </span>
                     </div>
 
-                    <span className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-2 text-xs font-bold text-white shadow-md group-hover:bg-blue-500 transition active:scale-95">
-                      <span>Details & Quote</span>
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <Link href={`/products/${p.slug}`} className="inline-flex items-center gap-1 text-xs font-bold text-blue-700 hover:underline dark:text-blue-300">
+                        Details <ArrowRight className="h-3.5 w-3.5" />
+                      </Link>
+                      <AddToCartButton product={p} className="!rounded-lg !px-3 !py-2 !text-xs" />
+                    </div>
                   </div>
-                </Link>
+                </article>
               ))}
             </div>
           )}

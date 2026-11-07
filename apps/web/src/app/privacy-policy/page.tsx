@@ -3,7 +3,14 @@ import { Footer } from '@/components/layout/footer';
 
 export const metadata = {
   title: 'Privacy Policy | AXA Industries',
-  description: 'AXA Industries corporate privacy policy regarding corporate client data protection.'
+  description: 'Read how AXA Industries handles enquiry information and website analytics.',
+  alternates: { canonical: 'https://axaindustries.com/privacy-policy' },
+  openGraph: {
+    type: 'website',
+    url: 'https://axaindustries.com/privacy-policy',
+    title: 'Privacy Policy | AXA Industries',
+    description: 'Read how AXA Industries handles enquiry information and website analytics.'
+  }
 };
 
 export default function PrivacyPolicyPage() {

@@ -3,7 +3,14 @@ import { Footer } from '@/components/layout/footer';
 
 export const metadata = {
   title: 'Terms & Conditions | AXA Industries',
-  description: 'AXA Industries terms of service, quotations, and product-specific warranty information.'
+  description: 'Review AXA Industries quotation terms, product conditions and warranty information.',
+  alternates: { canonical: 'https://axaindustries.com/terms-and-conditions' },
+  openGraph: {
+    type: 'website',
+    url: 'https://axaindustries.com/terms-and-conditions',
+    title: 'Terms & Conditions | AXA Industries',
+    description: 'Review AXA Industries quotation terms, product conditions and warranty information.'
+  }
 };
 
 export default function TermsPage() {

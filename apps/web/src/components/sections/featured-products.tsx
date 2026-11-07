@@ -18,7 +18,7 @@ export function FeaturedProductsSection() {
     queryFn: async () => {
       try {
         const apiUrl = getApiBaseUrl();
-        const res = await fetch(`${apiUrl}/v1/products?limit=100`, {
+        const res = await fetch(`${apiUrl}/v1/products/published?limit=100`, {
           signal: AbortSignal.timeout(1500)
         });
         const json = await res.json();

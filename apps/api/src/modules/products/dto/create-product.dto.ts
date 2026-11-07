@@ -6,6 +6,7 @@ import {
   IsPositive,
   IsEnum,
   IsBoolean,
+  IsIn,
   IsOptional,
   IsArray,
   ValidateNested,
@@ -13,6 +14,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ProductStatus } from '@axa/db';
+import { PRODUCT_PAGE_TEMPLATES } from '@axa/types';
 
 export class ProductImageDto {
   @ApiProperty({ required: false })
@@ -90,6 +92,11 @@ export class CreateProductDto {
   @IsEnum(ProductStatus)
   @IsOptional()
   status?: ProductStatus;
+
+  @ApiProperty({ enum: PRODUCT_PAGE_TEMPLATES, default: 'STANDARD' })
+  @IsIn(PRODUCT_PAGE_TEMPLATES)
+  @IsOptional()
+  pageTemplate?: (typeof PRODUCT_PAGE_TEMPLATES)[number];
 
   @ApiProperty({ example: false, default: false })
   @IsBoolean()

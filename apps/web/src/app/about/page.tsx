@@ -6,7 +6,14 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'About AXA Industries | Official Company Profile & AXA CLUB',
-  description: 'AXA INDUSTRIES is a forward-thinking company dedicated to advancing hygiene solutions under our flagship brand AXA CLUB. Empowering Hygiene, Ensuring Dignity, Building a Better Tomorrow.'
+  description: 'Learn about AXA Industries and AXA CLUB, supplying institutional hygiene and waste-management equipment across India.',
+  alternates: { canonical: 'https://axaindustries.com/about' },
+  openGraph: {
+    type: 'website',
+    url: 'https://axaindustries.com/about',
+    title: 'About AXA Industries | Official Company Profile & AXA CLUB',
+    description: 'Learn about AXA Industries and AXA CLUB, supplying institutional hygiene and waste-management equipment across India.'
+  }
 };
 
 export default function AboutPage() {

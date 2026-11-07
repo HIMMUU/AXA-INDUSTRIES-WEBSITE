@@ -97,6 +97,16 @@ export class ProductsRepository {
     });
   }
 
+  async findPublishedBySlug(slug: string) {
+    return this.prisma.product.findFirst({
+      where: { slug, status: ProductStatus.PUBLISHED, deletedAt: null },
+      include: {
+        images: { orderBy: { order: 'asc' } },
+        specifications: { orderBy: { sortOrder: 'asc' } }
+      }
+    });
+  }
+
   async createProduct(data: {
     name: string;
     slug: string;
@@ -104,6 +114,7 @@ export class ProductsRepository {
     description: string;
     price: number;
     status?: ProductStatus;
+    pageTemplate?: string;
     featured?: boolean;
     metaTitle?: string;
     metaDescription?: string;
@@ -118,6 +129,7 @@ export class ProductsRepository {
         description: data.description,
         price: data.price,
         status: data.status || ProductStatus.DRAFT,
+        pageTemplate: data.pageTemplate || 'STANDARD',
         featured: data.featured || false,
         metaTitle: data.metaTitle,
         metaDescription: data.metaDescription,
@@ -156,6 +168,7 @@ export class ProductsRepository {
       description?: string;
       price?: number;
       status?: ProductStatus;
+      pageTemplate?: string;
       featured?: boolean;
       metaTitle?: string;
       metaDescription?: string;
@@ -180,6 +193,7 @@ export class ProductsRepository {
           ...(data.description && { description: data.description }),
           ...(data.price !== undefined && { price: data.price }),
           ...(data.status && { status: data.status }),
+          ...(data.pageTemplate && { pageTemplate: data.pageTemplate }),
           ...(data.featured !== undefined && { featured: data.featured }),
           ...(data.metaTitle !== undefined && { metaTitle: data.metaTitle }),
           ...(data.metaDescription !== undefined && { metaDescription: data.metaDescription }),

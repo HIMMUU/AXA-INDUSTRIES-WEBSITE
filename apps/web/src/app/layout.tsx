@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { Suspense } from 'react';
 import './globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
+import { CartProvider } from '@/providers/cart-provider';
 import { StickyContactWidget } from '@/components/shared/sticky-contact-widget';
 import { LandingAnalytics } from '@/components/products/landing-analytics';
 
@@ -12,13 +13,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://axaindustries.com'),
   title: 'Sanitary Napkin Vending Machines & Incinerators | AXA Industries',
   description: 'Compare sanitary napkin vending machines, pad dispensers and sanitary napkin incinerators for schools, colleges, hostels and institutions across India. Request an itemized quote from AXA Industries.',
-  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     siteName: 'AXA Industries',
     title: 'Sanitary Napkin Vending Machines & Incinerators | AXA Industries',
     description: 'Institutional sanitary napkin vending, disposal and hygiene equipment. Compare models and request a quote.',
-    url: 'https://axaindustries.com/',
     locale: 'en_IN'
   },
   robots: { index: true, follow: true },
@@ -44,15 +43,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider>
-          <Suspense fallback={
-            <div className="flex min-h-screen items-center justify-center bg-white dark:bg-[#0A0A0C]">
-              <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-            </div>
-          }>
-            {children}
-            <LandingAnalytics />
-          </Suspense>
-          <StickyContactWidget />
+          <CartProvider>
+            <Suspense fallback={
+              <div className="flex min-h-screen items-center justify-center bg-white dark:bg-[#0A0A0C]">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+              </div>
+            }>
+              {children}
+              <LandingAnalytics />
+            </Suspense>
+            <StickyContactWidget />
+          </CartProvider>
         </ThemeProvider>
         <script
           type="application/ld+json"

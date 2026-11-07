@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Shield, ArrowRight, Download } from 'lucide-react';
+import { Menu, X, ArrowRight, Download, ShoppingCart } from 'lucide-react';
+import { useCart } from '@/providers/cart-provider';
 
 export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { itemCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,6 +72,14 @@ export function Navbar() {
 
         {/* Right CTA & Controls */}
         <div className="hidden md:flex items-center gap-3 z-10">
+          <Link
+            href="/cart"
+            aria-label={`Cart, ${itemCount} items`}
+            className="inline-flex items-center gap-2 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-100 dark:bg-white/5 px-3.5 py-2 text-xs font-semibold text-neutral-800 dark:text-white transition hover:bg-neutral-200 dark:hover:bg-white/10"
+          >
+            <ShoppingCart className="h-4 w-4" />
+            <span>Cart ({itemCount})</span>
+          </Link>
           <a
             href="/documents/axa-industries-official-brochure.pdf"
             download="AXA-Industries-Official-Brochure.pdf"
@@ -93,6 +103,14 @@ export function Navbar() {
 
         {/* Mobile Toggle Button */}
         <div className="flex md:hidden items-center gap-2">
+          <Link
+            href="/cart"
+            aria-label={`Cart, ${itemCount} items`}
+            className="relative flex h-9 items-center gap-1.5 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-100 dark:bg-white/5 px-2.5 text-neutral-700 dark:text-neutral-300"
+          >
+            <ShoppingCart className="h-4 w-4" />
+            <span className="text-xs font-semibold">{itemCount}</span>
+          </Link>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             type="button"
@@ -123,6 +141,13 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/cart"
+              onClick={() => setMobileMenuOpen(false)}
+              className="rounded-xl px-4 py-2.5 text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
+            >
+              Cart ({itemCount})
+            </Link>
             <a
               href="/documents/axa-industries-official-brochure.pdf"
               download="AXA-Industries-Official-Brochure.pdf"

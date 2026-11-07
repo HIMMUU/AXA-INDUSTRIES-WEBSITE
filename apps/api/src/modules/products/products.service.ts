@@ -31,6 +31,25 @@ export class ProductsService {
     };
   }
 
+  async getPublishedProducts(queryDto: ProductQueryDto) {
+    const result = await this.productsRepository.findProducts({
+      ...queryDto,
+      status: ProductStatus.PUBLISHED
+    });
+    return {
+      items: result.items.map((p) => this.formatProductResponse(p)),
+      meta: result.meta
+    };
+  }
+
+  async getPublishedProductBySlug(slug: string) {
+    const product = await this.productsRepository.findPublishedBySlug(slug);
+    if (!product) {
+      throw new NotFoundException(`Published product '${slug}' not found`);
+    }
+    return this.formatProductResponse(product);
+  }
+
   async getProductById(id: string) {
     const product = await this.productsRepository.findById(id);
     if (!product) {
@@ -102,6 +121,7 @@ export class ProductsService {
       price: Number(source.price),
       status: ProductStatus.DRAFT,
       featured: source.featured,
+      pageTemplate: source.pageTemplate,
       metaTitle: source.metaTitle || undefined,
       metaDescription: source.metaDescription || undefined,
       images: source.images.map((img) => ({
@@ -179,6 +199,7 @@ export class ProductsService {
       price: Number(product.price),
       status: product.status,
       featured: product.featured,
+      pageTemplate: product.pageTemplate,
       metaTitle: product.metaTitle,
       metaDescription: product.metaDescription,
       images: product.images
